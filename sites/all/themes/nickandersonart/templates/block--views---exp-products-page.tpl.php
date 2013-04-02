@@ -13,11 +13,11 @@
   <?php print $content;?>
     <div class="supplements">
         <h6>supplements</h6>
-    </div>  
+    </div>
     <div class="cart_block">
         <div class="my_cart">
             <a href="<?php $GLOBALS['base_path'];?>/cart/checkout">view my cart</a>
         </div>
     </div>    
 </div>
-<div class="sidebar_collaps_button"></div> 
+<div class="sidebar_collaps_button"></div>

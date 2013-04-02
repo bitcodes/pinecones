@@ -121,15 +121,21 @@
     $erlange_suf = '</div>';
     $group_right_pre = '<div class="field_group_right">';
     $group_right_suf = '</div>';
+    $wrap_pre = '<div class="wrapper_group_right">';
+    $wrap_suf = '</div>';
     
     $value = '';
     
+   
     if($image) {
+        
+       print $wrap_pre;
+        
         foreach ($image as $key => $value) {
         $output = field_view_value('node', $node, 'uc_product_image', $image[$key], array(
           'type' => 'image',
           'settings' => array(
-            'image_style' => '330x400', //place your image style here
+            'image_style' => 'w330_h400', //place your image style here (see available image styles at /admin/config/media/image-styles)
             //'image_link' => 'content',
           ),
         ));
@@ -146,6 +152,9 @@
             print $erlange_suf;
         print $group_right_suf;    
         }
+        
+         print $wrap_suf;
+        
     }
   ?>
     
@@ -161,8 +170,3 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
 </script>
-<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
-
-<?php 
-//krumo($content['group_left']['group_left_bottom']['group_price']);
-?>

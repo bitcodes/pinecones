@@ -73,11 +73,13 @@
     <div id="wrapper">
       <div id="header_row">
         <div id="header">
-              <?php if($logo):?>
-                  <div id="logo">
-                      <h1><a name="top" href="/"><span>Third Eye Pinecones</span></a></h1>
-                  </div><!-- /#logo -->
-              <?php endif;?>
+
+            <?php if($logo):?>
+                <div id="logo">
+                    <h1><a name="top" href="/"><span>Third Eye Pinecones</span></a></h1>
+                </div><!-- /#logo -->
+                <?php endif;?>
+
 
               <div class="navbar topNav">
                   <div class="navbar-inner">
@@ -90,9 +92,11 @@
                           <h4>Navigation</h4>
                           <?php if ($user->uid): ?>
                           <div class="auth_user">
-                             <div class="Wel_name">
+
+                              <div class="Wel_name">
                                   Welcome, <?php print $user->name; ?>
-                                  <?php endif;?>
+                          <?php endif;?>
+
                               </div>
 
                               <div class="logoUt_btn">
@@ -101,31 +105,38 @@
                                   <?php print l(t('Logout'), 'user/logout'); ?>
                               </div>
                           </div>
-                      <?php endif; ?>
+
+            <?php endif;?> 
                           <div class="nav-collapse collapse navbar-responsive-collapse">
-                              <div id="cart_link">
-                                  <?php if($page['cart_region']):?>
-                                      <?php print render($page['cart_region']);?>
-                                  <?php endif;?>
-                              </div><!-- /#cart_link -->
+          <div id="cart_link">
+            <?php if($page['cart_region']):?>
+                <?php print render($page['cart_region']);?>
+            <?php endif;?>  
+          </div><!-- /#cart_link -->
+
                               <div id="search">
                                   <?php $block = module_invoke('search', 'block_view', 'form');
                                   print render($block['content']);
                                   ?>
                               </div><!-- /#search -->
-                              <div id="social_links" class="clearfix">
-                                  <ul>
-                                      <li><a id="social_links_facebook" href="#"><span>Facebook</span></a></li>
-                                      <li><a id="social_links_twitter" href="#"><span>Twitter</span></a></li>
-                                      <li><a id="social_links_pin" href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Ftepnew.nickandersonart.com&media=http%3A%2F%2Ftepnew.nickandersonart.com%2Fsites%2Fdefault%2Ffiles%2Fscreenshot.png" class="pin-it-button" count-layout="horizontal"></a>
-                                  </ul>
-                              </div><!-- /#social_links -->
+                             <div id="social_links" class="clearfix">
+                                <ul>
+                                    <li><a id="social_links_facebook" href="http://www.facebook.com/ThirdEyePinecones"><span>Facebook</span></a></li>
+                                    <li><a id="social_links_twitter" href="https://twitter.com/3rdEyePinecones"><span>Twitter</span></a></li>
+                                    <li><a id="social_links_pin"  href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Ftepnew.nickandersonart.com&media=http%3A%2F%2Ftepnew.nickandersonart.com%2Fsites%2Fdefault%2Ffiles%2Fscreenshot.png" class="pin-it-button" count-layout="horizontal"></a></li>
+                                    <li><iframe class="social_links_fb" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftepnew.nickandersonart.com%2F&amp;send=false&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;font=arial&amp;colorscheme=light&amp;action=like&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:150px; height:21px;" allowTransparency="true"></iframe></li>
+                                </ul>
+                            </div>
+                            <!-- /#social_links -->
+
 
 
                               <div id="main_menu">
                                   <?php if($page['topmenu']):?>
                                       <?php print render($page['topmenu']);?>
-                                  <?php endif;?>
+
+            <?php endif; ?>
+
                               </div><!-- /#main_menu -->
 
                               <div id="sub_menu">
@@ -139,37 +150,22 @@
                   </div><!-- /navbar-inner -->
               </div>
 
+
+
+
               <div id="email_signup">
 
-                  <!--If anonim user-->
-                  <?php if(!$user->uid):?>
-                      <?php if ($page['singup']):?>
-                          <?php print render($page['singup']);?>
-                          <?php //print l(t('Login'), 'user/login'); ?>
-                      <?php endif; ?>
-                  <?php endif; ?>
-                  <!--If logget in, print username--> 
-            <?php if ($user->uid): ?>
-            <div class="auth_user">
-                Welcome, <?php print $user->name; ?>
-            <?php endif;?>
-
-            <!--If loggen in -->
-            <?php if ($user->uid): ?>
-                <?php print l(t('Logout'), 'user/logout'); ?>
-            </div> 
-            <?php endif; ?>
-                   
+            <!--If anonim user-->
+            <?php if(!$user->uid):?>
+                <!--<a class="login_link ctools-use-modal ctools-modal-modal-popup-small" href="modal_forms/nojs/login">or Login</a>-->
+                <?php //print l(t('Login'), 'user/login'); ?>
+            <?php endif; ?>    
+            <!--If logget in, print username-->
           </div><!-- /#email_signup -->
-          <?php 
-                //$block = module_invoke('user', 'block_view', 'login');
-                //print render($block['content']);
-              ?>
-          <div id="search">
-             <?php $block = module_invoke('search', 'block_view', 'form');
-                    print render($block['content']);
-             ?> 
-          </div><!-- /#search -->
+          <?php if ($show_messages && $messages): ?>
+              <div id="lightboxAutoModal" style="display: none;" ><?php print $messages; ?></div>
+          <?php endif; ?>  
+
         </div><!-- /#header -->
       </div><!-- /#header_row -->
       <?php if($page['hero']) : ?>
@@ -195,6 +191,7 @@
         <?php if($title): ?>
           <h1><?php print $title; ?></h1>
         <?php endif; ?>
+        <?php print render($tabs); ?>  
         <?php if ($show_messages && $messages): ?>
             <div id="lightboxAutoModal" rel="lightmodal[|height: 50px;]" style="display: none;" ><?php print $messages; ?></div>
         <?php endif; ?>

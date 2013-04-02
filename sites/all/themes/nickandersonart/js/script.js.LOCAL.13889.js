@@ -23,15 +23,13 @@ window.open(url,'tvkw',winpar);
             socialopen(url);
         return false;
         });
-
-     var exppoductH = $('.page-products #sidebar').height();
-      $('.sidebar_collaps_button').css( "height", exppoductH );
-      $('#content').css( "min-height", exppoductH );
-      $(".page-products #sidebar").click(function(){
-          $(this).toggleClass("openSi");
-          $('#content').css( "min-height", exppoductH );
-      });
-
+        
+        
+    var exppoductH = $('#block-views--exp-products-page').height();
+       $('.sidebar_collaps_button').css( "height", exppoductH );
+       $(".page-products #sidebar").click(function(){
+         $(this).toggleClass("openSi");
+      });           
     });
 })(jQuery);
 

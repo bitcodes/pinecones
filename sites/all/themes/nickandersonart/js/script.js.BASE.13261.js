@@ -22,16 +22,7 @@ window.open(url,'tvkw',winpar);
         var url = $(this).attr('href'); 
             socialopen(url);
         return false;
-        });
-
-     var exppoductH = $('.page-products #sidebar').height();
-      $('.sidebar_collaps_button').css( "height", exppoductH );
-      $('#content').css( "min-height", exppoductH );
-      $(".page-products #sidebar").click(function(){
-          $(this).toggleClass("openSi");
-          $('#content').css( "min-height", exppoductH );
-      });
-
+        })
     });
 })(jQuery);
 

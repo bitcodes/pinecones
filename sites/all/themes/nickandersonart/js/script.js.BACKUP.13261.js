@@ -24,6 +24,7 @@ window.open(url,'tvkw',winpar);
         return false;
         });
 
+
      var exppoductH = $('.page-products #sidebar').height();
       $('.sidebar_collaps_button').css( "height", exppoductH );
       $('#content').css( "min-height", exppoductH );
