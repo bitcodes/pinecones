@@ -1123,10 +1123,10 @@ fieldset legend b {
     border: 1px solid #C3C3C3;
     border-radius: 1px 1px 1px 1px;
     float: left;
-    height: 401px;
+    /*height: 401px;*/
     overflow: hidden;
     position: relative;
-    width: 330px;
+    /*width: 330px;*/
 }
 .field_group_right div {
     border: none;
@@ -1307,7 +1307,7 @@ body #email_signup .form-actions{
     text-transform: none;
 }
 .field_group_right {
-    float: right;
+    /*float: right;*/
     margin: 40px 10px 0 0;
     min-height: 200px;
     width: 340px;
@@ -1843,3 +1843,21 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
 
 /*#webform-client-form-10 input, #webform-client-form-10 textarea {margin: 1px 1px 13px;padding: 0 10px;width: 350px;}*/
 
+.wrapper_group_right{
+    float: right;
+}
+
+/**Page Complete order**/
+#complete .complete_info {
+    width: 150px;
+    display: inline-block;
+    padding: 10px;
+}
+#complete .complete_info p {
+    margin: 0;
+    display: block;
+    text-align: center;
+}
+#complete .complete_info .complete_total {
+    text-align: left;
+}

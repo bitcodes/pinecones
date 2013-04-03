@@ -69,6 +69,8 @@
  * @see template_process()
  */
 ?>
+
+
 <div id="wrapper">
       <div id="header_row">
         <div id="header">
@@ -190,6 +192,45 @@
             <div id="step5_left">
                     <h2>Thank you for your purchase. An email will be sent to you shortly.</h2>
               <h4 id="order_no">order #<?php print $page['content']['system_main']['#order']->order_id; ?></h4>
+              
+                  <?php
+                    $order_id = $page['content']['system_main']['#order']->order_id;
+
+                    $order_items = uc_order_load($order_id);
+
+                    foreach ($order_items->products as $item) {
+
+                        //aggregate info for product item
+                        $node = node_load($item->nid);
+                        $image = field_get_items('node', $node, 'uc_product_image');
+                        $title = $item->title;
+                        $price = $item->price;
+                        $qty = $item->qty;
+
+                            $output = field_view_value('node', $node, 'uc_product_image', $image[0], array(
+                                'type' => 'image',
+                                'settings' => array(
+                                    'image_style' => 'w330_h400', //place your image style here
+                                'image_link' => 'content',
+                                ),
+                            ));
+
+                            //Render items
+                            print '<div class="complete_info">';     
+                                print render($output);
+                                print '<p>' . $title . '</p>';
+                                print '<p>Price: ' . uc_currency_format($price) . '</p>';
+                                print '<p>Qty: ' . $qty . '</p>';
+                            print '</div>';
+
+                    }
+                    
+                    $total = $order_items->order_total;
+                    print '<b class="complete_total">Total: ' . uc_currency_format($total) . '</b>';
+                ?> 
+                             
+                      
+            
               <p>
               You just planted a tree! Every purchase you make actively supports and pays for the planting of a tree through our partner non-profit American Forests. Thank you for actively helping to support non-profits that lobby and promote for education and policy regarding the proper maintenance of fire-climax ecosystems.
               </p>
@@ -227,7 +268,7 @@
               
             <ul id="user_menu">
                     <li><a href="<?php print $GLOBALS['base_root'];?>/products">Our products section.</a></li>
-                    <li><a href="<?php print $GLOBALS['base_root'];?>/pineconeinfo">Pinecone Info.</a></li>
+                    <li><a href="<?php print $GLOBALS['base_root'];?>/pinecone-information">Pinecone Info.</a></li>
                     <li><a href="#">Media and Blog.</a></li>
             </ul>
             </div>
