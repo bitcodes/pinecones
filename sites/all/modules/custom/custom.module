@@ -317,7 +317,6 @@ function custom_also() {
 function custom_similar_pieces() {
     $node = node_load(arg(1));
     $i = 0;
-    
     if($node->field_style) {
         if(isset($node->field_style)) {
             foreach ($node->field_style as $style) {
@@ -332,18 +331,28 @@ function custom_similar_pieces() {
 
 /**
  * We can show images in recently view block
+ * hide images if stock level <= 0
  * @param type $variables
  * @return type
  */
 function nickandersonart_recently_read_item($variables) {
     $item = $variables['item'];
+    
     $node = node_load($item['nid']);
-    if ($node->type == 'product') {
-        $image_field = field_view_field('node', $node, 'uc_product_image', array('label' => 'hidden'));
-        $image = render($image_field);
+    $stock_level = uc_stock_level($node->model); //If stock lovel <=0 -> hide item from block
+    
+    if($node->type == 'product' && $stock_level > 0) {
+        
+        if ($node->type == 'product') {
+            $image_field = field_view_field('node', $node, 'uc_product_image', array('label' => 'hidden'));
+            $image = render($image_field);
+        }
+        $output = '<a href="' . $GLOBALS['base_root'] . '/node/' . $item['nid'] . '">' . $image . '</a>';
+        $output .= l($item['title'], 'node/' . $item['nid']);
+    } else {
+        $output = '';
     }
-    $output = '<a href="' . $GLOBALS['base_root'] . '/node/' . $item['nid'] . '">' . $image . '</a>';
-    $output .= l($item['title'], 'node/' . $item['nid']);
+    
     return $output;
 }
 
