@@ -320,7 +320,7 @@ function custom_similar_pieces() {
     if($node->field_style) {
         if(isset($node->field_style)) {
             foreach ($node->field_style as $style) {
-                $link = $GLOBALS['base_root'] . '/products?field_style_tid[]=' . $style[$i]['tid'];
+                $link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $style[$i]['tid'];
             }
         }
         print $link;
