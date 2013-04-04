@@ -266,7 +266,7 @@ function custom_uc_payment_totals($variables) {
  */
 function custom_also() {
     $node = node_load(arg(1));
-    
+    //var_dump($node->model);
     if ($node->type == 'product') {
         
         $node_real = field_view_field('node', $node, 'field_product_category');
@@ -317,15 +317,15 @@ function custom_also() {
 function custom_similar_pieces() {
     $node = node_load(arg(1));
     $i = 0;
-    
     if($node->field_style) {
         if(isset($node->field_style)) {
             foreach ($node->field_style as $style) {
-                $link = $GLOBALS['base_root'] . '/products?field_style_tid[]=' . $style[$i]['tid'];
+                $link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $style[$i]['tid'];
             }
         }
-    }
         print $link;
+    }
+        
     
     return;
 }
@@ -346,6 +346,59 @@ function nickandersonart_recently_read_item($variables) {
     $output .= l($item['title'], 'node/' . $item['nid']);
     return $output;
 }
+
+/**
+ * We can show images in recently view block
+ * hide images if stock level <= 0
+ * @param type $variables
+ * @return type
+ */
+/*
+function nickandersonart_recently_read_item($variables) {
+    global $user;
+    $item = $variables['item'];
+
+    $node = node_load($item['nid']);
+    $stock_level = uc_stock_level($node->model); //If stock lovel <=0 -> hide item from block
+    //Delete from recently_read_nodes table items which out of stock
+    
+    if($node->type == 'product' && $stock_level <= 0) {
+        db_delete('recently_read_nodes')
+            ->condition('uid', $user->uid)
+            ->condition('nid', $item['nid'])
+            ->execute();
+    }
+    
+    if($node->type == 'product' && $stock_level > 0) {
+        
+        if ($node->type == 'product') {
+            $image_field = field_view_field('node', $node, 'uc_product_image', array('label' => 'hidden'));
+            $image = render($image_field);
+        }
+        
+        $output = '<a href="' . $GLOBALS['base_root'] . '/node/' . $item['nid'] . '">' . $image . '</a>';
+        $output .= l($item['title'], 'node/' . $item['nid']);
+    } else {
+        // get associative massive from TABLE 'recently_read_nodes' (100% in stock)
+        $nid = db_select('recently_read_nodes', 'r')
+            ->fields('r', array('nid', 'uid'))
+            ->condition('r.uid', $user->uid)
+            ->execute()
+            ->fetchAllAssoc('nid'); 
+    
+        $last_element = array_shift($nid);
+        $node = node_load($last_element->nid);
+        
+            $image_field = field_view_field('node', $node, 'uc_product_image', array('label' => 'hidden'));
+            $image = render($image_field);
+        
+        $output = '<a href="' . $GLOBALS['base_root'] . '/node/' . $item['nid'] . '">' . $image . '</a>';
+        $output .= l($item['title'], 'node/' . $item['nid']);
+    
+    } 
+    
+    return $output;
+}*/
 
 /**
  * Implementation hook_block_info()

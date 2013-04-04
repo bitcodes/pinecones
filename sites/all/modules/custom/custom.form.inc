@@ -109,6 +109,7 @@ function nickandersonart_select_as_links($vars) {
         '#markup' => '',
         '#type' => 'bef-link',
         '#name' => $id,
+        '#children' => '',
       );
       if (array_search($key, $selected_options) === FALSE) {
 
