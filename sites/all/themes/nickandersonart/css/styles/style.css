@@ -297,14 +297,14 @@ p {
 }
 .view-display-id-page tr td {
     float: left;
-    width: 210px;
+    /*width: 210px;*/
     height: 238px;
     margin: 0 34px 32px 0;
     position: relative;
     padding: 0 0 12px 0;
 }
 .view-display-id-page tr td .views-field-title {
-    bottom: 0;
+    /*bottom: 0;*/
     color: #6F6F6F;
     font: 16px/7px 'PT Sans',sans-serif;
     overflow: visible;
@@ -312,7 +312,19 @@ p {
     position: absolute;
     text-align: center;
     text-transform: uppercase;
-    width: 210px;
+    /*width: 210px;*/
+}
+.view-display-id-page tr td .views-field-sell-price, .view-display-id-page tr td .views-field-field-size{
+    font-size: 12px;
+    padding-top: 10px;
+    text-align: center;
+}
+.view-display-id-page tr td .views-field-sell-price span{
+    display: inline-block;
+    margin: 10px 0 0;
+}
+.view-display-id-page tr td .views-field-field-size {
+    padding: 0;
 }
 .view-id-products {
     margin: 27px 0 0;
@@ -329,13 +341,13 @@ p {
 .views-field-title .field-content a {
     bottom: 0;
     color: #6F6F6F;
-    font: 13px/7px 'PT Sans',sans-serif;
+    font: 11px/9px 'PT Sans',sans-serif;
     overflow: visible;
     padding: 0 0 5px;
     position: absolute;
     text-align: center;
     text-transform: uppercase;
-    width: 210px;
+    width: 149px;
     display: block;
     top: 0px;
 }
