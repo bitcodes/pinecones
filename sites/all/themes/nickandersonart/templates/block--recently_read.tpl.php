@@ -26,13 +26,13 @@
                 </a>
             </li>
             <li>
-                <a href="<?php print $GLOBALS['base_root'] . '/pinecone-information#info_pinecone';?>">
-                    pinecone care 
+                <a href="<?php print $GLOBALS['base_root'] . '/pinecone-information#size_pinecone';?>">
+                    questions about sizing?
                 </a>
             </li>
             <li>
-                <a href="<?php print $GLOBALS['base_root'] . '/pinecone-information#size_pinecone';?>">
-                    questions about sizing?
+                <a href="<?php print $GLOBALS['base_root'] . '/pinecone-information#info_pinecone';?>">
+                    pinecone care 
                 </a>
             </li>
         </ul>    
