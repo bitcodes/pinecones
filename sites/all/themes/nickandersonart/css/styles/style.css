@@ -1122,7 +1122,7 @@ fieldset legend b {
     cursor: pointer;
 }
 .erlange:hover img {
-    opacity: 0.4;
+   /* opacity: 0.4;*/
 }
 .erlange:hover .gaz {
    display: block;
