@@ -1,0 +1,104 @@
+<?php
+
+function shipping_uc_checkout_pane() {
+   
+    // Replacement for standard billing address pane.
+    $panes[] = array(
+        'id' => 'new-delivery',
+        'callback' => 'shipping_checkout_pane_shipping_delivery',
+        'title' => t('Shipping Address'),
+        'desc' => t('Custom billing address fields.'),
+        'weight' => 2,
+        'process' => TRUE,
+        'collapsible' => FALSE,
+    );
+    return $panes;
+}
+
+function shipping_checkout_pane_shipping_delivery($op, $order, $form = NULL, &$form_state = NULL) {
+    global $user;
+    
+    require_once(drupal_get_path('module', 'uc_cart') . '/uc_cart_checkout_pane.inc');
+
+    switch ($op) {
+        case 'view':
+      if (!empty($order->primary_email)) {
+        $email = $order->primary_email;
+      }
+      elseif (isset($user->mail)) {
+        $email = $user->mail;
+      }
+      else {
+        $email = '';
+      }
+
+      if ($user->uid) {
+        $description = t('Order information will be sent to your account e-mail listed below.');// . '<br />'
+        $contents['primary_email'] = array('#type' => 'hidden', '#value' => check_plain($email));
+        $contents['email_text'] = array(
+          '#markup' => '<div>' . t('<b>E-mail address:</b> @email (<a href="!url">edit</a>)', array('@email' => $email, '!url' => url('user/' . $user->uid . '/edit', array('query' => drupal_get_destination())))) . '</div>',
+        );
+      }
+      else {
+        $description = t('Enter a valid email address for this order or <a href="!url">click here</a> to login with an existing account and return to checkout.', array('!url' => url('user/login', array('query' => drupal_get_destination()))));
+        $contents['primary_email'] = uc_textfield(t('E-mail address'), $email, TRUE, NULL, 64);
+      }
+
+      if (variable_get('uc_cart_email_validation', FALSE) && !$user->uid) {
+        $contents['primary_email_confirm'] = uc_textfield(t('Confirm e-mail address'), $email, TRUE, NULL, 64);
+      }
+
+      if ($user->uid == 0) {
+        $contents['new_account'] = array();
+
+        if (variable_get('uc_cart_new_account_name', FALSE)) {
+          $contents['new_account']['name'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Username'),
+            '#default_value' => isset($order->data['new_user']['name']) ? $order->data['new_user']['name'] : '',
+            '#maxlength' => 60,
+            '#size' => 32,
+          );
+        }
+        if (variable_get('uc_cart_new_account_password', FALSE)) {
+          $contents['new_account']['pass'] = array(
+            '#type' => 'password',
+            '#title' => t('Password'),
+            '#maxlength' => 32,
+            '#size' => 32,
+          );
+          $contents['new_account']['pass_confirm'] = array(
+            '#type' => 'password',
+            '#title' => t('Confirm password'),
+            '#description' => t('Passwords must match to proceed.'),
+            '#maxlength' => 32,
+            '#size' => 32,
+          );
+        }
+
+        if (!empty($contents['new_account'])) {
+          $array = array(
+            '#type' => 'fieldset',
+            '#title' => t('New account details'),
+            '#description' => variable_get('uc_cart_new_account_details', t('<b>Optional.</b> New customers may supply custom account details.<br />We will create these for you if no values are entered.')),
+            '#collapsible' => FALSE,
+          );
+          $contents['new_account'] = array_merge($array, $contents['new_account']);
+        }
+
+        /**
+         * This code adds profile fields required for registration to the
+         * customer checkout pane.  However, I don't have the time to fool with
+         * validation/submission stuff, so I'm postponing this feature. -RS
+        $null = NULL;
+        $extra = _user_forms($null, NULL, NULL, 'register');
+        if (!empty($extra)) {
+          $contents = array_merge($contents, $extra);
+        }*/
+      }
+     $content = uc_checkout_pane_address('delivery', $op, $order, $form_state, $description, $contents);
+      
+  //return uc_checkout_pane_address('delivery', $op, $order, $form_state, $description, $contents);
+      return $content;
+    }
+}    

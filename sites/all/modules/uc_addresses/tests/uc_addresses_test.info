@@ -14,15 +14,16 @@ dependencies[] = uc_order
 dependencies[] = uc_product
 dependencies[] = uc_payment
 dependencies[] = uc_payment_pack
-dependencies[] = uc_roles
 dependencies[] = uc_addresses
 core = 7.x
 files[] = uc_addresses_test.module
 hidden = TRUE
 
-; Information added by drupal.org packaging script on 2012-10-11
-version = "7.x-1.0-alpha1"
+; Field handlers
+files[] = handlers/uc_addresses.handlers.inc
+; Information added by drupal.org packaging script on 2013-03-28
+version = "7.x-1.0-alpha1+25-dev"
 core = "7.x"
 project = "uc_addresses"
-datestamp = "1349966514"
+datestamp = "1364478525"
 

@@ -49,6 +49,7 @@ function hook_uc_addresses_field_handlers() {
  * @return array
  *   An associative array containing:
  *   - title: the title of the field, safe for output.
+ *   - type: (optional) The data type of the property.
  *   - handler: handler class, registered through hook_uc_addresses_field_handlers().
  *   - display_settings: (optional) An array of contexts to show or hide the
  *     field on:
@@ -67,19 +68,31 @@ function hook_uc_addresses_field_handlers() {
  *     comparisons?
  *     An address comparison is done to avoid having double addresses in the
  *     address book.
+ *   - (additional data used by Entity API, see hook_entity_property_info().)
  *
  * Optionally you can define extra properties in the definition. Properties can be
  * reached from within the handler by calling getProperty(). When a handler uses extra
  * properties, these properties will be required. Check the documentation of the handler
  * to see which extra properties it requires.
  *
+ * Since each field is also a property of the uc_addresses entity, the definition
+ * for each field will also be passed to Entity API as metadata. This means that
+ * implementing hook_entity_property_info() separately to define additional (or
+ * similar) information about your field is not needed. Your field will automatically
+ * become available in Rules, for example.
+ * However, you may need to define extra properties for your field in order to let
+ * it operate properly in entity related functionalities. Check the documentation of
+ * hook_entity_property_info() to see which extra properties you can define.
+ *
  * @see hook_uc_addresses_field_handlers()
+ * @see hook_entity_property_info()
  */
 function hook_uc_addresses_fields() {
   // Example: register my own field
   return array(
     'myfield' => array(
       'title' => t('My field'),
+      'type' => 'text',
       'handler' => 'MyCustomFieldHandler',
       'display_settings' => array(
         'default' => TRUE, // Display it by default
@@ -272,14 +285,16 @@ function hook_uc_addresses_address_delete($address) {
  * when the address itself is displayed (e.g. through theme('uc_addresses_list_address')).
  *
  * @param object $address_user
- *   Owner of the address
+ *   The owner of the address.
  * @param UcAddressesAddress $address
- *   (optional) Address object
+ *   (optional) Address object.
+ * @param object $account
+ *   The account to check access for.
  *
  * @return boolean
  */
-function hook_uc_addresses_may_view($address_user, $address) {
-  // No specific restrictions for viewing addresses
+function hook_uc_addresses_may_view($address_user, $address, $account) {
+  // No specific restrictions for viewing addresses.
   return TRUE;
 }
 
@@ -297,13 +312,15 @@ function hook_uc_addresses_may_view($address_user, $address) {
  * when changes to an address are done programmatically.
  *
  * @param object $address_user
- *   Owner of the address
+ *   The owner of the address.
  * @param UcAddressesAddress $address
- *   (optional) Address object
+ *   (optional) Address object.
+ * @param object $account
+ *   The account to check access for.
  *
  * @return boolean
  */
-function hook_uc_addresses_may_edit($address_user, $address) {
+function hook_uc_addresses_may_edit($address_user, $address, $account) {
   // Example: don't allow editing of default addresses.
   if ($address instanceof UcAddressesAddress) {
     if ($address->isDefault('shipping') || $address->isDefault('billing')) {
@@ -329,14 +346,16 @@ function hook_uc_addresses_may_edit($address_user, $address) {
  * when an address is deleted programmatically.
  *
  * @param object $address_user
- *   Owner of the address
+ *   The owner of the address.
  * @param UcAddressesAddress $address
- *   (optional) Address object
+ *   (optional) Address object.
+ * @param object $account
+ *   The account to check access for.
  *
  * @return boolean
  */
-function hook_uc_addresses_may_delete($address_user, $address) {
-  // No specific restrictions for deleting addresses
+function hook_uc_addresses_may_delete($address_user, $address, $account) {
+  // No specific restrictions for deleting addresses.
   return TRUE;
 }
 

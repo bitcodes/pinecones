@@ -456,7 +456,6 @@ function custom_form_uc_cart_checkout_form_alter(&$form, &$form_state, $order) {
         $form['panes']['quotes']['next']['#prefix'] .= '<h6>you’ve made the right choice.</h6>';
         $form['panes']['quotes']['next']['#suffix'] = '</div>';
         $form['panes']['quotes']['quote_button']['#value'] = t('Click to refresh shipping options');
-        //$form['panes']['quotes']['#markup'] = uc_currency_format($order->order_total);
     }
 
     if ($form['panes']['billing']) {
@@ -492,6 +491,6 @@ function custom_form_uc_cart_checkout_form_alter(&$form, &$form_state, $order) {
         $form['panes']['payment']['submit']['#prefix'] = '<div id="add_btn" class="next-button">';
         $form['panes']['payment']['submit']['#suffix'] = '</div>';
     }
-
+   
     return $form;
 }

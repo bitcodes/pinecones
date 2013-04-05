@@ -204,9 +204,9 @@ class UCXF_Field {
   public function output($p_sMember) {
     switch ($p_sMember) {
       case 'description':
-        return uc_extra_fields_pane_tt("field:$this->db_name:description", filter_xss_admin($this->{$p_sMember}));
+        return filter_xss_admin(uc_extra_fields_pane_tt("field:$this->db_name:description", $this->{$p_sMember}));
       case 'label':
-        return uc_extra_fields_pane_tt("field:$this->db_name:label", check_plain($this->{$p_sMember}));
+        return check_plain(uc_extra_fields_pane_tt("field:$this->db_name:label", $this->{$p_sMember}));
       case 'pane_type':
         return check_plain($this->__get('pane_type'));
       default:

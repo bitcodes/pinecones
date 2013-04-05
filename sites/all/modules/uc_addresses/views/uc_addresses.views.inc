@@ -25,6 +25,9 @@ function uc_addresses_views_data() {
     'help' => t('Addresses in the customers address book that can be referenced when placing an order.'),
   );
 
+  // Declare entity type.
+  $data['uc_addresses']['table']['entity type'] = 'uc_addresses';
+
   // Declare each schema field.
   foreach ($schema['fields'] as $fieldname => $schema_field) {
     if (isset($address_fields[$fieldname])) {
@@ -301,5 +304,115 @@ function uc_addresses_views_data() {
     ),
   );
 
+  // Access filters.
+  $data['uc_addresses']['access_view'] = array(
+    'title' => t('Access'),
+    'help' => t('Filter the Views results by address view access.'),
+    'real field' => 'aid',
+    'filter' => array(
+      'help' => t('Filters the result of the view by checking address view access.') . ' ' . t('Note that this filter does not work well with pager.'),
+      'handler' => 'uc_addresses_handler_filter_access',
+      'uc_addresses_access_type' => 'view',
+    ),
+  );
+  $data['uc_addresses']['access_edit'] = array(
+    'title' => t('Edit access'),
+    'help' => t('Filter the Views results by address edit access.'),
+    'real field' => 'aid',
+    'filter' => array(
+      'help' => t('Filters the result of the view by checking address edit access.') . ' ' . t('Note that this filter does not work well with pager.'),
+      'handler' => 'uc_addresses_handler_filter_access',
+      'uc_addresses_access_type' => 'edit',
+    ),
+  );
+  $data['uc_addresses']['access_delete'] = array(
+    'title' => t('Delete access'),
+    'help' => t('Filter the Views results by address delete access.'),
+    'real field' => 'aid',
+    'filter' => array(
+      'help' => t('Filters the result of the view by checking address delete access.') . ' ' . t('Note that this filter does not work well with pager.'),
+      'handler' => 'uc_addresses_handler_filter_access',
+      'uc_addresses_access_type' => 'delete',
+    ),
+  );
+
+  // View, edit and delete links.
+  $data['uc_addresses']['view'] = array(
+    'field' => array(
+      'title' => t('Link'),
+      'help' => t('Provide a simple link to the address.'),
+      'handler' => 'uc_addresses_handler_field_uc_addresses_link',
+    ),
+  );
+  $data['uc_addresses']['edit'] = array(
+    'field' => array(
+      'title' => t('Edit link'),
+      'help' => t('Provide a simple link to edit the address.'),
+      'handler' => 'uc_addresses_handler_field_uc_addresses_link_edit',
+    ),
+  );
+  $data['uc_addresses']['delete'] = array(
+    'field' => array(
+      'title' => t('Delete link'),
+      'help' => t('Provide a simple link to delete the address.'),
+      'handler' => 'uc_addresses_handler_field_uc_addresses_link_delete',
+    ),
+  );
+
+  // Make address fields available in user based views.
+  $data['users']['uc_addresses'] = array(
+    'title' => t('Ubercart addresses address'),
+    'help' => t('Addresses of the given user.'),
+    'real field' => 'uid',
+    'relationship' => array(
+      'base' => 'uc_addresses',
+      'base field' => 'uid',
+      'handler' => 'views_handler_relationship',
+      'label' => t('Ubercart addresses address'),
+    ),
+  );
+
   return $data;
+}
+
+/**
+ * Implements hook_views_plugins().
+ */
+function uc_addresses_views_plugins() {
+  return array(
+    'row' => array(
+      'uc_addresses' => array(
+        'title' => t('Ubercart Addresses address'),
+        'help' => t('Display the address with standard address view.'),
+        'handler' => 'uc_addresses_views_plugin_row_address_view',
+        'path' => drupal_get_path('module', 'uc_addresses') . '/views',
+        'base' => array('uc_addresses'), // only works with 'uc_addresses' as base.
+        'uses options' => TRUE,
+        'type' => 'normal',
+      ),
+    ),
+    'access' => array(
+      'uc_addresses_views_access' => array(
+        'title' => t('Ubercart Addresses Views Access'),
+        'help' => t('Check for address access based on a user ID or address ID argument.'),
+        'handler' => 'uc_addresses_views_access',
+        'uses options' => TRUE,
+        'path' => drupal_get_path('module', 'uc_addresses') . '/views',
+      ),
+    ),
+    'argument validator' => array(
+      'uc_addresses_address_access' => array(
+        'title' => t('Address access'),
+        'parent' => 'views_plugin_argument_validate',
+        'handler' => 'uc_addresses_views_plugin_argument_address_access',
+        'path' => drupal_get_path('module', 'uc_addresses') . '/views',
+      ),
+      'uc_addresses_user_address_access' => array(
+        'title' => t('User: address access'),
+        'parent' => 'views_plugin_argument_validate_user',
+        'handler' => 'uc_addresses_views_plugin_argument_user_address_access',
+        'path' => drupal_get_path('module', 'uc_addresses') . '/views',
+      ),
+    ),
+  );
 }

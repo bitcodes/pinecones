@@ -866,14 +866,16 @@ class UcAddressesAddressBook {
    * @param int $aid
    *   The id of the address
    * @access private
-   * @return void
+   * @return boolean
+   *   TRUE if the address has been loaded or found.
+   *   FALSE otherwise.
    */
   private static function loadStatic($aid) {
     // Reasons to skip out early
     // Lookup in all address books if the address is already loaded
     foreach (self::$singleton as $addressbook) {
       if ($addressbook->addressExists($aid)) {
-        return;
+        return TRUE;
       }
     }
 
@@ -886,6 +888,11 @@ class UcAddressesAddressBook {
     // Create an object from the database record
     $obj = $result->fetch();
 
+    if (!$obj) {
+      // If there is no such address record, then abort.
+      return FALSE;
+    }
+
     // Get address book for loaded user
     $addressbook = self::get($obj->uid);
 
@@ -894,6 +901,9 @@ class UcAddressesAddressBook {
 
     // Give other modules a chance to add their fields
     module_invoke_all('uc_addresses_address_load', $address, $obj);
+    // Invoke entity load hook.
+    entity_get_controller('uc_addresses')->invokeLoad(array($address));
+    return TRUE;
   }
 
   /**
@@ -906,6 +916,7 @@ class UcAddressesAddressBook {
    */
   private function dbResultToAddresses($result) {
     // Create each UcAddressesAddress object from the database record
+    $loaded_addresses = array();
     foreach ($result as $obj) {
       // Skip addresses that have already been loaded (and perhaps modified)
       if (!isset($this->addresses[$obj->aid])) {
@@ -917,9 +928,14 @@ class UcAddressesAddressBook {
           $this->defaultAddresses['billing'] = $address;
         }
 
-        // Give other modules a chance to add their fields
+        // Give other modules a chance to add their fields.
         module_invoke_all('uc_addresses_address_load', $address, $obj);
+        $loaded_addresses[$obj->aid] = $address;
       }
+    }
+    if (count($loaded_addresses) > 0) {
+      // Invoke entity load hook.
+      entity_get_controller('uc_addresses')->invokeLoad($loaded_addresses);
     }
   }
 
@@ -968,6 +984,7 @@ class UcAddressesAddressBook {
 
     // Give other modules a chance to react on this
     module_invoke_all('uc_addresses_address_delete', $address);
+    entity_get_controller('uc_addresses')->invoke('delete', $address);
 
     return TRUE;
   }

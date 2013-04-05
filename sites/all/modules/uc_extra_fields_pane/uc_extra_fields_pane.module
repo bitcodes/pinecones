@@ -310,6 +310,32 @@ function uc_extra_fields_pane_views_api() {
 }
 
 // -------------------------------------------------------------------
+// ENTITY API CALLBACKS
+// -------------------------------------------------------------------
+
+/**
+ * Returns a list of options from a select field.
+ *
+ * This function is used as a callback by Entity API's
+ * 'options list'.
+ *
+ * @param string $field_name
+ *   The db_name of the field to get options for.
+ *
+ * @return array
+ *   A list of options.
+ */
+function uc_extra_fields_pane_option_list($field_name) {
+  $field = UCXF_FieldList::getFieldByName($field_name);
+  switch ($field->value_type) {
+    case UCXF_Field::UCXF_WIDGET_TYPE_SELECT:
+    case UCXF_Field::UCXF_WIDGET_TYPE_PHP_SELECT:
+      return $field->generate_value();
+  }
+  return array();
+}
+
+// -------------------------------------------------------------------
 // DATABASE REQUESTS
 // -------------------------------------------------------------------
 
@@ -498,15 +524,64 @@ function uc_extra_fields_pane_preprocess_table(&$variables) {
 
 // -------------------------------------------------------------------
 // MULTILANGUAGE (i18n)
-// @todo Still needs to be ported, the code to be ported lives in the
-// 6.x-2.x branch.
 // -------------------------------------------------------------------
 
 /**
- * Wrapper for i18nstrings() function.
+ * Wrapper for i18n_string_translate() function.
+ *
+ * @param string $name
+ *   The i18n string ID.
+ * @param string $string
+ *   The string to translate.
+ * @param array $options
+ *   An array of options to pass to i18n_string_translate().
  *
  * @return string
+ *   The translated string, if the i18n_string module is enabled
+ *   and if there is a translation for the string.
+ *   The inputted string otherwise.
+ *   WARNING: Be sure to sanitize the returned string before using it
+ *   for output.
+ * @see i18n_string_translate()
  */
-function uc_extra_fields_pane_tt($name, $string, $langcode = NULL) {
-  return function_exists('i18nstrings') ? i18nstrings('ucxf:' . $name, $string, $langcode) : $string;
+function uc_extra_fields_pane_tt($name, $string, $options = array()) {
+  $options += array(
+    // Sanitizing of the string should be handled by the caller.
+    // This is because sanitizing should also happen when the i18n
+    // module is not used.
+    'sanitize' => FALSE,
+  );
+  return function_exists('i18n_string_translate') ? i18n_string_translate('ucxf:' . $name, $string, $options) : $string;
+}
+
+/**
+ * Implementation of hook_ucxf_field().
+ *
+ * Updates i18n translation sources for UCXF Fields.
+ * This includes:
+ * - field labels
+ * - field descriptions
+ * - default values for text fields.
+ * - option labels of select fields.
+ *
+ * @param UCXF_Field $field
+ *   An instance of UCXF_Field.
+ * @param string $op
+ *   The action performed on the field (i.e. 'insert' or 'update').
+ * @return void
+ */
+function uc_extra_fields_pane_ucxf_field($field, $op) {
+  if (function_exists('i18n_string_update')) {
+    switch ($op) {
+      case 'insert':
+      case 'update':
+        // Get strings to update.
+        module_load_include('i18n.inc', 'uc_extra_fields_pane');
+        $strings = uc_extra_fields_pane_i18n_get_strings($field);
+        foreach ($strings as $key => $string) {
+          i18n_string_update('ucxf:field:' . $field->db_name . ':' . $key, $string);
+        }
+        break;
+    }
+  }
 }

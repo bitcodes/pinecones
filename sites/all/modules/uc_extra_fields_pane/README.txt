@@ -81,8 +81,8 @@ DISPLAYING FIELDS IN INVOICE TEMPLATE
 ------------
 By default, the field's values are not displayed in the invoice that gets
 send by Ubercart. To let values of extra fields show up in the customer
-invoice mail, you need to edit the customer invoice template and add the
-extra fields variables in there.
+invoice mail, you need to copy the customer invoice template to your theme
+and then edit it to add the extra fields variables in there.
 For the 7.x-1.x version of Extra Fields Pane, each field variable uses the
 following pattern:
 $uc_addresses_(address type)_(field name)

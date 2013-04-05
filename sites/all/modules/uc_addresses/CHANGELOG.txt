@@ -1,3 +1,37 @@
+Ubercart Addresses 7.x-1.x, xxxx-xx-xx
+------------------------------
+- Issue #1829348 by MegaChriz: sort countries list after translation.
+- Issue #1843562 by MegaChriz: respect Ubercart's "same address for billing
+  and delivery by default" setting.
+- Issue #1854736 by MegaChriz: fixed notice bug that occurred when having
+  a field appearing in one of the address panes only.
+- by MegaChriz: moved UcAddressesTextFieldHandler from the example module
+  to the main module and renamed the used handler in the example module.
+- Issue #1860040 by MegaChriz: ensure an address instance is assigned to
+  the order when an user without addresses enters checkout.
+- Issue #1866096 by MegaChriz: populate extra fields from previous orders.
+- Issue #1871916 by MegaChriz: display a warning when a field handler is
+  missing.
+- Issue #1894858 by MegaChriz: made API change in UcAddressesPermissions to
+  be able to check access for other users.
+- Issue #1895918 by MegaChriz: fixed bug where trying to load a non-
+  existing address could lead to a PHP notice error.
+- Issue #1911136 by MegaChriz: separated schema definitions from field
+  handler API definitions in the example module.
+- Issue #1831424 by MegaChriz: added Entity integration.
+- Issue #1900150 by MegaChriz: added Views address access filters.
+- Issue #1910626 by MegaChriz: API change: specified field data types.
+- Issue #1900176 by MegaChriz: added Views address action links.
+- Issue #1908904 by MegaChriz: added uc_addresses relationship in user
+  based views.
+- Issue #1900468 by MegaChriz: Entity integration: added address properties
+  to user and uc_order.
+- Issue #1927258 by MegaChriz: fixed bug where selecting an address at
+  checkout leaded to checkbox fields always being checked.
+- Issue #1942748 by MegaChriz: added Views address row style plugin.
+- Issue #1942746 by MegaChriz: added Views display access plugin and Views
+  argument validator plugins for addresses.
+
 Ubercart Addresses 7.x-1.0-alpha1, 2012-10-11
 ------------------------------
 - Issue #1104854 by MegaChriz: ported Ubercart Addresses 6.x-2.x to

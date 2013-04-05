@@ -27,6 +27,23 @@ function uc_extra_fields_pane_uc_addresses_fields() {
           'order_view' => $field->may_display('order'),
         ),
       );
+      // Specify data type. Defaults to 'text'.
+      switch ($field->value_type) {
+        case UCXF_Field::UCXF_WIDGET_TYPE_CHECKBOX:
+          $data[$field->db_name]['type'] = 'boolean';
+          break;
+        default:
+          $data[$field->db_name]['type'] = 'text';
+          break;
+      }
+      // Entity API integration: specify option list for select
+      // fields.
+      switch ($field->value_type) {
+        case UCXF_Field::UCXF_WIDGET_TYPE_SELECT:
+        case UCXF_Field::UCXF_WIDGET_TYPE_PHP_SELECT:
+          $data[$field->db_name]['options list'] = 'uc_extra_fields_pane_option_list';
+          break;
+      }
     }
 
     return $data;

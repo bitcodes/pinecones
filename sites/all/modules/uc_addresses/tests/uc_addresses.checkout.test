@@ -1,11 +1,9 @@
 <?php
+
 /**
  * @file
  * Test cases for checkout.
  */
-
-// Ensure UcAddressesTestCase is available.
-require_once 'UcAddressesTestCase.class.php';
 
 /**
  * Test cases for checkout.
@@ -61,7 +59,30 @@ class UcAddressesCartCheckoutTestCase extends UbercartCartCheckoutTestCase {
     // Complete the review page.
     $this->drupalPost(NULL, array(), t('Submit order'));
 
-    $order_id = db_query("SELECT order_id FROM {uc_orders} WHERE delivery_first_name = :name", array(':name' => $edit['panes[delivery][address][delivery_first_name]']))->fetchField();
+    // Check if an order has been created.
+    $conditions = array(
+      'delivery_first_name' => $edit['panes[delivery][address][delivery_first_name]'],
+    );
+    return $this->checkExistingOrder($conditions);
+  }
+
+  /**
+   * Checks if an order has been created based on given conditions.
+   *
+   * @param array $conditions
+   *   The conditions to check against.
+   *
+   * @return object
+   *   An Ubercart order object, if found.
+   *   False otherwise.
+   */
+  function checkExistingOrder($conditions) {
+    $query = db_select('uc_orders');
+    $query->fields('uc_orders', array('order_id'));
+    foreach ($conditions as $field => $value) {
+      $query->condition($field, $value);
+    }
+    $order_id = $query->execute()->fetchField();
     if ($order_id) {
       $this->pass(
         t('Order %order_id has been created', array('%order_id' => $order_id))
@@ -85,11 +106,14 @@ class UcAddressesCartCheckoutTestCase extends UbercartCartCheckoutTestCase {
    * Ubercart Addresses uses "panes[delivery][address][delivery_first_name]".
    * This is done to fix issues with the zone field.
    *
-   * @param $edit
+   * @param array $edit
    *   The form-values array to which to add required fields.
+   * @param array $address_panes
+   *   (optional) The address panes to populate.
+   *   Defaults to both billing and delivery pane.
    */
-  function populateCheckoutForm($edit = array()) {
-    foreach (array('billing', 'delivery') as $pane) {
+  function populateCheckoutForm($edit = array(), $address_panes = array('billing', 'delivery')) {
+    foreach ($address_panes as $pane) {
       $prefix = 'panes[' . $pane . '][address][' . $pane;
       $key =  $prefix . '_country]';
       $country = empty($edit[$key]) ? variable_get('uc_store_country', 840) : $edit[$key];
@@ -431,14 +455,25 @@ class UcAddressesCartCheckoutTestCase extends UbercartCartCheckoutTestCase {
   /**
    * Test if checkout works when customer has previous placed
    * orders, but no addresses in the address book.
+   *
+   * Test also if extra address fields get populated when selecting
+   * addresses from previous orders.
    */
   public function testCheckoutWithPreviousOrders() {
+    // Enable the uc_addresses_test module.
+    module_enable(array('uc_addresses_test'));
+    drupal_get_schema(NULL, TRUE);
+
     // Create an order for the customer first.
     $order_data = array(
       'uid' => $this->customer->uid,
     );
     $delivery_values = UcAddressesTestCase::getEditAddressValues(array(), array(), 'order_form', 'delivery_');
+    unset($delivery_values['form_values']['delivery_billing_extra1']);
+    unset($delivery_values['values']['billing_extra1']);
     $billing_values = UcAddressesTestCase::getEditAddressValues(array(), array(), 'order_form', 'billing_');
+    unset($billing_values['form_values']['billing_shipping_extra2']);
+    unset($billing_values['values']['shipping_extra2']);
     $order_data += $delivery_values['form_values'];
     $order_data += $billing_values['form_values'];
     $order = $this->createOrder($order_data);
@@ -460,26 +495,39 @@ class UcAddressesCartCheckoutTestCase extends UbercartCartCheckoutTestCase {
     $this->drupalPost('node/' . $this->product->nid, array(), t('Add to cart'));
     $this->drupalPost('cart', array(), 'Checkout');
 
+    // Ensure that fields 'billing_extra1' and 'shipping_extra2' are present
+    // and in the panes they should appear.
+    $this->assertFieldByName('panes[billing][address][billing_billing_extra1]');
+    $this->assertFieldByName('panes[delivery][address][delivery_shipping_extra2]');
+    $this->assertNoFieldByName('panes[billing][address][billing_shipping_extra2]');
+    $this->assertNoFieldByName('panes[delivery][address][delivery_billing_extra1]');
+
     // Fill in the checkout form, choose the first available address from the
     // address book.
-    // Omit filling in "last name" for the billing address to ensure checkout
-    // will succeed if there were form errors the first time.
     $edit = array();
     foreach (uc_addresses_order_address_types() as $address_type) {
       // Ensure the customer can choose an address for this address type.
       $field_id = 'edit-panes-' . $address_type . '-select-address';
-      $this->assertFieldById($field_id);
-      // Get address book option to choose.
-      $fields = $this->xpath($this->constructFieldXpath('id', $field_id));
-      $field = reset($fields);
-      $options = $this->getAllOptions($field);
-      $edit['panes[' . $address_type . '][select_address]'] = (string) $options[1]->attributes()->value;
+      $result = $this->assertFieldById($field_id);
+      // Only continue if the address book field was found to avoid a fatal error.
+      if ($result) {
+        // Get address book option to choose.
+        $fields = $this->xpath($this->constructFieldXpath('id', $field_id));
+        $field = reset($fields);
+        $options = $this->getAllOptions($field);
+        $edit['panes[' . $address_type . '][select_address]'] = (string) $options[1]->attributes()->value;
+
+        // Select address.
+        $triggering_element = 'panes[' . $address_type . '][select_address]';
+        $commands = $this->drupalPostAJAX('cart/checkout', $edit, $triggering_element);
+      }
     }
-    $delivery_values = UcAddressesTestCase::getEditAddressValues(array('panes', 'delivery', 'address'), array(), 'checkout_form', 'delivery_');
-    $billing_values = UcAddressesTestCase::getEditAddressValues(array('panes', 'billing', 'address'), $delivery_values['values'], 'checkout_form', 'billing_');
-    $edit += $delivery_values['form_values'];
-    $edit += $billing_values['form_values'];
-    unset($edit['panes[billing][address][billing_last_name]']);
+
+    // Omit filling in "last name" for the billing address to ensure checkout
+    // will succeed if there were form errors the first time.
+    $edit = array(
+      'panes[billing][address][billing_last_name]' => '',
+    );
     $this->drupalPost(NULL, $edit, t('Review order'));
 
     // Ensure there was at least one form error.
@@ -492,5 +540,72 @@ class UcAddressesCartCheckoutTestCase extends UbercartCartCheckoutTestCase {
     $messages = uc_cart_uc_message();
     $this->assertText($messages['review_instructions']);
     $this->drupalPost(NULL, array(), t('Submit order'));
+
+    // Check if any new addresses got saved.
+    $new_addresses = array(
+      'delivery' => $delivery_values['values'],
+      'billing' => $billing_values['values'],
+    );
+    $new_addresses['billing']['last_name'] = 'custom last name';
+    foreach ($new_addresses as $address_type => $address_values) {
+      $message = '';
+      switch ($address_type) {
+        case 'delivery':
+          $message = t('The delivery address is correctly saved to the database.');
+          break;
+        case 'billing':
+          $message = t('The billing address is correctly saved to the database.');
+          break;
+      }
+      $this->assertTrue(UcAddressesTestCase::checkAddressValuesInDatabase($address_values), $message);
+    }
+  }
+
+  /**
+   * Test a checkout with the "Use the same address" setting.
+   *
+   * Test specifically if this works when there are address fields
+   * that appear in one of the address panes only.
+   */
+  public function testCheckoutSameAddress() {
+    // Enable the uc_addresses_test module.
+    module_enable(array('uc_addresses_test'));
+    drupal_get_schema(NULL, TRUE);
+
+    // Enable "Use the same address" setting.
+    variable_set('uc_cart_default_same_address', TRUE);
+
+    // Post product to cart.
+    $this->drupalPost('node/' . $this->product->nid, array(), t('Add to cart'));
+    $this->drupalPost('cart', array(), 'Checkout');
+    // Checkout and submit order.
+    $edit = $this->populateCheckoutForm(array(), array('delivery'));
+    $this->drupalPost('cart/checkout', $edit, t('Review order'));
+    $this->assertRaw(t('Your order is almost complete.'));
+    $this->drupalPost(NULL, array(), t('Submit order'));
+    // Check if an order has been created, we check against billing first pane
+    // because the billing address should be the same as the delivery address.
+    $conditions = array(
+      'billing_first_name' => $edit['panes[delivery][address][delivery_first_name]'],
+    );
+    $order = $this->checkExistingOrder($conditions);
+
+    // Now, reverse the delivery and billing panes and check again.
+    variable_set('uc_pane_billing_weight', 1);
+    variable_set('uc_pane_delivery_weight', 2);
+
+    // Post product to cart.
+    $this->drupalPost('node/' . $this->product->nid, array(), t('Add to cart'));
+    $this->drupalPost('cart', array(), 'Checkout');
+    // Checkout and submit order.
+    $edit = $this->populateCheckoutForm(array(), array('billing'));
+    $this->drupalPost('cart/checkout', $edit, t('Review order'));
+    $this->assertRaw(t('Your order is almost complete.'));
+    $this->drupalPost(NULL, array(), t('Submit order'));
+    // Check if an order has been created, this time we check against delivery first name.
+    $conditions = array(
+      'delivery_first_name' => $edit['panes[billing][address][billing_first_name]'],
+    );
+    $order = $this->checkExistingOrder($conditions);
   }
 }

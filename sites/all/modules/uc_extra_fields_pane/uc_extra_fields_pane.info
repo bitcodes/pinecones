@@ -25,9 +25,9 @@ files[] = views/uc_extra_fields_pane_handler_filter_selection.inc
 ; Automated tests
 files[] = uc_extra_fields_pane.test
 
-; Information added by drupal.org packaging script on 2013-01-29
-version = "7.x-1.0-alpha3"
+; Information added by drupal.org packaging script on 2013-03-02
+version = "7.x-1.0-alpha3+3-dev"
 core = "7.x"
 project = "uc_extra_fields_pane"
-datestamp = "1359490277"
+datestamp = "1362232034"
 

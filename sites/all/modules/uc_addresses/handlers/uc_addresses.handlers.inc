@@ -6,6 +6,64 @@
  */
 
 /**
+ * Handler for a simple text field.
+ */
+class UcAddressesTextFieldHandler extends UcAddressesFieldHandler {
+  /**
+   * Returns the editable field.
+   *
+   * @param array $form
+   *   The address form element.
+   * @param array $form_values
+   *   An array of filled in values for one address.
+   *
+   * @access public
+   * @return array
+   *   A Drupal Form API field.
+   */
+  public function getFormField($form, $form_values) {
+    $fieldName = $this->getFieldName();
+    $fieldValue = $this->getAddress()->getField($fieldName);
+    $default = (isset($form_values[$fieldName])) ? $form_values[$fieldName] : $fieldValue;
+
+    return array(
+      $fieldName => array(
+        '#type' => 'textfield',
+        '#title' => $this->getFieldTitle(),
+        '#default_value' => $default,
+        '#required' => $this->isFieldRequired(),
+        '#maxlength' => 20,
+        '#size' => 32,
+      ),
+    );
+  }
+
+  /**
+   * Check to see if the field is enabled.
+   *
+   * @access public
+   * @return boolean
+   *	 TRUE if the field is enabled.
+   *   FALSE otherwise.
+   */
+  public function isFieldEnabled() {
+    return TRUE;
+  }
+
+  /**
+   * Check to see if the field is required.
+   *
+   * @access public
+   * @return boolean
+   *	 TRUE if the field is required.
+   *   FALSE otherwise.
+   */
+  public function isFieldRequired() {
+    return FALSE;
+  }
+}
+
+/**
  * Class for the address name field
  */
 class UcAddressesAddressNameFieldHandler extends UcAddressesFieldHandler {
@@ -343,6 +401,32 @@ class UcAddressesHiddenFieldHandler extends UcAddressesFieldHandler {
    * @access public
    * @return boolean
    *	 TRUE if the field is required.
+   */
+  public function isFieldRequired() {
+    return FALSE;
+  }
+}
+
+/**
+ * Handler for a missing handler.
+ */
+class UcAddressesMissingFieldHandler extends UcAddressesFieldHandler {
+  /**
+   * Implements UcAddressesFieldHandler::getFormField().
+   */
+  public function getFormField($form, $form_values) {
+    return array();
+  }
+
+  /**
+   * Implements UcAddressesFieldHandler::isFieldEnabled().
+   */
+  public function isFieldEnabled() {
+    return FALSE;
+  }
+
+  /**
+   * Implements UcAddressesFieldHandler::isFieldRequired().
    */
   public function isFieldRequired() {
     return FALSE;

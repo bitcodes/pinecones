@@ -412,6 +412,250 @@ function uc_addresses_access($method, $address_user = NULL, UcAddressesAddress $
   return UcAddressesPermissions::$method($address_user, $address);
 }
 
+/**
+ * Check address access by giving ID's.
+ *
+ * @param string $access_type
+ *   The operation to check:
+ *   - view
+ *   - edit
+ *   - delete
+ * @param int $uid
+ *   ID of the address owner.
+ * @param int $aid
+ *   (optional) ID of the address.
+ * @param object $account
+ *   (optional) The account to check access for.
+ *   Defaults to current user.
+ */
+function uc_addresses_check_access_by_ids($access_type, $uid, $aid = NULL, $account = NULL) {
+  // Get objects.
+  if (empty($uid) && empty($aid)) {
+    // Nothing to check permissions for. No access.
+    return FALSE;
+  }
+  if (!empty($aid)) {
+    if (!empty($uid)) {
+      $address = UcAddressesAddressBook::get($uid)->getAddressById($aid);
+    }
+    else {
+      $address = UcAddressesAddressBook::loadAddress($aid);
+      $uid = $address->getUserId();
+    }
+  }
+  if (empty($address)) {
+    $address = NULL;
+  }
+  $address_user = user_load($uid);
+
+  switch ($access_type) {
+    case 'view':
+      return UcAddressesPermissions::canViewAddress($address_user, $address, $account);
+    case 'edit':
+      return UcAddressesPermissions::canEditAddress($address_user, $address, $account);
+    case 'delete':
+     return UcAddressesPermissions::canDeleteAddress($address_user, $address, $account);
+  }
+  return FALSE;
+}
+
+// -----------------------------------------------------------------------------
+// ENTITY API
+// -----------------------------------------------------------------------------
+
+/**
+ * Implements hook_entity_info().
+ */
+function uc_addresses_entity_info() {
+  $return = array(
+    'uc_addresses' => array(
+      'label' => t('Ubercart Addresses address'),
+      'entity class' => 'UcAddressesAddress',
+      'controller class' => 'UcAddressesEntityController',
+      'base table' => 'uc_addresses',
+      'fieldable' => FALSE,
+      'entity keys' => array(
+        'id' => 'aid',
+      ),
+      'label callback' => 'entity_class_label',
+      'uri callback' => 'entity_class_uri',
+      'module' => 'uc_addresses',
+      'access callback' => 'uc_addresses_entity_access',
+    ),
+  );
+  return $return;
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function uc_addresses_entity_property_info_alter(&$info) {
+  // Explain address fields to entity API.
+  $fields = uc_addresses_get_address_fields();
+  $properties = &$info['uc_addresses']['properties'];
+  foreach ($fields as $key => $field) {
+    if (isset($properties[$key])) {
+      $properties[$key] = array_merge($properties[$key], $field);
+    }
+    else {
+      $properties[$key] = $field;
+    }
+    $properties[$key]['getter callback'] = 'uc_addresses_field_get';
+    if ($key != 'aid' || $key != 'uid') {
+      $properties[$key]['setter callback'] = 'uc_addresses_field_set';
+    }
+  }
+
+  // Special case for user, this should be mapped to 'user' instead
+  // of 'uid' as noted on http://drupal.org/node/1021466.
+  $properties['user'] = $properties['uid'];
+  $properties['user']['label'] = t('User');
+  unset($properties['uid']);
+
+  // Expose default addresses of user.
+  $info['user']['properties']['uc_addresses_default_shipping_address'] = array(
+    'type' => 'uc_addresses',
+    'label' => t('Default shipping address'),
+    'getter callback' => 'uc_addresses_user_address_property_get',
+  );
+  $info['user']['properties']['uc_addresses_default_billing_address'] = array(
+    'type' => 'uc_addresses',
+    'label' => t('Default billing address'),
+    'getter callback' => 'uc_addresses_user_address_property_get',
+  );
+
+  // Explain the attached addresses from uc_addresses on the Ubercart order.
+  $info['uc_order']['properties']['uc_addresses_delivery_address'] = array(
+    'type' => 'uc_addresses',
+    'label' => t('!address_type (Ubercart Addresses)', array('!address_type' => t('Delivery address'))),
+    'getter callback' => 'uc_addresses_uc_order_address_property_get',
+  );
+  $info['uc_order']['properties']['uc_addresses_billing_address'] = array(
+    'type' => 'uc_addresses',
+    'label' => t('!address_type (Ubercart Addresses)', array('!address_type' => t('Billing address'))),
+    'getter callback' => 'uc_addresses_uc_order_address_property_get',
+  );
+}
+
+/**
+ * Entity API getter callback for an address field.
+ *
+ * @param UcAddressesAddress $address
+ *   An address object.
+ * @param array $options
+ *   Options are ignored, but it is a param that is given
+ *   by Entiy API.
+ * @param string $name
+ *   The name of the field to get.
+ */
+function uc_addresses_field_get(UcAddressesAddress $address, $options, $name) {
+  return $address->getField($name);
+}
+
+/**
+ * Entity API setter callback for an address field.
+ *
+ * @param UcAddressesAddress $address
+ *   An address object.
+ * @param string $name
+ *   The name of the field to set.
+ * @param mixed $value
+ *   The value the field should be set to.
+ */
+function uc_addresses_field_set(UcAddressesAddress $address, $name, $value) {
+  return $address->setField($name, $value);
+}
+
+/**
+ * Entity API getter callback for a default address of an user.
+ *
+ * @param object $account
+ *   The account to get a default address for.
+ * @param array $options
+ *   An array of options, passed by Entity API, but ignored
+ *   in this implementation.
+ * @param string $name
+ *   The address to get.
+ *
+ * @return UcAddressesAddress
+ *   An instance of UcAddressesAddress, if found.
+ *   NULL otherwise.
+ */
+function uc_addresses_user_address_property_get($account, $options, $name) {
+  switch ($name) {
+    case 'uc_addresses_default_shipping_address':
+      return UcAddressesAddressBook::get($account->uid)->getDefaultAddress('shipping');
+
+    case 'uc_addresses_default_billing_address':
+      return UcAddressesAddressBook::get($account->uid)->getDefaultAddress('billing');
+  }
+  return NULL;
+}
+
+/**
+ * Entity API getter callback for an address attached to the order.
+ *
+ * @param object $order
+ *   The Ubercart order.
+ * @param array $options
+ *   An array of options, passed by Entity API, but ignored
+ *   in this implementation.
+ * @param string $name
+ *   The address to get.
+ *
+ * @return UcAddressesAddress
+ *   An instance of UcAddressesAddress, if found.
+ *   NULL otherwise.
+ */
+function uc_addresses_uc_order_address_property_get($order, $options, $name) {
+  switch ($name) {
+    case 'uc_addresses_delivery_address':
+      return $order->uc_addresses['shipping'];
+      break;
+
+    case 'uc_addresses_billing_address':
+      return $order->uc_addresses['billing'];
+      break;
+
+    default:
+      return NULL;
+  }
+}
+
+/**
+ * Access callback for address entity.
+ */
+function uc_addresses_entity_access($op, $entity, $account = NULL, $entity_type = NULL) {
+  if ($entity instanceof UcAddressesAddress) {
+    $address = $entity;
+    $address_user = user_load($address->getUserId());
+
+    switch ($op) {
+      case 'create':
+      case 'update':
+        return UcAddressesPermissions::canEditAddress($address_user, $address, $account);
+      case 'view':
+        return UcAddressesPermissions::canViewAddress($address_user, $address, $account);
+      case 'delete':
+        return UcAddressesPermissions::canDeleteAddress($address_user, $address, $account);
+    }
+  }
+  else {
+    // If no entity is given, check address access for all.
+    switch ($op) {
+      case 'create':
+      case 'update':
+        return UcAddressesPermissions::canEditAll($account);
+      case 'view':
+        return UcAddressesPermissions::canViewAll($account);
+      case 'delete':
+        return UcAddressesPermissions::canDeleteAll($account);
+    }
+  }
+  // All other cases are unknown.
+  return NULL;
+}
+
 // -----------------------------------------------------------------------------
 // FIELDS
 // -----------------------------------------------------------------------------
@@ -713,7 +957,16 @@ function uc_addresses_form_process_select_address(&$element, &$form_state) {
           $address_field = &$address_field[$key];
         }
       }
-      $address_field['#value'] = $address->getRawFieldData();
+      $address_values = $address->getRawFieldData();
+      // If there is a key prefix set, then prefix the address values.
+      if (!empty($address_field['#key_prefix'])) {
+        $prefix = $address_field['#key_prefix'] . '_';
+        foreach ($address_values as $fieldname => $value) {
+          $address_values[$prefix . $fieldname] = $address_values[$fieldname];
+          unset($address_values[$fieldname]);
+        }
+      }
+      $address_field['#value'] = $address_values;
 
       // Find input array to replace.
       $input = &$form_state['input'];
@@ -810,6 +1063,7 @@ function uc_addresses_uc_order($op, &$order, $arg2) {
     case 'new':
       $order->uc_addresses = array();
       foreach (uc_addresses_address_types() as $address_type) {
+        $address = NULL;
         // Check if address may be automatically filled in.
         if (variable_get('uc_addresses_default_' . $address_type . '_address', TRUE) && variable_get('uc_addresses_use_default_' . $address_type, TRUE)) {
           // Get default address of type $address_type.
@@ -828,7 +1082,7 @@ function uc_addresses_uc_order($op, &$order, $arg2) {
             }
           }
         }
-        else {
+        if (empty($address)) {
           // Construct new address.
           $order_address_type = $address_type;
           if ($address_type == 'shipping') {
@@ -836,6 +1090,7 @@ function uc_addresses_uc_order($op, &$order, $arg2) {
           }
           $address = uc_addresses_new_address_from_order($order, $order_address_type);
         }
+        $address->address_type = $address_type;
         $order->uc_addresses[$address_type] = $address;
       }
       break;
@@ -855,6 +1110,7 @@ function uc_addresses_uc_order($op, &$order, $arg2) {
           // Construct new address.
           $address = uc_addresses_new_address_from_order($order, $order_address_type);
         }
+        $address->address_type = $address_type;
         $order->uc_addresses[$address_type] = $address;
       }
       break;
@@ -1001,28 +1257,23 @@ function uc_addresses_get_address_fields() {
     foreach ($fields as $fieldname => $fielddata) {
       // Add name for the field (never set manually).
       $fields[$fieldname]['name'] = $fieldname;
-      // Add title if not set.
-      if (!isset($fielddata['title'])) {
-        $fields[$fieldname]['title'] = check_plain($fieldname);
-      }
-      // Add description if not set.
-      if (!isset($fielddata['description'])) {
-        $fields[$fieldname]['description'] = '';
-      }
-      // Add display settings array
-      if (!isset($fielddata['display_settings'])) {
-        $fields[$fieldname]['display_settings'] = array();
-      }
-      if (!isset($fielddata['display_settings']['default'])) {
-        $fields[$fieldname]['display_settings']['default'] = TRUE;
-      }
-      // Add compare setting
-      if (!isset($fielddata['compare'])) {
-        $fields[$fieldname]['compare'] = TRUE;
-      }
-      // Add hidden setting (only applies for address field settings page)
-      if (!isset($fielddata['hidden'])) {
-        $fields[$fieldname]['hidden'] = FALSE;
+      // Add default values for properties that are not set.
+      $fields[$fieldname] += array(
+        'type' => 'text',
+        'title' => check_plain($fieldname),
+        'description' => '',
+        'display_settings' => array(),
+        'compare' => TRUE,
+        // The hidden setting only applies for the address field settings page.
+        'hidden' => FALSE,
+      );
+      // Add default display settings.
+      $fields[$fieldname]['display_settings'] += array(
+        'default' => TRUE,
+      );
+      // Add label if not set. Used by Entity API.
+      if (!isset($fields[$fieldname]['label'])) {
+        $fields[$fieldname]['label'] = $fields[$fieldname]['title'];
       }
     }
   }
@@ -1040,13 +1291,10 @@ function uc_addresses_get_address_fields() {
  * @return array
  */
 function uc_addresses_get_address_field_handler_instances(UcAddressesSchemaAddress $address, $context = 'default') {
-  ctools_include('plugins');
-  ctools_plugin_api_include('uc_addresses', 'uc_addresses_fields', 2, 2);
   $handlers = array();
   $fields_data = uc_addresses_get_address_fields();
   foreach ($fields_data as $fieldname => $fielddata) {
-    $class = ctools_plugin_load_class('uc_addresses', 'field_handlers', $fielddata['handler'], 'handler');
-    $handlers[$fieldname] = new $class($fieldname, $address, $context);
+    $handlers[$fieldname] = uc_addresses_get_address_field_handler($address, $fieldname, $context);
   }
   return $handlers;
 }
@@ -1055,23 +1303,37 @@ function uc_addresses_get_address_field_handler_instances(UcAddressesSchemaAddre
  * Returns a specific handler instance of a field.
  *
  * @param UcAddressesSchemaAddress $address
- *   An address object
+ *   An address object.
  * @param string $fieldname
- *   The field name to get a handler for
+ *   The field name to get a handler for.
  * @param string $context
- *   The context where the fields are used for
+ *   The context where the fields are used for.
  *
  * @return UcAddressesFieldHandler
+ *   An instance of UcAddressesFieldHandler.
+ *   An instance of UcAddressesMissingFieldHandler is returned
+ *   if the handler for the field could not be found.
  */
 function uc_addresses_get_address_field_handler(UcAddressesSchemaAddress $address, $fieldname, $context = 'default') {
   ctools_include('plugins');
   ctools_plugin_api_include('uc_addresses', 'uc_addresses_fields', 2, 2);
   $fields_data = uc_addresses_get_address_fields();
   if (isset($fields_data[$fieldname])) {
-    $class = ctools_plugin_load_class('uc_addresses', 'field_handlers', $fields_data[$fieldname]['handler'], 'handler');
-    return new $class($fieldname, $address, $context);
+    if ($class = ctools_plugin_load_class('uc_addresses', 'field_handlers', $fields_data[$fieldname]['handler'], 'handler')) {
+      return new $class($fieldname, $address, $context);
+    }
+    // Handler not found.
+    $args = array('%handler' => $fields_data[$fieldname]['handler'], '%field' => $fieldname);
+    if (user_access('administer store')) {
+      drupal_set_message(t('Missing Ubercart Addresses field handler %handler for field %field. Check whether all required libraries and modules are installed properly.', $args), 'error', FALSE);
+    }
+    else {
+      drupal_set_message(t('Missing Ubercart Addresses field handler %handler for field %field. Please contact your site administrator.', $args), 'error', FALSE);
+    }
   }
-  return NULL;
+  // Return an instance of UcAddressesMissingFieldHandler instead.
+  $class = ctools_plugin_load_class('uc_addresses', 'field_handlers', 'UcAddressesMissingFieldHandler', 'handler');
+  return new $class($fieldname, $address, $context);
 }
 
 // ---------------------------------------------------------------------------
@@ -1389,10 +1651,22 @@ function uc_addresses_theme() {
       'variables' => array(
         'address' => new stdClass(),
         'options' => array(
+          'view_link' => FALSE,
           'edit_link' => FALSE,
           'delete_link' => FALSE,
+          'default_flags' => FALSE,
           'destination' => '',
+          'context' => 'address_view',
         ),
+        'label' => NULL,
+        'aid' => NULL,
+        'uid' => NULL,
+        'admin_links' => '',
+        'view_address_link' => '',
+        'edit_address_link' => '',
+        'delete_address_link' => '',
+        'classes' => NULL,
+        'classes_array' => array(),
       ),
       'template' => 'templates/uc-addresses-list-address',
       'file' => 'uc_addresses.pages.inc',
@@ -1593,4 +1867,51 @@ function uc_addresses_get_address_format($country_id) {
     return $format;
   }
   return '';
+}
+
+/**
+ * Loads a customer's previously given addresses from the uc_orders table.
+ *
+ * Similar to uc_get_adddresses() in uc_store.module.
+ *
+ * @param int $uid
+ *   The user to select addresses for.
+ * @param string $type
+ *   The type of address to look for: "delivery" or "billing".
+ *
+ * @return array
+ *   An array of address arrays.
+ */
+function uc_addresses_get_addresses($uid, $type = 'billing') {
+  if ($uid == 0) {
+    return NULL;
+  }
+
+  $query = db_select('uc_orders', 'o')->distinct();
+  $query->addTag('uc_get_addresses');
+  $query->addTag('address_type:' . $type);
+
+  $alias = array();
+  $fields = uc_addresses_get_address_fields();
+  $schema = drupal_get_schema('uc_orders');
+  foreach ($fields as $field_name => $field) {
+    $order_field_name = $type . '_' . $field_name;
+    if (isset($schema['fields'][$order_field_name])) {
+      $alias[$field_name] = $query->addField('o', $order_field_name, $field_name);
+    }
+  }
+
+  $query->condition('uid', $uid)
+    ->condition('order_status', uc_order_status_list('general', TRUE), 'IN');
+
+  $result = $query->execute();
+
+  $addresses = array();
+  while ($address = $result->fetchAssoc()) {
+    if (!empty($address['street1']) || !empty($address['postal_code'])) {
+      $addresses[] = $address;
+    }
+  }
+
+  return $addresses;
 }

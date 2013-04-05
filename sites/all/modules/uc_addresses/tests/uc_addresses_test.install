@@ -2,21 +2,30 @@
 
 /**
  * @file
- * Install file for Ubercart Addresses Example module.
+ * Installation file for Ubercart Addresses testing module.
+ *
+ * Two fields are added to the uc_addresses table:
+ * - billing_extra1
+ * - shipping_extra2
+ * Two fields are added to the uc_orders table:
+ * - billing_billing_extra1
+ * - delivery_shipping_extra2
  */
 
 /**
  * Implements hook_schema_alter().
  *
- * @param array $schema
  * @return void
  */
-function uc_addresses_example_schema_alter(&$schema) {
-  $tables = _uc_addresses_example_schema_tables();
-  $fields = _uc_addresses_example_schema_fields();
+function uc_addresses_test_schema_alter(&$schema) {
+  $tables = _uc_addresses_test_schema_tables();
+  $fields = _uc_addresses_test_schema_fields();
 
   foreach ($tables as $table) {
     foreach ($fields as $fieldname => $field) {
+      if (!_uc_addresses_test_in_pane($table['prefix'], $field)) {
+        continue;
+      }
       $tablename = $table['table'];
       $tablefieldname = $table['prefix'] . $fieldname;
       $schema[$tablename]['fields'][$tablefieldname] = $field;
@@ -27,19 +36,22 @@ function uc_addresses_example_schema_alter(&$schema) {
 /**
  * Implements hook_install().
  *
- * Installs fields defined by _uc_addresses_example_schema_fields()
- * in tables defined by _uc_addresses_example_schema_tables().
+ * Installs fields defined by _uc_addresses_test_schema_fields()
+ * in tables defined by _uc_addresses_test_schema_tables().
  *
  * @return array
  */
-function uc_addresses_example_install() {
+function uc_addresses_test_install() {
   $ret = array();
 
-  $tables = _uc_addresses_example_schema_tables();
-  $fields = _uc_addresses_example_schema_fields();
+  $tables = _uc_addresses_test_schema_tables();
+  $fields = _uc_addresses_test_schema_fields();
 
   foreach ($tables as $table) {
     foreach ($fields as $fieldname => $field) {
+      if (!_uc_addresses_test_in_pane($table['prefix'], $field)) {
+        continue;
+      }
       $tablename = $table['table'];
       $tablefieldname = $table['prefix'] . $fieldname;
       $ret[] = db_add_field($tablename, $tablefieldname, $field);
@@ -52,19 +64,22 @@ function uc_addresses_example_install() {
 /**
  * Implements hook_uninstall().
  *
- * Removes fields defined by _uc_addresses_example_schema_fields()
- * in tables defined by _uc_addresses_example_schema_tables().
+ * Removes fields defined by _uc_addresses_test_schema_fields()
+ * in tables defined by _uc_addresses_test_schema_tables().
  *
  * @return array
  */
-function uc_addresses_example_uninstall() {
+function uc_addresses_test_uninstall() {
   $ret = array();
 
-  $tables = _uc_addresses_example_schema_tables();
-  $fields = _uc_addresses_example_schema_fields();
+  $tables = _uc_addresses_test_schema_tables();
+  $fields = _uc_addresses_test_schema_fields();
 
   foreach ($tables as $table) {
     foreach ($fields as $fieldname => $field) {
+      if (!_uc_addresses_test_in_pane($table['prefix'], $field)) {
+        continue;
+      }
       $tablename = $table['table'];
       $tablefieldname = $table['prefix'] . $fieldname;
       $ret[] = db_drop_field($tablename, $tablefieldname);
@@ -85,7 +100,7 @@ function uc_addresses_example_uninstall() {
  * @return array
  *   The schema's that needs to be altered.
  */
-function _uc_addresses_example_schema_tables() {
+function _uc_addresses_test_schema_tables() {
   return array(
     array(
       'table' => 'uc_addresses',
@@ -108,28 +123,34 @@ function _uc_addresses_example_schema_tables() {
  *
  * @return array
  */
-function _uc_addresses_example_schema_fields() {
+function _uc_addresses_test_schema_fields() {
   return array(
-    'title' => array(
-      'description' => t("Person's stating social rank."),
+    'billing_extra1' => array(
       'type' => 'varchar',
       'length' => 255,
       'not null' => TRUE,
       'default' => '',
+      'address_type' => 'billing',
     ),
-    'surname_prefix' => array(
-      'description' => t("The addressee's surname prefix."),
+    'shipping_extra2' => array(
       'type' => 'varchar',
       'length' => 255,
       'not null' => TRUE,
       'default' => '',
-    ),
-    'house_number' => array(
-      'description' => t("The addressee's house number."),
-      'type' => 'varchar',
-      'length' => 10,
-      'not null' => TRUE,
-      'default' => '',
+      'address_type' => 'delivery',
     ),
   );
+}
+
+/**
+ * If the field should appear in the specified pane.
+ *
+ * @return boolean
+ */
+function _uc_addresses_test_in_pane($pane, $field) {
+  if ($pane && !empty($field['address_type']) && $pane != $field['address_type'] . '_') {
+    // Some fields belong to one address type only.
+    return FALSE;
+  }
+  return TRUE;
 }

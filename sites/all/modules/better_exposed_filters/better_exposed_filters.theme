@@ -476,6 +476,7 @@ function theme_select_as_links($vars) {
         '#markup' => '',
         '#type' => 'bef-link',
         '#name' => $id,
+        '#children' => '', 
       );
       if (array_search($key, $selected_options) === FALSE) { 
         $elem['#children'] .= l($value, bef_replace_query_string_arg($name, $key, $multiple));

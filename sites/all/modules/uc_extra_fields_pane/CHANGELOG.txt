@@ -1,3 +1,8 @@
+Extra Fields Pane 7.x-1.x, xxxx-xx-xx
+------------------------------
+- #1926200 by MegaChriz: specified field data types.
+- #1635168 by MegaChriz: added/ported i18n integration.
+
 Extra Fields Pane 7.x-1.0-alpha3, 2013-01-29
 ------------------------------
 - by MegaChriz: fixed issue where values for field types "Select list"
