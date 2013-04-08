@@ -33,7 +33,7 @@ body {background: #FFF url('images/bg_body.png') repeat-x top left; font-family:
 #logo h1 a span {display: none;}
 
 
-#main_menu {   position: absolute;right: -26px;text-align: right;top: 97px;width: 742px;}
+#main_menu {   position: absolute;right: 0;text-align: right;top: 97px;width: 742px;}
 
 body #main_menu ul {list-style-type: none;margin: 0}
 #main_menu ul li {display: inline;}
@@ -52,8 +52,8 @@ body #sub_menu ul {list-style-type: none;padding: 0;margin: 0}
 
 #social_links {position: absolute; bottom: -48px; left: 415px;}
 body #social_links ul {list-style-type: none;padding: 0;margin: 0}
-#social_links ul li {display: inline;}
-#social_links ul li a {display: inline-block; width: 24px; height: 24px; margin-left: 10px;}
+#social_links ul li {display: inline; padding:0 5px;}
+#social_links ul li a {display: inline-block; width: 24px; height: 24px; margin-left: 0;}
 #social_links ul li a span {display: none;}
 #social_links_facebook {background: transparent url('images/fb.png') no-repeat top left;}
 #social_links_twitter {background: transparent url('images/tw.png') no-repeat top left;}
@@ -304,7 +304,7 @@ p {
     float: left;
     /*width: 210px;*/
     height: 238px;
-    margin: 0 34px 32px 0;
+    margin: 0 0 32px 0;
     position: relative;
     padding: 0 0 12px 0;
 }
@@ -329,7 +329,7 @@ p {
     margin: 10px 0 0;
 }
 .view-display-id-page tr td .views-field-field-size {
-    padding: 0;
+   padding: 5px 0 0;
 }
 .view-id-products {
     margin: 27px 0 0;
@@ -348,11 +348,11 @@ p {
     color: #6F6F6F;
     font: 11px/9px 'PT Sans',sans-serif;
     overflow: visible;
-    padding: 0 0 5px;
+    padding: 5px 0 5px;
     position: absolute;
     text-align: center;
     text-transform: uppercase;
-    width: 149px;
+    width: 180px;
     display: block;
     top: 0px;
 }
