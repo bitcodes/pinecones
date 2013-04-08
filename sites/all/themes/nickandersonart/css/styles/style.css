@@ -281,6 +281,7 @@ p {
     font-weight: normal;
     text-transform: none;
     text-shadow: none;
+    vertical-align: middle;
 }
 #block-views--exp-products-page .form-item {
     display: block;
@@ -365,22 +366,25 @@ ul.pager {
 }
 ul.pager li {
    /* display: inline-table !important;*/
-    border: 2px solid #9FBC46;
-    border-radius: 7px;
+    /* border: 2px solid #9FBC46;
+    border-radius: 7px; */
     /*box-shadow: 0 0 7px #E9E9E9 inset;*/
 }
 ul.pager li, ul.pager li a {
     height: 22px;
     width: 22px;
 }
+/*
 ul.pager li a, ul.pager li.pager-current {
     color: #6C6C6C;
     font: 13px/22px "Trebuchet MS",Arial,Helvetica,sans-serif;
     text-align: center;
 }
+*/
+/*
 ul.pager li.pager-current {
     box-shadow: 0 0 7px #CEE9AD inset;
-}
+}*/
 ul.pager li.pager-first.first, ul.pager li.pager-last.last {
 display: none;
 }
@@ -1570,7 +1574,7 @@ div#content{margin-top:10px; padding-left:0}
 /* adjust height for product browse boxes*/
 .view-display-id-page tr td {height: 218px;}
 
-.view-id-products {margin-top:0}
+.view-id-products {margin-top:60px;}
 
 #cboxContent .node-model .field-name-field-associated-style {display:none}
 
@@ -1946,87 +1950,111 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
 
 /*Added by Gireesh for changing the pagination style*/
 /*pagination*/
+/*
 ul.pager {
-	border:0px solid #000000;
+    border:0px solid #000000;
     clear: both;
     color: #666666;
     display: table;
     height: 100px;
-	width:700px;
+    width:700px;
     padding: 15px 5px 0;
     display: table-cell;
     vertical-align: middle;
-	border:none;
-	list-style-type: none; 
-	text-decoration: none !important;
+    border:none;
+    list-style-type: none; 
+    text-decoration: none !important;
 }
 ul.pager li {
-  margin-bottom:0;font-size:1.2em;padding:0 8px;list-style:none;position:relative;float:none;
-  padding: 0px 5px 0px 0px;
-  clear:both;
+    margin-bottom:0;font-size:1.2em;padding:0 8px;list-style:none;position:relative;float:none;
+    padding: 0px 5px 0px 0px;
+    clear:both;
 }
 ul.pager li, ul.pager li a {
 
     font-size: 1.2em;
     list-style: none outside none;
-	 padding: 0px 5px 0px 0px;
+    padding: 0px 5px 0px 0px;
     padding: 0 8px;
-	
-}
-ul.pager li a, ul.pager li.pager-current {
-  
-}
-ul.pager li.pager-current {
-    
-	
-}
-ul.pager li.pager-first.first, ul.pager li.pager-last.last {
 
-}
-
-.pager li > a, .pager li > span, .pager li > a:hover, .pager li > span:hover {
-   
 }
 ul.pager li.pager-next{
-	border:0px solid #000000;
-	clear:both;
-	padding-top:5px;
-	/*background: url("../styles/images/icon_page_arrow_right_on.20130328183237.gif") no-repeat scroll 0 0 transparent;*/
-	opacity:1;
-	z-index:1111px;
-	position:absolute;float:none;
-	width:700px;
-	display: table-cell;
-	padding-left:45px;
+    border:0px solid #000000;
+    clear:both;
+    padding-top:5px;
+    opacity:1;
+    z-index:1111px;
+    position:absolute;float:none;
+    width:700px;
+    display: table-cell;
+    padding-left:45px;
 }
 ul.pager li.pager-last{
-	display:none;
+    display:none;
 }
 
 ul.pager li.pager-previous{
-	clear:both;
-	padding-top:26px;
-	/*background: url("../styles/images/icon_page_arrow_left_on.20130328183237.gif") repeat scroll 0 0 transparent;*/
-	opacity:1;
-	z-index:1111px;
-	position:absolute;float:none;
-	width:700px;
-	padding-right:45px;
-	display: table-cell;
+    clear:both;
+    padding-top:26px;
+    opacity:1;
+    z-index:1111px;
+    position:absolute;float:none;
+    width:700px;
+    padding-right:45px;
+    display: table-cell;
 }
 ul.pager li.pager-first{
-	display:none;
+    display:none;
 }
 ul.pager li.pager-ellipsis{
-	display:none;
+    display:none;
 }
 ul.pager li.pager-item{
-	color: #CB7319;
+    color: #CB7319;
     font-weight: bold;
-	background:none;
-	padding:0px;
-	border:none !important;
+    background:none;
+    padding:0px;
+    border:none !important;
 }
+*/
+/*Pager changes by SZ*/
+.page-products ul.pager {
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    padding-bottom: 50px;
+}
+.page-products ul.pager .pager-current {
+    color: #333333 !important;
+    font-weight: bold !important;
+    font-size: 1.2em;
+}
+.page-products ul.pager li a {
+    color: #A6BB4F !important;
+    font-weight: bold !important;
+    font-size: 1.2em;
+}
+.pager li > a, .pager li > span {
+    padding: 2px !important;
+}
+.top-pager li.pager-item, .top-pager li.pager-current {
+    display: none;
+}
+.top-pager {
+    float: right;
+    padding: 0;
+}
+.top-pager ul.pager {
+    padding: 0;
+}
+.item-list .pager li {
+    padding: 2px !important;
+}
+
 div#product_browser_btm h5{
-	display:none;
+    display:none;
+}
+
+#views-exposed-form-products-page .views-exposed-form input {
+    margin: 0;
 }
