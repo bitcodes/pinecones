@@ -355,6 +355,7 @@ p {
     width: 180px;
     display: block;
     top: 0px;
+    word-break: break-all;
 }
 a {
     color: inherit;
@@ -1603,6 +1604,204 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
 @media (min-width: 979px){
     body .topNav .navbar-inner{background:transparent ;border:none;border-radius: 0;box-shadow: none;-webkit-box-shadow:none;-moz-box-shadow: none}
     #search input.form-text{width: 200px}
+
+    /*--------------------------*/
+    /*#webform-client-form-10 input, #webform-client-form-10 textarea {margin: 1px 1px 13px;padding: 0 10px;width: 350px;}*/
+    /*Added by Gireesh for changing the wholesale request webform*/
+    #webform-client-form-94 label {
+        color: #252525;
+        display: block;
+        float: left;
+        font: 14px/27px 'PT Sans',sans-serif;
+        height: 27px;
+        width: 115px;
+        padding-right: 10px;
+        text-align: end;
+    }
+    #webform-client-form-94 input, #webform-client-form-94 textarea {
+        /*background: none repeat scroll 0 0 #FFFFFF;
+          border: 1px solid #C3C3C1;
+          border-radius: 4px 4px 4px 4px;
+          box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.75) inset;
+          color: #252525;
+          display: block;
+          float: left;
+          overflow: hidden;
+          font: 14px/23px 'PT Sans',sans-serif;*/
+        margin: 1px 1px 13px;
+        padding: 0 10px;
+        width: 250px;
+    }
+    #webform-client-form-94 input.error, #webform-client-form-94 textarea.error, #webform-client-form-94 select.error {
+        border: 2px solid red;
+    }
+    #webform-client-form-94 select {
+        box-shadow: none;
+    }
+    #webform-client-form-94 textarea {
+        height: 190px;
+        line-height: normal;
+        max-height: 190px;
+        max-width: 250px;
+        min-height: 190px;
+        min-width: 250px;
+        padding: 5px 10px;
+    }
+    #webform-client-form-94 .grippie {
+        display: none;
+    }
+    .ask_us {
+        color: #665665;
+        float: left;
+        font: 22px 'PT Sans',sans-serif;
+        padding: 50px 0 0;
+        text-align: right;
+        text-transform: uppercase;
+        width: 233px;
+    }
+    #webform-client-form-94 #edit-submit {
+        background: url("../styles/images/add_to_cart_btn.png") no-repeat scroll 0 0 transparent;
+        color: #5E6B1A;
+        display: block;
+        font: 18px/93px 'PT Sans',sans-serif;
+        height: 90px;
+        padding: 0 0 6px 83px;
+        text-align: center;
+        text-shadow: 1px 1px 0 #FFFFFF;
+        text-transform: uppercase;
+        width: 148px;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    #webform-client-form-94 #edit-submit:hover {
+        background-position: 0 100%;
+    }
+    #webform-client-form-94 input[type="submit"] {
+        float: left;
+        height: 96px !important;
+        margin: 6px 0 0 41px;
+        width: 231px !important;
+    }
+    #webform-client-form-94 input[type="text"], #webform-client-form-94 input[type="email"] {
+        height: 23px;
+    }
+    #webform-client-form-94 .webform-component {
+        padding-left: 140px;
+    }
+
+    /*Added by Gireesh for changing the pagination style*/
+    /*pagination*/
+    /*
+    ul.pager {
+        border:0px solid #000000;
+        clear: both;
+        color: #666666;
+        display: table;
+        height: 100px;
+        width:700px;
+        padding: 15px 5px 0;
+        display: table-cell;
+        vertical-align: middle;
+        border:none;
+        list-style-type: none;
+        text-decoration: none !important;
+    }
+    ul.pager li {
+        margin-bottom:0;font-size:1.2em;padding:0 8px;list-style:none;position:relative;float:none;
+        padding: 0px 5px 0px 0px;
+        clear:both;
+    }
+    ul.pager li, ul.pager li a {
+
+        font-size: 1.2em;
+        list-style: none outside none;
+        padding: 0px 5px 0px 0px;
+        padding: 0 8px;
+
+    }
+    ul.pager li.pager-next{
+        border:0px solid #000000;
+        clear:both;
+        padding-top:5px;
+        opacity:1;
+        z-index:1111px;
+        position:absolute;float:none;
+        width:700px;
+        display: table-cell;
+        padding-left:45px;
+    }
+    ul.pager li.pager-last{
+        display:none;
+    }
+
+    ul.pager li.pager-previous{
+        clear:both;
+        padding-top:26px;
+        opacity:1;
+        z-index:1111px;
+        position:absolute;float:none;
+        width:700px;
+        padding-right:45px;
+        display: table-cell;
+    }
+    ul.pager li.pager-first{
+        display:none;
+    }
+    ul.pager li.pager-ellipsis{
+        display:none;
+    }
+    ul.pager li.pager-item{
+        color: #CB7319;
+        font-weight: bold;
+        background:none;
+        padding:0px;
+        border:none !important;
+    }
+    */
+    /*Pager changes by SZ*/
+    .page-products ul.pager {
+        margin: 0 auto;
+        display: block;
+        width: 100%;
+        padding-bottom: 50px;
+    }
+    .page-products ul.pager .pager-current {
+        color: #333333 !important;
+        font-weight: bold !important;
+        font-size: 1.2em;
+    }
+    .page-products ul.pager li a {
+        color: #A6BB4F !important;
+        font-weight: bold !important;
+        font-size: 1.2em;
+    }
+    .pager li > a, .pager li > span {
+        padding: 2px !important;
+    }
+    .top-pager li.pager-item, .top-pager li.pager-current {
+        display: none;
+    }
+    .top-pager {
+        float: right;
+        padding: 0;
+    }
+    .top-pager ul.pager {
+        padding: 0;
+    }
+    .item-list .pager li {
+        padding: 2px !important;
+    }
+
+    div#product_browser_btm h5{
+        display:none;
+    }
+
+    #views-exposed-form-products-page .views-exposed-form input {
+        margin: 0;
+    }
+    /*--------------------------*/
+
 }
 @media (max-width: 979px){
     #content_full {color: #666; width: 100%;padding: 0 0 0 0;}
@@ -1616,11 +1815,13 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     #logo, .block_subject{display: none}
     body .navbar.topNav li{display: block!important}
     body .navbar.topNav li a{display: block!important; padding: 10px 0 10px 6%;;border-bottom: 1px solid #cccccc;margin: 0!important;}
-    #social_links li{float: left;padding: 2%;text-align: center;width: 33%;}
+    #social_links li{float: left;padding: 2%;text-align: center;width: 25%;margin-top: 10px;}
     #social_links li a{background: none repeat scroll 0 0 lightblue;border: medium none !important;display: block!important;text-align: center;width: 100%!important;padding: 5px 0;}
     #social_links li a span{display: block!important;}
     #views-nivo-slider-hero-block{width: 100%!important;height: auto!important;}
 
+    #modalContainer{max-width: 90%!important;}
+    #outerImageContainer{max-width: 90%!important;}
     #hero_blocks {left: 0;margin: 0;padding: 25px 0 0;position: relative;top: 0;width: 100%;}
     .heroWrapp{padding-right: 0}
     .navbar.topNav .container > h4, .Wel_name {display: block;float: left;}
@@ -1659,13 +1860,13 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     #edit-field-style-tid-wrapper, #edit-field-color-tid-wrapper, #edit-field-size-tid-wrapper{width: auto;margin: 7px 0 0 0px;padding: 7px;}
     .page-products #sidebar{background-size: 100%!important;margin-right: 10px}
     .view-id-products{width: 100%!important;}
-    .view-display-id-page tr td{width: 33%!important;float: none!important;margin: 0}
+    .view-display-id-page tr td{width: 25%!important;float: none!important;margin: 0;vertical-align: top;}
     .page-products #sidebar .other_products{width: 100%!important;}
     .page-products #sidebar .cart_block{width: 100%!important;margin: 0;padding: 4px}
     .page-products #sidebar #edit-field-apparel-tid-wrapper, .page-products #sidebar .supplements{width: 100%!important;margin: 0;padding: 4px}
      body .view-display-id-page tr td .views-field-title{position: relative;width: auto;}
      body .views-field-title .field-content a{width: auto!important;position: relative;}
-
+    .views-field-uc-product-image a img {width: 100%!important;}
     /*COLLECTIONS*/
     #footer_links ul li{display: inline-block}
     #footer_links ul li a{display: block;margin-top: 10px;width: 23%;min-width: 150px;}
@@ -1861,200 +2062,3 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
 
 #cboxContent p {width:81%}
 
-/*#webform-client-form-10 input, #webform-client-form-10 textarea {margin: 1px 1px 13px;padding: 0 10px;width: 350px;}*/
-
-/*Added by Gireesh for changing the wholesale request webform*/
-
-#webform-client-form-94 label {
-    color: #252525;
-    display: block;
-    float: left;
-    font: 14px/27px 'PT Sans',sans-serif;
-    height: 27px;
-    width: 115px;
-    padding-right: 10px;
-    text-align: end;
-}
-
-#webform-client-form-94 input, #webform-client-form-94 textarea {
-  /*background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #C3C3C1;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.75) inset;
-    color: #252525;
-    display: block;
-    float: left;
-    overflow: hidden;
-    font: 14px/23px 'PT Sans',sans-serif;*/
-    margin: 1px 1px 13px;
-    padding: 0 10px;
-    width: 250px;
-}
-#webform-client-form-94 input.error, #webform-client-form-94 textarea.error, #webform-client-form-94 select.error {
-    border: 2px solid red;
-}
-#webform-client-form-94 select {
-    box-shadow: none;
-}
-#webform-client-form-94 textarea {
-    height: 190px;
-    line-height: normal;
-    max-height: 190px;
-    max-width: 250px;
-    min-height: 190px;
-    min-width: 250px;
-    padding: 5px 10px;
-}
-#webform-client-form-94 .grippie {
-    display: none;
-}
-.ask_us {
-    color: #665665;
-    float: left;
-    font: 22px 'PT Sans',sans-serif;
-    padding: 50px 0 0;
-    text-align: right;
-    text-transform: uppercase;
-    width: 233px;
-}
-#webform-client-form-94 #edit-submit {
-    background: url("../styles/images/add_to_cart_btn.png") no-repeat scroll 0 0 transparent;
-    color: #5E6B1A;
-    display: block;
-    font: 18px/93px 'PT Sans',sans-serif;
-    height: 90px;
-    padding: 0 0 6px 83px;
-    text-align: center;
-    text-shadow: 1px 1px 0 #FFFFFF;
-    text-transform: uppercase;
-    width: 148px;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-}
-#webform-client-form-94 #edit-submit:hover {
-    background-position: 0 100%;
-}
-#webform-client-form-94 input[type="submit"] {
-    float: left;
-    height: 96px !important;
-    margin: 6px 0 0 41px;
-    width: 231px !important;
-}
-#webform-client-form-94 input[type="text"], #webform-client-form-94 input[type="email"] {
-    height: 23px;
-}
-#webform-client-form-94 .webform-component {
-    padding-left: 140px;
-}
-
-/*Added by Gireesh for changing the pagination style*/
-/*pagination*/
-/*
-ul.pager {
-    border:0px solid #000000;
-    clear: both;
-    color: #666666;
-    display: table;
-    height: 100px;
-    width:700px;
-    padding: 15px 5px 0;
-    display: table-cell;
-    vertical-align: middle;
-    border:none;
-    list-style-type: none; 
-    text-decoration: none !important;
-}
-ul.pager li {
-    margin-bottom:0;font-size:1.2em;padding:0 8px;list-style:none;position:relative;float:none;
-    padding: 0px 5px 0px 0px;
-    clear:both;
-}
-ul.pager li, ul.pager li a {
-
-    font-size: 1.2em;
-    list-style: none outside none;
-    padding: 0px 5px 0px 0px;
-    padding: 0 8px;
-
-}
-ul.pager li.pager-next{
-    border:0px solid #000000;
-    clear:both;
-    padding-top:5px;
-    opacity:1;
-    z-index:1111px;
-    position:absolute;float:none;
-    width:700px;
-    display: table-cell;
-    padding-left:45px;
-}
-ul.pager li.pager-last{
-    display:none;
-}
-
-ul.pager li.pager-previous{
-    clear:both;
-    padding-top:26px;
-    opacity:1;
-    z-index:1111px;
-    position:absolute;float:none;
-    width:700px;
-    padding-right:45px;
-    display: table-cell;
-}
-ul.pager li.pager-first{
-    display:none;
-}
-ul.pager li.pager-ellipsis{
-    display:none;
-}
-ul.pager li.pager-item{
-    color: #CB7319;
-    font-weight: bold;
-    background:none;
-    padding:0px;
-    border:none !important;
-}
-*/
-/*Pager changes by SZ*/
-.page-products ul.pager {
-    margin: 0 auto;
-    display: block;
-    width: 100%;
-    padding-bottom: 50px;
-}
-.page-products ul.pager .pager-current {
-    color: #333333 !important;
-    font-weight: bold !important;
-    font-size: 1.2em;
-}
-.page-products ul.pager li a {
-    color: #A6BB4F !important;
-    font-weight: bold !important;
-    font-size: 1.2em;
-}
-.pager li > a, .pager li > span {
-    padding: 2px !important;
-}
-.top-pager li.pager-item, .top-pager li.pager-current {
-    display: none;
-}
-.top-pager {
-    float: right;
-    padding: 0;
-}
-.top-pager ul.pager {
-    padding: 0;
-}
-.item-list .pager li {
-    padding: 2px !important;
-}
-
-div#product_browser_btm h5{
-    display:none;
-}
-
-#views-exposed-form-products-page .views-exposed-form input {
-    margin: 0;
-}
