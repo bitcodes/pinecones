@@ -28,11 +28,7 @@
  * @ingroup views_templates
  */
 ?>
- <div class="top-pager">
-    <?php if ($pager): ?>
-        <?php print $pager;?>
-    <?php endif; ?>
-    </div>
+
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
@@ -45,7 +41,11 @@
       <?php print $header; ?>
     </div>
   <?php endif; ?>
-
+ <div class="top-pager">
+    <?php if ($pager): ?>
+        <?php print $pager;?>
+    <?php endif; ?>
+    </div>
   <?php if ($exposed): ?>
     <div class="view-filters">
       <?php print $exposed; ?>
