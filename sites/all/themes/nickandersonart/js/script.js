@@ -27,10 +27,13 @@ window.open(url,'tvkw',winpar);
      var exppoductH = $('.page-products #sidebar').height();
       $('.sidebar_collaps_button').css( "height", exppoductH );
       $('#content').css( "min-height", exppoductH );
-      $(".page-products #sidebar").click(function(){
-          $(this).toggleClass("openSi");
-          $('#content').css( "min-height", exppoductH );
-      });
+       $('.page-products #sidebar').click(function () {
+            var left = jQuery(this).left();
+            if (left = -186)
+                jQuery(this).animate({ left: '0' }, 'slow');
+            else jQuery(this).animate({ left: -186}, 'slow');
+       });
+        $('#content').css( "min-height", exppoductH );
 
     });
 })(jQuery);
