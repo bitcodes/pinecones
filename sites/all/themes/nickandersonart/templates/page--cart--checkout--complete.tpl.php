@@ -197,7 +197,40 @@
                     $order_id = $page['content']['system_main']['#order']->order_id;
 
                     $order_items = uc_order_load($order_id);
-
+                    
+                        //shipping info
+                        $d_email = 'Email: ' .  $order_items->primary_email;
+                        $d_first_name = 'First name: ' . $order_items->delivery_first_name;
+                        $d_last_name = 'Last name: ' . $order_items->delivery_last_name;
+                        $d_phone = 'Phone number: '  . $order_items->delivery_phone;
+                        $d_company_name = 'Copmpany: ' . $order_items->delivery_company;
+                        $d_street_one = 'Street one: ' . $order_items->delivery_street1;
+                        $d_street_two = 'Street two: ' . $order_items->delivery_street2;
+                        $d_city = 'City: '. $order_items->delivery_city;
+                        $d_postal_code = 'Postal code: ' . $order_items->delivery_postal_code;
+                        $d_country = uc_country_get_by_id($order_items->delivery_country);
+                        $delivery = $d_email . '<br/>' . $d_first_name . '<br/>' . $d_last_name . '<br/>'
+                              . $d_phone . '<br/>' .  $d_company_name . '<br/>' . $d_street_one . '<br/>'
+                                . $d_street_two .'<br/>' . $d_city . '<br/>' . $d_postal_code . '<br/>' . $d_country;
+                        print '<p>Shipping address</p>' . $delivery;
+                    
+                        //billing_info
+                        $b_email = 'Email: ' .  $order_items->primary_email;
+                        $b_first_name = 'First name: ' . $order_items->billing_first_name;
+                        $b_last_name = 'Last name: ' . $order_items->billing_last_name;
+                        $b_phone = 'Phone number: '  . $order_items->billing_phone;
+                        $b_company_name = 'Copmpany: ' . $order_items->billing_company;
+                        $b_street_one = 'Street one: ' . $order_items->billing_street1;
+                        $b_street_two = 'Street two: ' . $order_items->billing_street2;
+                        $b_city = 'City: '. $order_items->billing_city;
+                        $b_postal_code = 'Postal code: ' . $order_items->billing_postal_code;
+                        $b_country = uc_country_get_by_id($order_items->billing_country);
+                        $billing = $b_email . '<br/>' . $b_first_name . '<br/>' . $b_last_name . '<br/>'
+                              . $b_phone . '<br/>' .  $b_company_name . '<br/>' . $b_street_one . '<br/>'
+                                . $b_street_two .'<br/>' . $b_city . '<br/>' . $b_postal_code . '<br/>' . $b_country;
+                        print '<br/><p>Billing address: </p>' . $billing;
+                    
+                    
                     foreach ($order_items->products as $item) {
 
                         //aggregate info for product item
@@ -206,7 +239,7 @@
                         $title = $item->title;
                         $price = $item->price;
                         $qty = $item->qty;
-
+                        
                             $output = field_view_value('node', $node, 'uc_product_image', $image[0], array(
                                 'type' => 'image',
                                 'settings' => array(

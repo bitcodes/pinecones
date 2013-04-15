@@ -78,7 +78,7 @@ function custom_uc_cart_review_table($variables) {
         foreach ($data as $key) {
            // krumo($key);
             // Find Attribute name by id
-            if($key->attributes == TRUE){
+            if(isset($key->attributes) == TRUE){
                 foreach ($key->attributes as $attrib) {
                     foreach ($attrib->options as $list_options) {
                         //print $list_options->name . '<br/>';
