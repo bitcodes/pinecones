@@ -194,10 +194,17 @@
               <h4 id="order_no">order #<?php print $page['content']['system_main']['#order']->order_id; ?></h4>
               
                   <?php
+                    /**
+                     * get order ID
+                     * load order
+                     * agregate order info
+                     * print to display all you need dinamycally
+                     */
                     $order_id = $page['content']['system_main']['#order']->order_id;
-
-                    $order_items = uc_order_load($order_id);
                     
+                    $order_items = uc_order_load($order_id);
+                        
+                        //Aggregate order info
                         //shipping info
                         $d_email = 'Email: ' .  $order_items->primary_email;
                         $d_first_name = 'First name: ' . $order_items->delivery_first_name;
@@ -212,7 +219,6 @@
                         $delivery = $d_email . '<br/>' . $d_first_name . '<br/>' . $d_last_name . '<br/>'
                               . $d_phone . '<br/>' .  $d_company_name . '<br/>' . $d_street_one . '<br/>'
                                 . $d_street_two .'<br/>' . $d_city . '<br/>' . $d_postal_code . '<br/>' . $d_country;
-                        print '<p>Shipping address</p>' . $delivery;
                     
                         //billing_info
                         $b_email = 'Email: ' .  $order_items->primary_email;
@@ -228,84 +234,98 @@
                         $billing = $b_email . '<br/>' . $b_first_name . '<br/>' . $b_last_name . '<br/>'
                               . $b_phone . '<br/>' .  $b_company_name . '<br/>' . $b_street_one . '<br/>'
                                 . $b_street_two .'<br/>' . $b_city . '<br/>' . $b_postal_code . '<br/>' . $b_country;
-                        print '<br/><p>Billing address: </p>' . $billing;
-                    
-                    
-                    foreach ($order_items->products as $item) {
-
-                        //aggregate info for product item
-                        $node = node_load($item->nid);
-                        $image = field_get_items('node', $node, 'uc_product_image');
-                        $title = $item->title;
-                        $price = $item->price;
-                        $qty = $item->qty;
                         
-                            $output = field_view_value('node', $node, 'uc_product_image', $image[0], array(
-                                'type' => 'image',
-                                'settings' => array(
-                                    'image_style' => 'w330_h400', //place your image style here
-                                'image_link' => 'content',
-                                ),
-                            ));
+                            //Print bbilling and shipping address
+                        print '<div class="info_wrapper">';
+                            print '<div class="shipping_address"><p>Shipping address</p>' . $delivery . '</div>';
+                            print '<div class="billing_address"><p>Billing address: </p>' . $billing . '</div>';
+                        print '</div>';    
+                    
+                    
+                        
+                    /**
+                     * print our products here
+                     */    
+                      print '<div class="complete_info_wrapper">';   
+                        foreach ($order_items->products as $item) {
 
-                            //Render items
-                            print '<div class="complete_info">';     
-                                print render($output);
-                                print '<p>' . $title . '</p>';
-                                print '<p>Price: ' . uc_currency_format($price) . '</p>';
-                                print '<p>Qty: ' . $qty . '</p>';
-                            print '</div>';
+                            //aggregate info for product item
+                            $node = node_load($item->nid);
+                            $image = field_get_items('node', $node, 'uc_product_image');
+                            $title = $item->title;
+                            $price = $item->price;
+                            $qty = $item->qty;
 
-                    }
+                                $output = field_view_value('node', $node, 'uc_product_image', $image[0], array(
+                                    'type' => 'image',
+                                    'settings' => array(
+                                        'image_style' => 'w174', //place your image style here
+                                    'image_link' => 'content',
+                                    ),
+                                ));
+
+                                //Render items
+                                print '<div class="complete_info">';     
+                                    print render($output);
+                                    print '<p>' . $title . '</p>';
+                                    print '<p>Price: ' . uc_currency_format($price) . '</p>';
+                                    print '<p>Qty: ' . $qty . '</p>';
+                                print '</div>';
+
+                        }
+                      print '</div>';  
                     
                     $total = $order_items->order_total;
-                    print '<b class="complete_total">Total: ' . uc_currency_format($total) . '</b>';
+                    print '<div class="complete_total"><b class="complete_total">Total: ' . uc_currency_format($total) . '</b></div>';
                 ?> 
                              
                       
-            
-              <p>
-              You just planted a tree! Every purchase you make actively supports and pays for the planting of a tree through our partner non-profit American Forests. Thank you for actively helping to support non-profits that lobby and promote for education and policy regarding the proper maintenance of fire-climax ecosystems.
-              </p>
-              <div id="tell_your_friends">
-                <?php $node = node_load();?>
-                <?php $urlfb = 'http://www.facebook.com/sharer.php?u=' . 'http://' . $_SERVER["HTTP_HOST"] .$node;
-                      $urltw = 'https://twitter.com/share?text=' . urlencode($title) . '&url=http://' . $_SERVER["HTTP_HOST"] . $node;
-                      $urlpn = 'http://pinterest.com/pin/create/button/?url=' . 'http://' . $_SERVER["HTTP_HOST"] .$node . '&media=http://tepnew.nickandersonart.com/sites/default/files/screenshot.png';
-                      $urlgp = 'https://plus.google.com/share?url=' . $GLOBALS['base_root'];
-                ?>
-                    <h5>tell your friends about your purchase!</h5>
-                <ul id="soc_links">
-                    <li>
-                  <a href="<?=$urlfb?>" class="soc-icon">
-                    <img src="/sites/all/themes/nickandersonart/css/styles/images/btn_fb.png" alt="" height="48" width="48">
-                  </a>
-                </li>
-                    <li>
-                <a href="<?=$urltw?>" class="soc-icon">
-                    <img src="/sites/all/themes/nickandersonart/css/styles/images/btn_tw.png" alt="" height="48" width="48">
-                </a>
-                </li>
-                    <li>
-                  <a href="<?=$urlpn?>" class="soc-icon">
-                    <img src="/sites/all/themes/nickandersonart/css/styles/images/btn_pin.png" alt="" height="48" width="48">
-                  </a>
-                </li>
-                    <li>
-                  <a href="https://plus.google.com/share?url=<?php print $GLOBALS['base_root']; ?>" class="soc-icon">
-                    <img src="/sites/all/themes/nickandersonart/css/styles/images/btn_ggl.png" alt="" height="48" width="48">
-                  </a>
-                </li>
-              </ul>
-            </div>
+              <div class="complete_footer">
+                      <p>
+                          You just planted a tree! Every purchase you make actively supports and pays for the planting of a tree through our partner non-profit American Forests. Thank you for actively helping to support non-profits that lobby and promote for education and policy regarding the proper maintenance of fire-climax ecosystems.
+                      </p>
+                      <div id="tell_your_friends">
+                          <?php $node = node_load(); ?>
+                          <?php
+                          $urlfb = 'http://www.facebook.com/sharer.php?u=' . 'http://' . $_SERVER["HTTP_HOST"] . $node;
+                          $urltw = 'https://twitter.com/share?text=' . urlencode($title) . '&url=http://' . $_SERVER["HTTP_HOST"] . $node;
+                          $urlpn = 'http://pinterest.com/pin/create/button/?url=' . 'http://' . $_SERVER["HTTP_HOST"] . $node . '&media=http://tepnew.nickandersonart.com/sites/default/files/screenshot.png';
+                          $urlgp = 'https://plus.google.com/share?url=' . $GLOBALS['base_root'];
+                          ?>
+                          <h5>tell your friends about your purchase!</h5>
+                          <ul id="soc_links">
+                              <li>
+                                  <a href="<?= $urlfb ?>" class="soc-icon">
+                                      <img src="/sites/all/themes/nickandersonart/css/styles/images/btn_fb.png" alt="" height="48" width="48">
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="<?= $urltw ?>" class="soc-icon">
+                                      <img src="/sites/all/themes/nickandersonart/css/styles/images/btn_tw.png" alt="" height="48" width="48">
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="<?= $urlpn ?>" class="soc-icon">
+                                      <img src="/sites/all/themes/nickandersonart/css/styles/images/btn_pin.png" alt="" height="48" width="48">
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="https://plus.google.com/share?url=<?php print $GLOBALS['base_root']; ?>" class="soc-icon">
+                                      <img src="/sites/all/themes/nickandersonart/css/styles/images/btn_ggl.png" alt="" height="48" width="48">
+                                  </a>
+                              </li>
+                          </ul>
+                      </div>
+
+                      <ul id="user_menu">
+                          <li><a href="<?php print $GLOBALS['base_root']; ?>/products">Our products section.</a></li>
+                          <li><a href="<?php print $GLOBALS['base_root']; ?>/pinecone-information">Pinecone Info.</a></li>
+                          <li><a href="#">Media and Blog.</a></li>
+                      </ul>
+                  </div>
               
-            <ul id="user_menu">
-                    <li><a href="<?php print $GLOBALS['base_root'];?>/products">Our products section.</a></li>
-                    <li><a href="<?php print $GLOBALS['base_root'];?>/pinecone-information">Pinecone Info.</a></li>
-                    <li><a href="#">Media and Blog.</a></li>
-            </ul>
             </div>
-            <img src="<?php print $GLOBALS['base_root'];?>/sites/all/themes/nickandersonart/css/styles/images/step5_pic.jpg" alt="" id="step5_pic" height="265" width="275">
+           <!-- <img src="<?php //print $GLOBALS['base_root'];?>/sites/all/themes/nickandersonart/css/styles/images/step5_pic.jpg" alt="" id="step5_pic" height="265" width="275">-->
         </div>
       </div>
     </div>

@@ -140,15 +140,15 @@
           ),
         ));
 
-        //$colorbox_pre = '<a class="colorbox init-colorbox-processed cboxElement" rel="gallery-node-' .$node->nid . ' " title=" ' . $node->title . ' " href="' .$GLOBALS['base_root'] . '/sites/default/files/' . $output['#item']['filename'] .'">';
-        //$colorbox_suf = '</a>';
-        //$span = $colorbox_pre . '<span class="gaz"></span>' . $colorbox_suf;
+        $colorbox_pre = '<a class="colorbox init-colorbox-processed cboxElement" rel="gallery-node-' .$node->nid . ' " title=" ' . $node->title . ' " href="' .$GLOBALS['base_root'] . '/sites/default/files/' . $output['#item']['filename'] .'">';
+        $colorbox_suf = '</a>';
+        $span = $colorbox_pre . '<span class="gaz"></span>' . $colorbox_suf;
         print $group_right_pre;
             print $erlange_pre;
-               //print $colorbox_pre;
+               print $colorbox_pre;
                     print render($output);
-               //print $colorbox_suf;     
-                //print $span;
+               print $colorbox_suf;     
+               print $span;
             print $erlange_suf;
         print $group_right_suf;    
         }

@@ -1131,7 +1131,7 @@ fieldset legend b {
     cursor: pointer;
 }
 .erlange:hover img {
-   /* opacity: 0.4;*/
+    opacity: 0.4;
 }
 .erlange:hover .gaz {
    display: block;
@@ -1259,7 +1259,8 @@ body #email_signup .form-actions{
 #complete p {
     color: #6E6E6E;
     font: 13px/20px 'PT Sans',sans-serif;
-    text-align: justify;
+    text-align: center;
+    margin: auto;
 }
 #complete #user_menu {
     display: block;
@@ -1801,8 +1802,41 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
         margin: 0;
     }
     /*--------------------------*/
-
+    /*SZ*/
+   #complete #step5_left {
+        width: auto !important;
+    }
+    
+    .shipping_address, .billing_address {
+        float: left;
+        padding: 25px;
+        width: 45%;  
+        border: 1px #CECECE dotted;
+    }
+    .shipping_address {
+        margin-right: 5px;
+    }  
+    
+    .complete_info {
+        float: left;
+        margin: 0 auto;
+        width: 200px;
+    }
+    .complete_info img {
+        margin: 0 auto;
+        display: block;
+    }
+    .info_wrapper, .complete_info_wrapper, .complete_footer {
+        display: block;
+        float: right;
+        height: auto;
+        width: 100%;
+    }
+    .complete_total {
+        text-align: right;
+    }
 }
+
 @media (max-width: 979px){
     iframe{width: 100%;max-width: 100%}
     #content_full {color: #666; width: 100%;padding: 0 0 0 0;}
