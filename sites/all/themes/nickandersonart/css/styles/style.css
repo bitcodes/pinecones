@@ -1794,10 +1794,6 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
         padding: 2px !important;
     }
 
-    div#product_browser_btm h5{
-        display:none;
-    }
-
     #views-exposed-form-products-page .views-exposed-form input {
         margin: 0;
     }
@@ -1835,6 +1831,47 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     .complete_total {
         text-align: right;
     }
+   
+    li.pager-next a, li.pager-previous a{
+        font-size: 0 !important;
+    }
+    li.pager-next a{
+        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+        display: inline-block !important;
+        height: 35px !important;
+        width: 35px !important;    
+        padding: 0 !important;
+        background-position: 38px 0 !important;
+    }
+    li.pager-next a:hover {
+        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+        display: inline-block !important;
+        height: 35px !important;
+        width: 35px !important;    
+        padding: 0 !important;
+        background-position: 38px -38px !important;
+    }
+    
+    li.pager-previous a{
+        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+        display: inline-block !important;
+        height: 35px !important;
+        width: 35px !important;    
+        padding: 0 !important;
+        background-position: 0 0 !important;
+    }
+    li.pager-previous a:hover {
+        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+        display: inline-block !important;
+        height: 35px !important;
+        width: 35px !important;    
+        padding: 0 !important;
+        background-position: 0 -38px !important;
+    }
+    .view-id-products {
+        width: 791px;
+    }
+
 }
 
 @media (max-width: 979px){
