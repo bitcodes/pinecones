@@ -2117,3 +2117,7 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
 
 #cboxContent p {width:81%}
 
+#mailchimp-lists-user-subscribe-form-users-mail-list input[value="Save"] {
+    display: none;
+}
+

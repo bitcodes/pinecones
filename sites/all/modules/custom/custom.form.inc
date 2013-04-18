@@ -192,7 +192,6 @@ function custom_form_user_register_form_alter(&$form, &$form_state, $form_id) {
     $form['account']['mail']['#default_value'] = t('Email Signup');
     $form['account']['mail']['#attributes']['onblur'] = "if (this.value == '') {this.value = 'Email Signup';}";
     $form['account']['mail']['#attributes']['onfocus'] = "if (this.value == 'Email Signup') {this.value = '';}";
-    $form['actoins']['submit']['#attributes']['onclick'] = "alert('wqer)";
     //var_dump($form);
     //die();
     return $form; 
@@ -208,6 +207,17 @@ function custom_form_user_register_form_alter(&$form, &$form_state, $form_id) {
 function custom_form_webform_client_form_10_alter(&$form, &$form_state, $form_id) {
     $form['actions']['submit']['#value'] = 'send message';
     $form['#submit'] = array('webform_client_form_pages', 'custom_form_webform_client_submit');
+}
+
+function custom_form_mailchimp_lists_user_subscribe_form_users_mail_list_alter(&$form, &$form_state, $form_id) {
+    $form['mailchimp_lists']['mailchimp_users_mail_list']['mergevars']['EMAIL']['#default_value'] = t('Email Signup');
+    $form['mailchimp_lists']['mailchimp_users_mail_list']['mergevars']['EMAIL']['#attributes']['onblur'] = "if (this.value == '') {this.value = 'Email Signup';}";
+    $form['mailchimp_lists']['mailchimp_users_mail_list']['mergevars']['EMAIL']['#attributes']['onfocus'] = "if (this.value == 'Email Signup') {this.value = '';}";
+    $form['mailchimp_lists']['mailchimp_users_mail_list']['title']['#markup'] = '';
+    $form['mailchimp_lists']['mailchimp_users_mail_list']['mergevars']['EMAIL']['#title'] = '';
+    $form['mailchimp_lists']['mailchimp_users_mail_list']['mergevars']['EMAIL']['#required'] = FALSE;
+    $form['mailchimp_lists']['mailchimp_users_mail_list']['mergevars']['LNAME']['#type'] = 'hidden';
+    $form['mailchimp_lists']['mailchimp_users_mail_list']['mergevars']['FNAME']['#type'] = 'hidden';
 }
 
 /**
