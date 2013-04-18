@@ -467,6 +467,15 @@ function custom_form_uc_cart_checkout_form_alter(&$form, &$form_state, $order) {
         $form['panes']['billing']['next']['#suffix'] = '</div>';
     }
     
+    if($form['panes']['customer']){
+        $form['panes']['customer']['#title'] = t('<b>Email</b> Address');
+        $form['panes']['customer']['#description'] = t('<h4></h4>');
+        $form['panes']['customer']['next']['#value'] = t('Continue');
+        $form['panes']['customer']['next']['#prefix'] = '<div id="add_btn" class="next-button">';
+        $form['panes']['customer']['next']['#prefix'] .= '<h6>your email address.</h6>';
+        $form['panes']['customer']['next']['#suffix'] = '</div>';
+    }
+    
     if($form['panes']['coupon']) {
         $form['panes']['coupon']['#title'] = t('<b>Coupon</b> Discount');
         $form['panes']['coupon']['#description'] = t('<h4>Enter your Coupon Code</h4>');
