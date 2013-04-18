@@ -453,7 +453,7 @@ function custom_form_uc_cart_checkout_form_alter(&$form, &$form_state, $order) {
         $form['panes']['quotes']['#title'] = t('<b>Shipping</b> quote');
         $form['panes']['quotes']['next']['#value'] = t('Continue');
         $form['panes']['quotes']['next']['#prefix'] = '<div id="add_btn" class="next-button">';
-        $form['panes']['quotes']['next']['#prefix'] .= '<h6>you’ve made the right choice.</h6>';
+        $form['panes']['quotes']['next']['#prefix'] .= '<h6>Speedy Shipping.</h6>';
         $form['panes']['quotes']['next']['#suffix'] = '</div>';
         $form['panes']['quotes']['quote_button']['#value'] = t('Click to refresh shipping options');
     }
@@ -481,7 +481,7 @@ function custom_form_uc_cart_checkout_form_alter(&$form, &$form_state, $order) {
         $form['panes']['coupon']['#description'] = t('<h4>Enter your Coupon Code</h4>');
         $form['panes']['coupon']['next']['#value'] = t('Continue');
         $form['panes']['coupon']['next']['#prefix'] = '<div id="add_btn" class="next-button">';
-        $form['panes']['coupon']['next']['#prefix'] .= '<h6>your discount.</h6>';
+        $form['panes']['coupon']['next']['#prefix'] .= '<h6>One last step.</h6>';
         $form['panes']['coupon']['next']['#suffix'] = '</div>';
         
     }
