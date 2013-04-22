@@ -111,7 +111,7 @@
 // We hide the comments and links now so that we can render them later.
     hide($content['comments']);
     hide($content['links']);
-    print render($content['group_left']);
+
     
     //print render($content['group_right']['uc_product_image']);
     
@@ -156,8 +156,9 @@
          print $wrap_suf;
         
     }
+  print render($content['group_left']);
   ?>
-    
+
   <?php print render($content['links']); ?>
   <?php print render($content['comments']); ?>
   <div id="fb-root"></div>
