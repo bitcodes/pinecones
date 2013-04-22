@@ -70,7 +70,6 @@
  */
 ?>
 
-
 <div id="wrapper">
       <div id="header_row">
         <div id="header">
@@ -354,4 +353,25 @@
           </p><!-- /#copyright -->
         </div><!-- /#footer -->
       </div><!-- /#footer_row -->
-    </div> <!--/#wrapper-->                 
+    </div> <!--/#wrapper--> 
+    
+<?php 
+/*
+ * Unpublish completed products
+ * 
+ * I get all order info
+ * Load single product node
+ * And after checking I set this node to unpublished
+ * And seve tis node also
+ */
+$oid = uc_order_load($page['content']['system_main']['#order']->order_id);
+
+foreach ($oid->products as $product) {
+    $stock_level = uc_stock_level($product->model);
+    if ($stock_level <= 0 && $oid->order_status = 'payment_received') {
+        $node = node_load($product->nid);
+        $node->status = 0;
+        node_save($node);
+    }
+}
+?>

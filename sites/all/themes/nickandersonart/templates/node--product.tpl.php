@@ -82,8 +82,8 @@
  * @see zen_preprocess_node()
  * @see template_process()
  */
-?>
 
+?>
 <article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix prod_page"<?php print $attributes; ?>>
   <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
     <header>
