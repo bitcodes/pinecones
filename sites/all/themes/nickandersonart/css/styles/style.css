@@ -1860,6 +1860,7 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
         padding: 0 !important;
         background-position: 0 0 !important;
     }
+    
     li.pager-previous a:hover {
         background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
         display: inline-block !important;
@@ -1867,6 +1868,22 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
         width: 35px !important;    
         padding: 0 !important;
         background-position: 0 -38px !important;
+    }
+    .pager-previous-gray {
+        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+        display: inline-block !important;
+        height: 35px !important;
+        width: 35px !important;    
+        padding: 0 !important;
+        background-position: 0 38px !important;        
+    }
+    .pager-next-gray {
+        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+        display: inline-block !important;
+        height: 35px !important;
+        width: 35px !important;    
+        padding: 0 !important;
+        background-position: 38px 38px !important;        
     }
     .view-id-products {
         width: 791px;
