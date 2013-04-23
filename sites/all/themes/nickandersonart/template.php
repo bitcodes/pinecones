@@ -367,10 +367,12 @@ function nickandersonart_pager($variables) {
 
   $li_first = theme('pager_first', array('text' => (isset($tags[0]) ? $tags[0] : t('« first')), 'element' => $element, 'parameters' => $parameters));
   $li_previous = theme('pager_previous', array('text' => (isset($tags[1]) ? $tags[1] : t('‹ previous')), 'element' => $element, 'interval' => 1, 'parameters' => $parameters));
+  $li_previous_gray = theme('pager_previous', array('text' => (isset($tags[1]) ? $tags[1] : t('‹ previous')), 'element' => $element, 'interval' => 1, 'parameters' => $parameters));
   $li_next = theme('pager_next', array('text' => (isset($tags[3]) ? $tags[3] : t('next ›')), 'element' => $element, 'interval' => 1, 'parameters' => $parameters));
   $li_last = theme('pager_last', array('text' => (isset($tags[4]) ? $tags[4] : t('last »')), 'element' => $element, 'parameters' => $parameters));
 
   if ($pager_total[$element] > 1) {
+      
     // When there is more than one page, create the pager list.
     if ($i != $pager_max) {
       if ($i > 1) {
@@ -411,13 +413,22 @@ function nickandersonart_pager($variables) {
     $items[] = array(
         'data' => '<br/>',
     );
-    
-    if ($li_previous) {
-      $items[] = array(
-        'class' => array('pager-previous'),
-        'data' => $li_previous,
-      );
-    }
+   
+    if ($pager_current == 1) {
+                $items[] = array(
+                    'class' => array('pager-previous-gray'),
+                    'data' => '',
+                );
+            
+        } else {
+            if ($li_previous) {
+                $items[] = array(
+                    'class' => array('pager-previous'),
+                    'data' => $li_previous,
+                );
+            }
+        }
+        
     if ($li_next) {
       $items[] = array(
         'class' => array('pager-next'),
@@ -430,4 +441,5 @@ function nickandersonart_pager($variables) {
       'attributes' => array('class' => array('pager')),
     ));
   }
+
 }
