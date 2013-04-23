@@ -116,6 +116,9 @@
     //print render($content['group_right']['uc_product_image']);
     
     $node = node_load($node->nid);
+   
+    $text = field_view_field('node', $node, 'body'); // this is dublicate for body text
+     
     $image = field_get_items('node', $node, 'uc_product_image');
     $erlange_pre = '<div class="erlange clearfix">';
     $erlange_suf = '</div>';
@@ -161,6 +164,7 @@
 
   <?php print render($content['links']); ?>
   <?php print render($content['comments']); ?>
+    
   <div id="fb-root"></div>
 </article><!-- /.node -->
 <script>(function(d, s, id) {
@@ -171,3 +175,5 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
 </script>
+<!-- Render text for mobile version-->
+<?php //print render($text);?>
