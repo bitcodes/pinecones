@@ -30,8 +30,7 @@ function custom_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
             foreach ($option->option as $filter_tid => $id) {
                 $nodes = taxonomy_select_nodes($filter_tid);
                 if(empty($nodes)) {
-                    
-                   // array_filter($form['term_node_tid_depth']['#options'][$filter_tid]->option);
+                   //do something
                 }
             }
         }

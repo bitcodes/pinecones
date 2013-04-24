@@ -222,6 +222,54 @@ function uc_checkout_pane_address($pane, $op, $order, &$form_state, $description
 
   switch ($op) {
     case 'view':
+        if ($user->uid == 0) {
+        $contents['new_account'] = array();
+
+        if (variable_get('uc_cart_new_account_name', FALSE)) {
+          $contents['new_account']['name'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Username'),
+            '#default_value' => isset($order->data['new_user']['name']) ? $order->data['new_user']['name'] : '',
+            '#maxlength' => 60,
+            '#size' => 32,
+          );
+        }
+        if (variable_get('uc_cart_new_account_password', FALSE)) {
+          $contents['new_account']['pass'] = array(
+            '#type' => 'password',
+            '#title' => t('Password'),
+            '#maxlength' => 32,
+            '#size' => 32,
+          );
+          $contents['new_account']['pass_confirm'] = array(
+            '#type' => 'password',
+            '#title' => t('Confirm password'),
+            '#description' => t('Passwords must match to proceed.'),
+            '#maxlength' => 32,
+            '#size' => 32,
+          );
+        }
+
+        if (!empty($contents['new_account'])) {
+          $array = array(
+            '#type' => 'fieldset',
+            '#title' => t('New account details'),
+            '#description' => variable_get('uc_cart_new_account_details', t('<b>Optional.</b> New customers may supply custom account details.<br />We will create these for you if no values are entered.')),
+            '#collapsible' => FALSE,
+          );
+          $contents['new_account'] = array_merge($array, $contents['new_account']);
+        }
+
+        /**
+         * This code adds profile fields required for registration to the
+         * customer checkout pane.  However, I don't have the time to fool with
+         * validation/submission stuff, so I'm postponing this feature. -RS
+        $null = NULL;
+        $extra = _user_forms($null, NULL, NULL, 'register');
+        if (!empty($extra)) {
+          $contents = array_merge($contents, $extra);
+        }*/
+      }
       if ($source != $pane) {
         $contents['copy_address'] = array(
           '#type' => 'checkbox',

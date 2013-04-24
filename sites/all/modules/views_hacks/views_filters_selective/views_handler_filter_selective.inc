@@ -14,6 +14,21 @@ class views_handler_filter_selective extends views_handler_filter_in_operator {
         // Encode the values to keep special chars.
         $this->value_options = array_combine(array_map('urlencode', array_values($options)), array_values($options));
       }
+      // Modify value_options to include title for term node reference fields.
+      if ($this->definition['proxy'] == 'views_handler_filter_term_node_tid') {
+        foreach ($this->value_options as $tid) {
+          $result = db_query('SELECT name FROM {taxonomy_term_data} WHERE tid = :tid', array(':tid' => $tid));
+          $title = $result->fetchField();
+          if (!empty($title)) {
+            $this->value_options[$tid] = $title;
+          }
+        }
+        // Re-sort results based on title.
+        asort($this->value_options);
+      }
+
+      // Remove empty values.
+      $this->value_options = array_diff_key($this->value_options , array("" => NULL)); 
     }
   }
 
