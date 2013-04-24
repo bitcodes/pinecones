@@ -225,6 +225,15 @@
             $("html,body").animate({scrollTop: $("#payment-details").offset().top}, 1000);
         }
      }); 
+     
+     //$(document).ready(function validatePanes(){
+         if($(".page-cart-checkout").find(".error")){
+             //find parent of this error class, -> find input(form-submit class) and disable him
+            // $(".form-submit").css('cursor', 'default');
+           // $(".page-cart-checkout").find(".error").addClass('TEST')
+         }
+    //}); 
 
 })(jQuery, Drupal, this, this.document);
+
 </script>  

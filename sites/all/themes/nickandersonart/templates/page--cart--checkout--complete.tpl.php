@@ -353,8 +353,8 @@
           </p><!-- /#copyright -->
         </div><!-- /#footer -->
       </div><!-- /#footer_row -->
-    </div> <!--/#wrapper--> 
-    
+  </div> <!--/#wrapper--> 
+
 <?php 
 /*
  * Unpublish completed products
