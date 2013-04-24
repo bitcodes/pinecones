@@ -176,4 +176,4 @@
         }(document, 'script', 'facebook-jssdk'));
 </script>
 <!-- Render text for mobile version-->
-<?php //print render($text);?>
+<div class="bottom_text"><?php print render($text);?></div>
