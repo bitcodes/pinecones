@@ -1892,7 +1892,9 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
 }
 .node-type-product .wrapper_group_right{float: right;width: 45%;}
 @media (max-width: 979px){
+    #content{float: none!important;}
     iframe{width: 100%;max-width: 100%}
+    #header #email_signup{display: none}
     #content_full {color: #666; width: 100%;padding: 0 0 0 0;}
     #email_signup{position: relative;top: 0;right: 0;left: 0;}
     #search{position: relative;top: 0;right: 0;padding-top: 15px}
@@ -1944,6 +1946,7 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     #pi_btm_cell{text-align: center}
     #care_refr{width: 100%!important;float: none!important;}
     #care_refr h2{text-align: left}
+    .views-field.views-field-title {height: 40px;}
 
     /*COLLECTIONS*/
     #edit-field-style-tid-wrapper, #edit-field-color-tid-wrapper, #edit-field-size-tid-wrapper{width: auto;margin: 7px 0 0 0px;padding: 7px;}
@@ -1996,17 +1999,20 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     .uc-store-address-field .form-item label{width: 41%}
     /*SHOPPING CART*/
 
+    .view-display-id-page tr td .views-field-sell-price, .view-display-id-page tr td .views-field-field-size {font-size: 12px;padding-top: 0px!important;text-align: center;}
+    ul.pager{float: none!important;}
+    .item-list .pager {clear: both;text-align: right;}
    }
     /* Portrait tablet to landscape and desktop */
 @media (min-width: 768px) and (max-width: 979px) {
-#wrapper{ width: 760px;margin: 0 auto}
+    #wrapper{ width: 760px;margin: 0 auto}
     .region-hero-blocks  div > div {background-size: 100% 100%!important; background-position: center center}
-#hero_blocks .block{height: 120px}
-#footer{margin-top: 0;padding-top: 35px}
+    #hero_blocks .block{height: 120px}
+    #footer{margin-top: 0;padding-top: 35px}
     .floatcontainer #sidebar{width: 150px}
     body #eco {width: 739px;}
     body .eco_cell {width: 739px;padding: 7px 0 0;}
-    .views-field.views-field-uc-product-image {max-height: 210px;min-height: 210px;}
+    .views-field.views-field-uc-product-image {max-height: 210px;}
 
 }
 
