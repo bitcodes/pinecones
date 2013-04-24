@@ -179,9 +179,7 @@
       <?php if(!$is_front) : ?>
       <div id="content_row" class="floatcontainer">
         <?php if($page['sidebar']) : ?>
-        <div id="sidebar">
-          <?php print render($page['sidebar']); ?>
-        </div><!-- /#sidebar -->
+
         <div id="content">
         <?php else : ?>
         <div id="content_full">
@@ -192,7 +190,11 @@
           <?php print render($tabs); ?>
         <?php print render($page['content']); ?>
         </div><!-- /#content || /#content_full -->
+            <div id="sidebar">
+                <?php print render($page['sidebar']); ?>
+            </div><!-- /#sidebar -->
       </div><!-- /#content_row -->
+
       <div id="back_to_top">
         <a href="#top"><span>Back to Top</span></a>
       </div><!-- /#back_to_top -->

@@ -29,10 +29,12 @@ window.open(url,'tvkw',winpar);
       $('.sidebar_collaps_button').css( "height", exppoductH );
       $('#content').css( "min-height", exppoductH );
        $('.page-products #sidebar .sidebar_collaps_button').click(function () {
-            var left = jQuery('.page-products #sidebar').left;
-            if (left = -186)
+            var left = jQuery('.page-products #sidebar').css("left");
+            if (left == '-186px') {
                 jQuery('.page-products #sidebar').animate({ left: '0' }, 'slow');
-            else jQuery('.page-products #sidebar').animate({ left: -186}, 'slow');
+            } else {
+                jQuery('.page-products #sidebar').animate({ left: '-186px'}, 'slow');
+            }
        });
         $('#content').css( "min-height", exppoductH );
 
