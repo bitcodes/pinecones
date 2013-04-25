@@ -28,14 +28,24 @@ window.open(url,'tvkw',winpar);
      var exppoductH = $('.page-products #sidebar').height();
       $('.sidebar_collaps_button').css( "height", exppoductH );
       $('#content').css( "min-height", exppoductH );
+
+
        $('.page-products #sidebar .sidebar_collaps_button').click(function () {
             var left = jQuery('.page-products #sidebar').css("left");
+
             if (left == '-186px') {
                 jQuery('.page-products #sidebar').animate({ left: '0' }, 'slow');
+                jQuery('.colaps_laer').show();
             } else {
                 jQuery('.page-products #sidebar').animate({ left: '-186px'}, 'slow');
+                jQuery('.colaps_laer').hide();
             }
        });
+
+        jQuery('.colaps_laer').click(function(){
+            $('.page-products #sidebar .sidebar_collaps_button').click();
+        });
+
         $('#content').css( "min-height", exppoductH );
 
     });

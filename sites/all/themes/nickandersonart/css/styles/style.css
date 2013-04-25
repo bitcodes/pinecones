@@ -2126,7 +2126,9 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     .bottom_text{display: block!important;}
     .gaz{display: none!important;}
     .erlange:hover img {opacity: 1!important;}
-
+    #spin_box iframe{display: none!important;}
+    #spin_box {background: url("images/pinecone-spin-gif.gif") no-repeat scroll 0 0 transparent;height: 250px;width: 100%;background-size: auto 100%;background-position: center center;}
+    #spin_area{margin: 0}
     }
 
 #cboxContent p {width:81%}
@@ -2232,3 +2234,4 @@ li.pager-previous a:hover {
     background-position: 38px 38px !important;
 }
 body .item-list .pager li{display: inline-block}
+.colaps_laer{position: fixed;width: 100%;height: 100%;background: transparent;z-index: 100;opacity: 1;top: 0;left: 0;display: none}

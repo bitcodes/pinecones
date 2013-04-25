@@ -20,4 +20,4 @@
         </div>
     </div>    
 </div>
-<div class="sidebar_collaps_button"></div>
+<div class="sidebar_collaps_button"><i></i></div>
