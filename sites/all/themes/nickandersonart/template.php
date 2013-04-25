@@ -410,9 +410,9 @@ function nickandersonart_pager($variables) {
       }
     }
     // End generation.
-    $items[] = array(
-        'data' => '<br/>',
-    );
+   // $items[] = array(
+     //   'data' => '<br/>',
+    //);
    
     if ($pager_current == 1) {
                 $items[] = array(

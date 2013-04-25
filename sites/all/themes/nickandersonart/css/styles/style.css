@@ -2063,20 +2063,19 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     body #care_refr h2{width: auto!important;}
     .page-products #sidebar{position: absolute;left: -186px;background: white;z-index: 500;background-position: center;box-shadow: 3px 3px 18px -3px;-webkit-box-shadow: 3px 3px 18px -3px;}
     .page-products #sidebar.openSi{left: 0}
-    .page-products .floatcontainer #content{padding-left: 45px}
+    .page-products .floatcontainer #content{padding-left: 26px}
     .page-products #sidebar{overflow: visible!important;}
     .sidebar_collaps_button{
         background: #ACC85D;
         cursor: pointer;
         float: right;
-        width: 40px;
+        width: 22px;
         z-index: 999;
         position: relative;
         border-radius: 0 10px 0 0;
     }
-    .sidebar_collaps_button:after{
-        background: url("../styles/images/collaps_button.png") no-repeat scroll center 10px / 100% auto red;
-        content: "";
+    .sidebar_collaps_button i{
+        background: url("../styles/images/collaps_button.png") no-repeat ;
         height: 310px;
         position: absolute;
         right: -15px;
@@ -2084,7 +2083,7 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
         width: 38px;
         display: block;
         z-index: 9999999;
-        border:solid 1px red;
+        background-size: 100%;
     }
     .node-type-product article.node-product.view-mode-full .field-items{display: none!important;}
     .node-type-product .node-product .field_group_right{min-height:0!important;}
@@ -2099,6 +2098,7 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     .node-type-product .wrapper_group_right{float: none}
 
     .views-field.views-field-title{display: none!important;}
+    #sidebar section{position: relative}
     .page-products table{width: 100%}
     .sb_list4 li{width: 100%}
     .uc-product-node #content h1{font-size: 16px!important;}
@@ -2129,6 +2129,8 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     #spin_box iframe{display: none!important;}
     #spin_box {background: url("images/pinecone-spin-gif.gif") no-repeat scroll 0 0 transparent;height: 250px;width: 100%;background-size: auto 100%;background-position: center center;}
     #spin_area{margin: 0}
+    #block-views--exp-products-page .block_subject, #block-recently_read-product .block_subject{white-space: nowrap}
+
     }
 
 #cboxContent p {width:81%}
@@ -2164,6 +2166,7 @@ ul.pager{float: none!important;}
 .top-pager {
     float: none;
     padding: 0;
+    padding-bottom: 27px;
 }
 .top-pager ul.pager {
     padding: 0;
@@ -2235,3 +2238,6 @@ li.pager-previous a:hover {
 }
 body .item-list .pager li{display: inline-block}
 .colaps_laer{position: fixed;width: 100%;height: 100%;background: transparent;z-index: 100;opacity: 1;top: 0;left: 0;display: none}
+.item-list .pager{position: relative}
+.item-list .pager .pager-previous-gray {left: 50%;margin-left: -50px !important;position: absolute;top: 35px;}
+.item-list .pager .pager-next {margin-right: -35px !important;position: absolute;right: 50%;top: 33px;}
