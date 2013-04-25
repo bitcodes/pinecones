@@ -2239,5 +2239,5 @@ li.pager-previous a:hover {
 body .item-list .pager li{display: inline-block}
 .colaps_laer{position: fixed;width: 100%;height: 100%;background: transparent;z-index: 100;opacity: 1;top: 0;left: 0;display: none}
 .item-list .pager{position: relative}
-.item-list .pager .pager-previous-gray {left: 50%;margin-left: -50px !important;position: absolute;top: 35px;}
-.item-list .pager .pager-next {margin-right: -35px !important;position: absolute;right: 50%;top: 33px;}
+.item-list .pager .pager-previous-gray, .item-list .pager .pager-previous {left: 50%;margin-left: -50px !important;position: absolute;top: 35px;}
+.item-list .pager .pager-next, .item-list .pager .pager-next-gray {margin-right: -25px !important;position: absolute;right: 50%;top: 33px;}
