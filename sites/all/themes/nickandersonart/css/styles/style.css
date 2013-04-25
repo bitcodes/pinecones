@@ -1761,42 +1761,7 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     }
     */
     /*Pager changes by SZ*/
-    .page-products ul.pager {
-        margin: 0 auto;
-        display: block;
-        width: 100%;
-        padding-bottom: 50px;
-    }
-    .page-products ul.pager .pager-current {
-        color: #333333 !important;
-        font-weight: bold !important;
-        font-size: 1.2em;
-    }
-    .page-products ul.pager li a {
-        color: #A6BB4F !important;
-        font-weight: bold !important;
-        font-size: 1.2em;
-    }
-    .pager li > a, .pager li > span {
-        padding: 2px !important;
-    }
-    .top-pager li.pager-item, .top-pager li.pager-current {
-        display: none;
-    }
-    .top-pager {
-        float: right;
-        padding: 0;
-    }
-    .top-pager ul.pager {
-        padding: 0;
-    }
-    .item-list .pager li {
-        padding: 2px !important;
-    }
 
-    #views-exposed-form-products-page .views-exposed-form input {
-        margin: 0;
-    }
     /*--------------------------*/
     /*SZ*/
    #complete #step5_left {
@@ -1832,59 +1797,7 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
         text-align: right;
     }
    
-    li.pager-next a, li.pager-previous a{
-        font-size: 0 !important;
-    }
-    li.pager-next a{
-        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
-        display: inline-block !important;
-        height: 35px !important;
-        width: 35px !important;    
-        padding: 0 !important;
-        background-position: 38px 0 !important;
-    }
-    li.pager-next a:hover {
-        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
-        display: inline-block !important;
-        height: 35px !important;
-        width: 35px !important;    
-        padding: 0 !important;
-        background-position: 38px -38px !important;
-    }
-    
-    li.pager-previous a{
-        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
-        display: inline-block !important;
-        height: 35px !important;
-        width: 35px !important;    
-        padding: 0 !important;
-        background-position: 0 0 !important;
-    }
-    
-    li.pager-previous a:hover {
-        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
-        display: inline-block !important;
-        height: 35px !important;
-        width: 35px !important;    
-        padding: 0 !important;
-        background-position: 0 -38px !important;
-    }
-    .pager-previous-gray {
-        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
-        display: inline-block !important;
-        height: 35px !important;
-        width: 35px !important;    
-        padding: 0 !important;
-        background-position: 0 38px !important;        
-    }
-    .pager-next-gray {
-        background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
-        display: inline-block !important;
-        height: 35px !important;
-        width: 35px !important;    
-        padding: 0 !important;
-        background-position: 38px 38px !important;        
-    }
+
     .view-id-products {
         width: 791px;
     }
@@ -2121,9 +2034,11 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     /*SHIPPING OPTIONS*/
     #content_row{position: relative}
     .page-products .floatcontainer #content {padding-left: 206px;}
-    .page-products #sidebar{position: absolute;left: 0;top: 0}
-}
 
+}
+@media (min-width: 481px) and (max-width: 768px){
+    .page-products #sidebar{position: absolute;left: 0!important;top: 0}
+}
 /* Landscape phones and down */
 @media (max-width: 480px) {
     body{padding: 0 5px!important;}
@@ -2182,6 +2097,9 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     .node-type-product .node-product .field_group_right{    float: left;margin: 0 auto !important;padding: 0 5%;width: 50% !important;}
     .node-type-product .cart_block{width: 100%;margin: 0!important;padding: 0;float: none!important;}
     .node-type-product .wrapper_group_right{float: none}
+
+    .views-field.views-field-title{display: none!important;}
+    .page-products table{width: 100%}
     .sb_list4 li{width: 100%}
     .uc-product-node #content h1{font-size: 16px!important;}
 
@@ -2206,6 +2124,9 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     .section-shippingreturns .row div {font-size: 9px!important;}
     .section-shippingreturns #row1 div,  .section-shippingreturns .col1 {font: 10px/34px 'PT Sans', sans-serif!important;}
     .bottom_text{display: block!important;}
+    .gaz{display: none!important;}
+    .erlange:hover img {opacity: 1!important;}
+
     }
 
 #cboxContent p {width:81%}
@@ -2213,6 +2134,101 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
 #mailchimp-lists-user-subscribe-form-users-mail-list input[value="Save"] {
     display: none;
 }
-.item-list .pager {clear: both;text-align: right;}
+.item-list .pager {clear: both;text-align: center;}
 ul.pager{float: none!important;}
 .bottom_text{display: none}
+.page-products ul.pager {
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    padding-bottom: 50px;
+}
+.page-products ul.pager .pager-current {
+    color: #333333 !important;
+    font-weight: bold !important;
+    font-size: 1.2em;
+}
+.page-products ul.pager li a {
+    color: #A6BB4F !important;
+    font-weight: bold !important;
+    font-size: 1.2em;
+}
+.pager li > a, .pager li > span {
+    padding: 2px !important;
+}
+.top-pager li.pager-item, .top-pager li.pager-current {
+    display: none;
+}
+.top-pager {
+    float: none;
+    padding: 0;
+}
+.top-pager ul.pager {
+    padding: 0;
+}
+.item-list .pager li {
+    padding: 2px !important;
+}
+
+#views-exposed-form-products-page .views-exposed-form input {
+    margin: 0;
+}
+li.pager-next, li.pager-previous{
+    width: 35px!important;
+    height: 35px!important;
+}
+li.pager-next a, li.pager-previous a{
+     font-size: 26px !important;
+     text-indent: -9999px;
+ }
+li.pager-next a{
+    background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+    display: block !important;
+    height: 35px !important;
+    width: 35px !important;
+    padding: 0 !important;
+    background-position: 38px 0 !important;
+}
+li.pager-next a:hover {
+    background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+    display: inline-block !important;
+    height: 35px !important;
+    width: 35px !important;
+    padding: 0 !important;
+    background-position: 38px -38px !important;
+}
+
+li.pager-previous a{
+    background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+    display: inline-block !important;
+    height: 35px !important;
+    width: 35px !important;
+    padding: 0 !important;
+    background-position: 0 0 !important;
+}
+
+li.pager-previous a:hover {
+    background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+    display: inline-block !important;
+    height: 35px !important;
+    width: 35px !important;
+    padding: 0 !important;
+    background-position: 0 -38px !important;
+}
+.pager-previous-gray {
+    background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+    display: inline-block !important;
+    height: 35px !important;
+    width: 35px !important;
+    padding: 0 !important;
+    background-position: 0 38px !important;
+}
+.pager-next-gray {
+    background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
+    display: inline-block !important;
+    height: 35px !important;
+    width: 35px !important;
+    padding: 0 !important;
+    background-position: 38px 38px !important;
+}
+body .item-list .pager li{display: inline-block}
