@@ -448,3 +448,136 @@ function nickandersonart_pager($variables) {
   }
 
 }
+
+
+/**
+ * Themes a taxonomy-based exposed filter select element as a nested unordered list.  Note: this
+ * routine depends on the '-' char prefixed on the term names by Views to determine depth.
+ *
+ * @param array $vars - An array of arrays, the 'element' item holds the properties of the element.
+ * @return HTML
+ */
+function nickandersonart_select_as_tree($vars) {
+  $element = $vars['element'];
+ // krumo($element); die();
+  // The selected keys from #options
+  $selected_options = empty($element['#value']) ? $element['#default_value'] : $element['#value'];
+
+  /*
+   *  Build a bunch of nested unordered lists to represent the hierarchy based on the '-' prefix
+   *  added by Views or optgroup structure.
+   */
+  $output = '<ul class="bef-tree">';
+  $curr_depth = 0;
+  foreach ($element['#options'] as $option_value => $option_label) {
+      
+    // Check for Taxonomy-based filters
+    if (is_object($option_label)) {
+      $slice = array_slice($option_label->option, 0, 1, TRUE);
+      list($option_value, $option_label) = each($slice);
+    }
+
+    // Check for optgroups -- which is basically a two-level deep tree
+    if (is_array($option_label)) {
+      // TODO:
+    }
+    else {
+      // Build hierarchy based on prefixed '-' on the element label
+      if (t('- Any -') == $option_label) {
+        $depth = 0;
+      }
+      else {
+        preg_match('/^(-*).*$/', $option_label, $matches);
+        $depth = strlen($matches[1]);
+        $option_label = ltrim($option_label, '-');
+      }
+
+      // Build either checkboxes or radio buttons, depending on Views' settings
+      $html = '';
+      if (!empty($element['#multiple'])) {
+        $html = bef_checkbox(
+          $element,
+          $option_value,
+          $option_label,
+          (array_search($option_value, $selected_options) !== FALSE)
+        );
+      }
+      else {
+        $element[$option_value]['#title'] = $option_label;
+        $element[$option_value]['#children'] = theme('radio', array('element' => $element[$option_value]));
+        $html .= theme('form_element', array('element' => $element[$option_value]));
+      }
+      
+      /**
+       * load nodes... if empty - just show empty html.
+       * when we add to product some taxonomy term - this term will be available in our filter
+       */
+      foreach ($slice as $value => $id) {
+          $nodes = taxonomy_select_nodes($value);
+          if (empty($nodes)) {
+              $html = '';
+          }
+
+      }
+      
+      if ($depth > $curr_depth) {
+        // We've moved down a level: create a new nested <ul>
+        // TODO: Is there is a way to jump more than one level deeper at a time?  I don't think so...
+        
+        $output .= "<ul class='bef-tree-child bef-tree-depth-$depth'><li>$html";
+        
+        $curr_depth = $depth;
+      }
+      elseif ($depth < $curr_depth) {
+        // We've moved up a level: finish previous <ul> and <li> tags, once for each level, since we
+        // can jump multiple levels up at a time.
+        while ($depth < $curr_depth) {
+          $output .= '</li></ul>';
+          $curr_depth--;
+        }
+        $output .= "</li><li>$html";
+      }
+      else {
+        // Remain at same level as previous entry. No </li> needed if we're at the top level
+        if (0 == $curr_depth) {
+          $output .= "<li>$html";
+        }
+        else {
+          $output .= "</li><li>$html";
+        }
+      }
+    }
+  }                             // foreach ($element['#options'] as $option_value => $option_label)
+
+  if (!$curr_depth) {
+    // Close last <li> tag
+    $output .= '</li>';
+  }
+  else {
+    // Finish closing <ul> and <li> tags
+    while ($curr_depth) {
+      $curr_depth--;
+      $output .= '</li></ul></li>';
+    }
+  }
+
+  // Close the opening <ul class="bef-tree"> tag
+  $output .= '</ul>';
+
+  // Add exposed filter description
+  $description = '';
+  if (!empty($element['#bef_description'])) {
+    $description = '<div class="description">'. $element['#bef_description'] .'</div>';
+  }
+
+  // Add the select all/none option, if needed
+  if (!empty($element['#bef_select_all_none'])) {
+    if (empty($element['#attributes']['class'])) {
+      $element['#attributes']['class'] = array();
+    }
+    $element['#attributes']['class'][] = 'bef-select-all-none';
+  }
+
+  return '<div' . drupal_attributes($element['#attributes']) . ">$description$output</div>";
+}
+

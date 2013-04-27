@@ -25,16 +25,17 @@ function custom_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
             $form['tid']['#options']['All'] = t('');
     }
     
-    if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'products') {
+   /* if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'products') {
         foreach ($form['term_node_tid_depth']['#options'] as $option) {
             foreach ($option->option as $filter_tid => $id) {
                 $nodes = taxonomy_select_nodes($filter_tid);
-                if(empty($nodes)) {
-                   //do something
+                if (empty($nodes)) {
+                    // do something
                 }
+                
             }
         }
-    }
+    }*/
     
    return $form;
 }
