@@ -1802,6 +1802,10 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     .view-id-products {
         width: 791px;
     }
+    .display_block {
+        display: block !important;
+        height: auto !important;
+    }
 
 }
 .node-type-product .wrapper_group_right{float: right;width: 45%;}

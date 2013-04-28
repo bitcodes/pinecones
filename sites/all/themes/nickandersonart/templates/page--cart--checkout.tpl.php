@@ -227,10 +227,91 @@
      }); 
      
      //$(document).ready(function validatePanes(){
-         if($(".page-cart-checkout").find(".error")){
-             //find parent of this error class, -> find input(form-submit class) and disable him
-            // $(".form-submit").css('cursor', 'default');
-           // $(".page-cart-checkout").find(".error").addClass('TEST')
+         if($(".page-cart-checkout").find(".form-submit")){
+             $(".page-cart-checkout").find(".form-submit").click(function checkout_pane_validate(){
+                
+                var error = 0;
+                var inputArea = $(this).parent('div').parent('div').find(':input');
+                inputArea.each(function(){
+                    if($(inputArea).parent('div').find('.form-required')) {
+                        
+                        //check name
+                        if($('#edit-panes-delivery-delivery-first-name').val() =="") {
+                             //$(inputArea).parent('div').find('.form-required').parent('label').parent('div').find(':input').css('border', 'red 1px solid');
+                             $('#edit-panes-delivery-delivery-first-name').css('border', 'red 1px solid');
+                             error = 1;
+                        } else {
+                            $('#edit-panes-delivery-delivery-first-name').css('border', '#C3C3C1 1px solid');
+                        }
+                        
+                        //check last name
+                        if($('#edit-panes-delivery-delivery-last-name').val() =="") {
+                             $('#edit-panes-delivery-delivery-last-name').css('border', 'red 1px solid');
+                             error = 1;
+                        } else {
+                            $('#edit-panes-delivery-delivery-last-name').css('border', '#C3C3C1 1px solid');
+                        }
+                        
+                        //check street
+                        if($('#edit-panes-delivery-delivery-street1').val() =="") {
+                             $('#edit-panes-delivery-delivery-street1').css('border', 'red 1px solid');
+                             error = 1;
+                        } else {
+                            $('#edit-panes-delivery-delivery-street1').css('border', '#C3C3C1 1px solid');
+                        }   
+                        
+                        //check city
+                        if($('#edit-panes-delivery-delivery-city').val() =="") {
+                             $('#edit-panes-delivery-delivery-city').css('border', 'red 1px solid');
+                             error = 1;
+                        } else {
+                            $('#edit-panes-delivery-delivery-city').css('border', '#C3C3C1 1px solid');
+                        }
+                        
+                        //check zone
+                        if($('#edit-panes-delivery-delivery-zone').val() =="") {
+                             $('#edit-panes-delivery-delivery-zone').css('border', 'red 1px solid');
+                             error = 1;
+                        } else {
+                            $('#edit-panes-delivery-delivery-zone').css('border', '#C3C3C1 1px solid');
+                        } 
+                        
+                        //check postal code
+                        if($('#edit-panes-delivery-delivery-postal-code').val() =="") {
+                             $('#edit-panes-delivery-delivery-postal-code').css('border', 'red 1px solid');
+                             error = 1;
+                        } else {
+                            $('#edit-panes-delivery-delivery-postal-code').css('border', '#C3C3C1 1px solid');
+                        }  
+                        
+                        //check country
+                        if($('#edit-panes-delivery-delivery-country').val() =="") {
+                             $('#edit-panes-delivery-delivery-country').css('border', 'red 1px solid');
+                             error = 1;
+                        } else {
+                            $('#edit-panes-delivery-delivery-country').css('border', '#C3C3C1 1px solid');
+                        } 
+                        
+                        //check phone
+                        if($('#edit-panes-delivery-delivery-phone').val() =="") {
+                             $('#edit-panes-delivery-delivery-phone').css('border', 'red 1px solid');
+                             error = 1;
+                        } else {
+                            $('#edit-panes-delivery-delivery-phone').css('border', '#C3C3C1 1px solid');
+                        } 
+                     }
+                });
+                
+                if(error == 1) {
+                    $(this).parent('div').parent('div').addClass('display_block');
+                    $(this).parent('div').parent('div').parent('fieldset').removeClass('collapsed');
+                }
+                if(error == 0) {
+                    $(this).parent('div').parent('div').removeClass('display_block');
+                }
+                
+             });
+             
          }
     //}); 
 
