@@ -306,10 +306,16 @@
                 if(error == 1) {
                     $(this).parent('div').parent('div').addClass('display_block');
                     $(this).parent('div').parent('div').parent('fieldset').addClass('invalid');
+                    $(this).parent('div').parent('div').parent('fieldset').parent('div').find('fieldset').css('cursor', 'default');
+                    $(this).parent('div').parent('div').parent('fieldset').parent('div').find('a.fieldset-title').css('pointer-events', 'none');
+                    $('#billing-pane').toggleClass('collapsed');
+                    
                     //$(this).parent('div').parent('div').parent('fieldset').find('collapsed').css('display', 'none');
                 }
                 if(error == 0) {
                     $(this).parent('div').parent('div').removeClass('display_block');
+                    $(this).parent('div').parent('div').parent('fieldset').parent('div').find('fieldset').css('cursor', 'pointer');
+                    $(this).parent('div').parent('div').parent('fieldset').parent('div').find('a.fieldset-title').css('pointer-events', 'auto');
                 }
                return error;
              });
