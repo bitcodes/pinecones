@@ -228,7 +228,7 @@
      
      //$(document).ready(function validatePanes(){
          if($(".page-cart-checkout").find(".form-submit")){
-             $(".page-cart-checkout").find(".form-submit").click(function checkout_pane_validate(){
+             $(".page-cart-checkout").find(".form-submit").click(function checkoutPaneValidate(error){
                 
                 var error = 0;
                 var inputArea = $(this).parent('div').parent('div').find(':input');
@@ -302,19 +302,20 @@
                      }
                 });
                 
+                
                 if(error == 1) {
                     $(this).parent('div').parent('div').addClass('display_block');
-                    $(this).parent('div').parent('div').parent('fieldset').removeClass('collapsed');
+                    $(this).parent('div').parent('div').parent('fieldset').addClass('invalid');
+                    //$(this).parent('div').parent('div').parent('fieldset').find('collapsed').css('display', 'none');
                 }
                 if(error == 0) {
                     $(this).parent('div').parent('div').removeClass('display_block');
                 }
-                
+               return error;
              });
              
          }
-    //}); 
-
+   
 })(jQuery, Drupal, this, this.document);
 
 </script>  

@@ -1171,7 +1171,7 @@ body #email_signup .form-actions{
 #footer_links ul{margin: 0;}
 .bef-tree{margin: 0}
 #uc-cart-checkout-form fieldset.collapsed {
-    height: 34px !important;
+   /* height: 34px !important;*/
     margin: 0 auto 16px;
 }
 #uc-cart-checkout-form legend {
@@ -1778,7 +1778,6 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     .shipping_address {
         margin-right: 5px;
     }  
-    
     .complete_info {
         float: left;
         margin: 0 auto;
@@ -1797,14 +1796,16 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     .complete_total {
         text-align: right;
     }
-   
-
     .view-id-products {
         width: 791px;
     }
     .display_block {
         display: block !important;
         height: auto !important;
+    }
+    .invalid {
+        height: auto !important;
+        margin: 0 auto 16px;
     }
 
 }
