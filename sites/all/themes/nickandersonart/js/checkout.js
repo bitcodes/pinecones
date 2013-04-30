@@ -9,15 +9,12 @@
         var win_w = $(window).width(); //check device width
         
         //if mobile device
-        if(win_w < 470){
+        if(win_w < 1240){
             //do something code for mobile device
-                         
             $('#uc-cart-checkout-form').find('.form-submit').click(function(){
                 var divToScroll = $(this).parents('fieldset');
-                $(this).parents('fieldset').next().addClass('test');
                 $('html,body').animate({scrollTop: $(divToScroll).offset().top}, 500);
             });
-           
         }
         
         //if desctop browser 
@@ -48,7 +45,7 @@
         });*/
         
         //Make coupon-pane collapsed
-        $("#coupon-pane .fieldset-wrapper").css('display', 'none');
+        //$("#coupon-pane .fieldset-wrapper").css('display', 'none');
         
        /* $("#edit-panes-customer-next").click(function(){
             $("#coupon-pane .fieldset-wrapper").css('display', 'block');

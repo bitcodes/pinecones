@@ -1186,7 +1186,7 @@ body #email_signup .form-actions{
 #uc-cart-checkout-form fieldset#quotes-pane .error {
    display: none;
 }
-#delivery-pane .form-item-panes-delivery-select-address {
+#delivery-pane .form-item-panes-delivery-select-address, #billing-pane .form-item-panes-billing-select-address {
     padding: 0 0 0 213px;
 }
 
@@ -1799,14 +1799,7 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     .view-id-products {
         width: 791px;
     }
-    .display_block {
-        display: block !important;
-        height: auto !important;
-    }
-    .invalid {
-        height: auto !important;
-        margin: 0 auto 16px;
-    }
+    
 
 }
 .node-type-product .wrapper_group_right{float: right;width: 45%;}
@@ -2246,3 +2239,16 @@ body .item-list .pager li{display: inline-block}
 .item-list .pager .pager-previous-gray, .item-list .pager .pager-previous {left: 50%;margin-left: -40px !important;position: absolute;top: 35px;}
 .item-list .pager .pager-next, .item-list .pager .pager-next-gray {margin-right: -38px !important;position: absolute;right: 50%;top: 33px;}
 .page-products table{width: 100%}
+
+/**
+*For collapsing & validation on th checkout page (SZ)
+*/
+.display_block {
+        display: block !important;
+        height: auto !important;
+        min-height: 350px;
+    }
+.invalid {
+        height: auto !important;
+        margin: 0 auto 16px;
+}

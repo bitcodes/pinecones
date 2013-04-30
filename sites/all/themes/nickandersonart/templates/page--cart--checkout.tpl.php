@@ -366,16 +366,17 @@
                      }
                 });
                 
-                if(error === 1) {
+                if(error == 1) {
                     $(this).parent('div').parent('div').addClass('display_block');
                     $(this).parent('div').parent('div').parent('fieldset').addClass('invalid');
                     $(this).parent('div').parent('div').parent('fieldset').parent('div').find('fieldset').css('cursor', 'default');
                     $(this).parent('div').parent('div').parent('fieldset').parent('div').find('a.fieldset-title').css('pointer-events', 'none');
                     $(this).parents('fieldset').next().toggleClass('collapsed');
-
+                    $(this).parents('fieldset').removeClass('collapsed');
+                    
                     //$(this).parent('div').parent('div').parent('fieldset').find('collapsed').css('display', 'none');
                 }
-                if(error === 0) {
+                if(error == 0) {
                     $(this).parent('div').parent('div').removeClass('display_block');
                     $(this).parent('div').parent('div').parent('fieldset').parent('div').find('fieldset').css('cursor', 'pointer');
                     $(this).parent('div').parent('div').parent('fieldset').parent('div').find('a.fieldset-title').css('pointer-events', 'auto');
@@ -385,6 +386,7 @@
              
               //EMAIL PANE VALIDATION
                 $("#customer-pane").find(".form-submit").click(function checkoutEmailValidate(error){
+                    var error = 0;
                         if($('#edit-panes-customer-primary-email').val()===""){
                             $('#edit-panes-customer-primary-email').css('border', 'red 1px solid');
                             error = 1;
@@ -392,16 +394,15 @@
                              $('#edit-panes-customer-primary-email').css('border', '#C3C3C1 1px solid');
                         }
                      
-                    if(error === 1) {
+                    if(error == 1) {
                         $(this).parent('div').parent('div').addClass('display_block');
-                        $(this).parent('div').parent('div').parent('fieldset').addClass('invalid');
+                        $("#customer-pane").addClass('invalid');
                         $(this).parent('div').parent('div').parent('fieldset').parent('div').find('fieldset').css('cursor', 'default');
                         $(this).parent('div').parent('div').parent('fieldset').parent('div').find('a.fieldset-title').css('pointer-events', 'none');
-                        //$("#customer-pane").next().find('.fieldset-wrapper').css('display', 'none');
+                        $("#customer-pane").next().find('.fieldset-wrapper').css('display', 'none');
                         $("#customer-pane").next().toggleClass('collapsed');
                     }
-                    if(error === 0) {
-                        alert('0');
+                    if(error == 0) {
                         $(this).parent('div').parent('div').removeClass('display_block');
                         $(this).parent('div').parent('div').parent('fieldset').parent('div').find('fieldset').css('cursor', 'pointer');
                         $(this).parent('div').parent('div').parent('fieldset').parent('div').find('a.fieldset-title').css('pointer-events', 'auto');
