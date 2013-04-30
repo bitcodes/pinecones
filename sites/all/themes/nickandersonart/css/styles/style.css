@@ -1171,7 +1171,7 @@ body #email_signup .form-actions{
 #footer_links ul{margin: 0;}
 .bef-tree{margin: 0}
 #uc-cart-checkout-form fieldset.collapsed {
-   /* height: 34px !important;*/
+    height: auto;
     margin: 0 auto 16px;
 }
 #uc-cart-checkout-form legend {
