@@ -31,7 +31,7 @@
 
             $("#delivery-pane").addClass("collapsed");
             $("#cart_next").click(function(){
-                $('html,body').animate({scrollTop: $("#delivery-pane").offset().top}, 500);
+                $('html,body').animate({scrollTop: $("#cart-pane").offset().top}, 500);
                 $("#cart-pane").addClass("collapsed");
                 $("#delivery-pane").removeClass("collapsed");
                 $("#delivery-pane .fieldset-wrapper").css('display', 'block');
