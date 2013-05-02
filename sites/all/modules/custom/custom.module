@@ -405,8 +405,9 @@ function nickandersonart_recently_read_item($variables) {
  * @return type
  */
 function custom_block_info() {
-    $blocks['styles-list'] = array('info' => t('Styles list'));
-    $blocks['titles'] = array('info' => t('Fieldset titles'));
+        $blocks['styles-list'] = array('info' => t('Styles list'));
+        $blocks['titles'] = array('info' => t('Fieldset titles'));
+
     return $blocks;
 }
 
@@ -426,6 +427,7 @@ function custom_block_view($delta = '') {
         $block['subject'] = t('Fieldset titles');
         $block['content'] = '';
     }
+    
     return $block;
 }
 

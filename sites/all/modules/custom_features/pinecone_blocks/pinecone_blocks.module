@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * Implementation hook_block_info()
+ * @return type
+ */
+function pinecone_blocks_block_info() {
+
+        $blocks['gallery_links'] = array('info' => t('Gallery sidebar'));
+
+    return $blocks;
+}
+
+/**
+ * Iplementation hook_block_view()
+ * @param type $delta
+ * @return type
+ */
+function pinecone_blocks_block_view($delta = '') {
+    $block = array();
+
+    if ($delta == 'gallery_links') {
+        $block['subject'] = t('Gallery sidebar');
+        $block['content'] = ' ';
+    }
+
+    return $block;
+}
