@@ -82,7 +82,6 @@
  * @see zen_preprocess_node()
  * @see template_process()
  */
-
 ?>
 <article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix prod_page"<?php print $attributes; ?>>
   <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
@@ -111,7 +110,6 @@
 // We hide the comments and links now so that we can render them later.
     hide($content['comments']);
     hide($content['links']);
-
     
     //print render($content['group_right']['uc_product_image']);
     
@@ -159,7 +157,25 @@
          print $wrap_suf;
         
     }
-  print render($content['group_left']);
+    foreach ($content['group_left']['group_left_top']['field_size']['#object']->field_size as $field_size){
+        foreach ($field_size as $field_id) {
+            //
+        }
+    }  
+  
+  $size_name = $field_id['taxonomy_term']->name;
+  $size_image = '<div class="size_sprite ' . $size_name . '"></div>';
+  
+  print '<div class="group_left">';  
+    print render($content['group_left']['group_left_top']['#prefix']);  
+        print render($content['group_left']['group_left_top']['body']);
+            print '<div class="size_wrapper">';
+                print render($content['group_left']['group_left_top']['field_size']);
+                print $size_image;
+            print '</div>';    
+    print render($content['group_left']['group_left_top']['#suffix']);
+    print render($content['group_left']['group_left_bottom']);
+  print '</div>';
   ?>
 
   <?php print render($content['links']); ?>

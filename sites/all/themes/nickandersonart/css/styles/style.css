@@ -1346,7 +1346,7 @@ body #email_signup .form-actions{
     overflow: hidden;
     width: 185px;
 }
-.prod_page .group-left fieldset legend {
+.prod_page .group-left fieldset legend, .prod_page .group_left fieldset legend {
     display: none;
 }
 .prod_page .group-left fieldset .form-actions {
@@ -2289,3 +2289,18 @@ body .item-list .pager li{display: inline-block}
 .mobile_logo{display: none}
 .ds_hide{display: none}
 .view-id-products{margin-top:3px}
+
+/**
+* For size sprites at the single product page (SZ)
+*/
+.size_sprite{
+    display:block;
+    width: 250px;
+    height: 80px;
+    background:url("/sites/default/files/size-sprites.jpg");
+}
+.Mini{background-position: 0 0;}
+.Small{background-position: 0 320px;}
+.Medium{background-position: 0 240px;}
+.Large{background-position: 0 160px;}
+.X-Large{background-position: 0 80px;}
