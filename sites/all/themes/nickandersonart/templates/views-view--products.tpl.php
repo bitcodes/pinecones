@@ -43,7 +43,10 @@
   <?php endif; ?>
  <div class="top-pager">
     <?php if ($pager): ?>
-        <?php print $pager;?>
+        <?php 
+        global $top_pager;
+        $top_pager = $pager;
+        //print $pager;?>
     <?php endif; ?>
     </div>
   <?php if ($exposed): ?>
