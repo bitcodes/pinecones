@@ -89,6 +89,11 @@
                                 <span class="icon-bar"></span>
                             </a>
                             <h4>Navigation</h4>
+                            <div id="cart_link" class="ds_hide">
+                                <?php if ($page['cart_region']): ?>
+                                    <?php print render($page['cart_region']); ?>
+                                <?php endif; ?>
+                            </div><!-- /#cart_link -->
                             <?php if ($user->uid): ?>
                                 <div class="auth_user">
                                     <div class="Wel_name">
@@ -104,7 +109,7 @@
                                 </div>
                             <?php endif; ?>
                             <div class="nav-collapse collapse navbar-responsive-collapse">
-                                <div id="cart_link">
+                                <div id="cart_link" class="mobile_hidden">
                                     <?php if ($page['cart_region']): ?>
                                         <?php print render($page['cart_region']); ?>
                                     <?php endif; ?>
@@ -161,6 +166,7 @@
         </div><!-- /#header_row -->
 
       <?php if ($page['hero']) : ?>
+          <div class="mobile_logo"></div>
           <div class="heroWrapp">
               <div id="hero">
                   <?php print render($page['hero']); ?>
