@@ -6,7 +6,7 @@
         Purpose of the stylesheet follows.
 */
 
-/*Start media declaration DESKTOP VERSION*/
+/*Start media declaration*/
 
 @media (min-width: 979px) {
 
@@ -65,7 +65,7 @@ span.uc-price {position:relative; bottom:6px}
 p#we_accept {margin-bottom:-20px; margin-top:-15px}
 
 div.field_group_right:nth-of-type(1) {margin-top:-20px}
-div.field_group_right:nth-of-type(2), div.field_group_right:nth-of-type(3), div.field_group_right:nth-of-type(4) {margin-top:-60px}
+div.field_group_right:nth-of-type(2) {margin-top:-60px}
 
 #uc-cart-checkout-form tr.delimeter {display: none; /*height:100px (sets height of spacing below items in cart contents)*/}
 
@@ -73,15 +73,9 @@ div.field_group_right:nth-of-type(2), div.field_group_right:nth-of-type(3), div.
 
 #complete #step5_left {float: left; width: 922px;}
 
-.complete_footer p {font: 16px/23px;}
-
-
-#edit-panes-coupon-apply.form-submit {padding: 8px 20px;border-radius: 8px;background-color: rgb(219, 238, 185);border: 1px solid rgb(167, 184, 137);font-weight: bold;color: rgb(56, 68, 30); opacity:.9}
-#edit-panes-coupon-apply.form-submit:hover {opacity:1;}
+#edit-panes-coupon-apply.form-submit {display: none;padding: 8px 20px;border-radius: 8px;background-color: rgb(219, 238, 185);border: 1px solid rgb(167, 184, 137);font-weight: bold;color: rgb(56, 68, 30);}
 
 div.complete_info {width:30%; float:left;}
-
-.complete_info_wrapper {margin: 15px 0 20px 0;}
 
 #complete h1 {width: 100%;}
 
@@ -91,65 +85,7 @@ div.complete_info {width:30%; float:left;}
 
 #eco_video {width: auto !important; height: auto; margin-bottom:40px;}
 
-.field_group_right .gaz {top: 43%;}
 
-.section-products #content h1 {margin-top:-5px;}
-.section-products #content p {margin-bottom:-30px;}
-
-div.complete_footer #tell_your_friends {display: none;}
-
-.complete_total {font-size: 26px;margin: 0 0 15px 0;text-align: left;}
-
-.complete_footer p {padding-bottom: 25px}
-
-#complete #order_no {color: #4F878F; font: 26px 'PT Sans',sans-serif; padding: 20px 0 2px;}
-
-#complete #user_menu li a {padding: 0 50px 15px 0;float: left;}
-
-.view-id-products {margin-top: -83px;}
-
-.section-products p, .view-catalog p {font-size:14px;}
-
-.top-pager {float: right; padding-bottom: 80px; margin-right: 64px;}
-
-.section-catalog #content {margin-top:-10px;}
 
 /*End media declaration*/
 }
-
-
-/*Start media declaration LANDSCAPE PHONES AND DOWN*/
-
-@media (max-width: 480px) {
-
-#edit-panes-coupon-apply.form-submit {padding: 8px 20px;border-radius: 8px;background-color: rgb(219, 238, 185);border: 1px solid rgb(167, 184, 137);font-weight: bold;color: rgb(56, 68, 30); opacity:.9}
-#edit-panes-coupon-apply.form-submit:hover {opacity:1;}
-
-#uc-order-total-preview tr {min-height:20px !important;}
-
-.page-products #content h1 {float: right;margin-right: 15px;}
-
-.page-cart-checkout #add_btn h6, .page-cart-checkout .cart_continue_text {float: none!important;text-align: left; display: none;}
-
-.page-cart-checkout #add_btn h6, .page-cart-checkout .cart_continue_text {display: none;}
-
-#complete #tell_your_friends {display:none}
-
-/*End media declaration*/
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

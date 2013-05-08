@@ -5,7 +5,7 @@
  */
 global $top_pager;
 ?>
-<div id="block-<?php print $block->module.'-'.$block->delta; ?>" class="block">
+<div id="block-<?php print $block->module.'-'.$block->delta; ?>" class="block clearfix">
   <?php if ($block->subject): ?>
     <div class="block_subject">
       <?php print $block->subject; ?>

@@ -25,10 +25,14 @@ window.open(url,'tvkw',winpar);
         return false;
         });
 
+
+     var win_w = $(window).width(); //check device width
+ if (win_w < 962) {    
      var exppoductH = $('.page-products #sidebar').height();
       $('.sidebar_collaps_button').css( "height", exppoductH );
+ }   
       $('#content').css( "min-height", exppoductH );
-
+ 
 
        $('.page-products #sidebar .sidebar_collaps_button').click(function () {
             var left = jQuery('.page-products #sidebar').css("left");
@@ -49,6 +53,7 @@ window.open(url,'tvkw',winpar);
         $('#content').css( "min-height", exppoductH );
 
     });
+     
 })(jQuery);
 
 })(jQuery, Drupal, this, this.document);
