@@ -2173,12 +2173,12 @@ ul.pager{float: none!important;}
 .text_block_vrapper {
     width: 77%;
 }
-.page-products ul.pager .pager-current {
+ul.pager .pager-current {
     color: #333333 !important;
     font-weight: bold !important;
     font-size: 1.2em;
 }
-.page-products ul.pager li a {
+ul.pager li a {
     color: #A6BB4F !important;
     font-weight: bold !important;
     font-size: 1.2em;
@@ -2219,6 +2219,8 @@ li.pager-next a{
     width: 35px !important;
     padding: 0 !important;
     background-position: 38px -2px !important;
+    border-radius:0!important;
+    -webkit-border-radius:0!important;
 }
 body li.pager-next a:hover {
     background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
@@ -2226,6 +2228,8 @@ body li.pager-next a:hover {
 }
 
 li.pager-previous a{
+    border-radius:0!important;
+    -webkit-border-radius:0!important;
     background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
     display: inline-block !important;
     height: 35px !important;
@@ -2239,6 +2243,8 @@ body li.pager-previous a:hover {
     background-position: 0 -40px !important;
 }
 .pager-previous-gray {
+    border-radius:0!important;
+    -webkit-border-radius:0!important;
     background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
     display: inline-block !important;
     height: 35px !important;
@@ -2256,7 +2262,7 @@ body li.pager-previous a:hover {
 }
 body .item-list .pager li{display: inline-block}
 .colaps_laer{position: fixed;width: 100%;height: 100%;background: transparent;z-index: 100;opacity: 1;top: 0;left: 0;display: none}
-.item-list .pager{position: relative}
+.item-list .pager{position: relative;padding-bottom: 25px;}
 .item-list .pager .pager-previous-gray, .item-list .pager .pager-previous {left: 50%;margin-left: -40px !important;position: absolute;top: 33px;}
 .item-list .pager .pager-next, .item-list .pager .pager-next-gray {margin-right: -38px !important;position: absolute;right: 50%;top: 33px;}
 .page-products table{width: 100%}
