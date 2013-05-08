@@ -1516,15 +1516,15 @@ form tbody {
 .remove:hover span, .attribute_name:hover span {
     display: block;
 }
-.pager li > a, .pager li > span, .pager li > a:hover, .pager li > span:hover {
+.pager li > a, .pager li > span, /*.pager li > a:hover,*/ .pager li > span:hover {
     border: none !important;
     background: none !important;
-    display: inherit !important;
+    /*display: inherit !important;*/
 }
 .recenly li a.active {
     color: #0088CC;
 }
-#admin-menu .dropdown li li.expandable ul {
+#admin-menu .dropdown li li.expandable ul {li.pager-next a:hover
     margin: -22px 0 0 160px !important;
 }
 
@@ -2220,12 +2220,8 @@ li.pager-next a{
     padding: 0 !important;
     background-position: 38px -2px !important;
 }
-li.pager-next a:hover {
+body li.pager-next a:hover {
     background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
-    display: inline-block !important;
-    height: 35px !important;
-    width: 35px !important;
-    padding: 0 !important;
     background-position: 38px -40px !important;
 }
 
@@ -2238,12 +2234,8 @@ li.pager-previous a{
     background-position: 0 -2px !important;
 }
 
-li.pager-previous a:hover {
+body li.pager-previous a:hover {
     background-image: url("../styles/images/pagination-buttons-new.jpg") !important;
-    display: inline-block !important;
-    height: 35px !important;
-    width: 35px !important;
-    padding: 0 !important;
     background-position: 0 -40px !important;
 }
 .pager-previous-gray {
