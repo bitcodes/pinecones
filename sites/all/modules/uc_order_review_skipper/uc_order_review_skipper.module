@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * Changes text on review order button to submit order and adds our custom submit function.
+ * Adds a "Skip checkout review" option to checkout settings form.
+ */
+function uc_order_review_skipper_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'uc_cart_checkout_form':
+      // Change the submit button label.
+      $form['actions']['continue']['#value'] = variable_get('uc_checkout_submit_button', t('Submit Order'));
+
+      // Add our submit handler.
+      $form['#submit'][] = '_uc_order_review_skipper_form_submit';
+
+      break;
+
+    case 'uc_cart_checkout_settings_form':
+      $form['checkout']['uc_order_review_skipper'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Skip checkout review'),
+        '#default_value' => variable_get('uc_order_review_skipper', FALSE),
+      );
+
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_form_submit().
+ *
+ * Change Ubercart review pages to instant order submissions.
+ */
+function _uc_order_review_skipper_form_submit($form, &$form_state) {
+  //return;
+
+  // Check for order submit
+  if (isset($form_state['storage']['order'])) {
+    $do_review = $_SESSION['uc_checkout'][$form_state['storage']['order']->order_id]['do_review'];
+  }
+
+  // If the normal submit handler set do_review then call the review form submit function.
+  if ($do_review && $form_state['redirect'] == 'cart/checkout/review') {
+    // Clear the previous redirect because we're going to override it anyway.
+    unset($form_state['redirect']);
+
+    // Cause the review form to be loaded because some modules may do some of their processing here.
+    uc_cart_checkout_review();
+
+    if ($form_state['storage']['order']->payment_method == 'paypal_wps') {
+      // TODO Test this type of payment.
+      $wps_form = uc_paypal_wps_form($form, $form_state, $form_state['storage']['order']);
+      $wps_url = $wps_form['#action'] . '?';
+
+      foreach (element_children($wps_form) as $key) {
+        $wps_url .= urlencode($key) . '=' . urlencode($wps_form[$key]['#value']) . '&';
+      }
+
+      $wps_url = trim($wps_url, '&');
+      drupal_goto($wps_url);
+    }
+    else {
+      // See uc_cart_checkout_review_form() for more details about 2 lines below.
+      $form_state['uc_order'] = $form_state['storage']['order'];
+      $form_state['storage']['base_path'] = 'cart';
+
+      // Submit Order Review form.
+      uc_cart_checkout_review_form_submit($form, $form_state);
+
+      // And check for an error.
+      if ($form_state['redirect'] == 'cart/checkout/review') {
+        // There's an error, so pretend the user clicked back.
+        uc_cart_checkout_review_form_back($form, $form_state);
+      }
+    }
+
+    // Ultimately the $form_state changes made by functions above are used.
+  }
+  elseif ($form_state['redirect'] != 'cart/checkout') {
+    // Log any unexpected URLs in 'redirect'.
+    watchdog('uc_cart', 'Checkout returned unexpected destination url: %url', array('%url' => $form_state['redirect']), WATCHDOG_DEBUG);
+  }
+}
