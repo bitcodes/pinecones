@@ -23,10 +23,12 @@
  */
 ?>
 <?php 
-$suf = '<a class="colorbox init-colorbox-processed cboxElement" href="' . $GLOBALS['base_root'] . '/sites/default/files/sizing_img.jpg">';
+$suf = '<a class="prod_size colorbox init-colorbox-processed cboxElement" href="' . $GLOBALS['base_root'] . '/sites/default/files/sizing_img.jpg">';
 $pref = '</a>';
+$span_attr = '<span class="attr_tooltip"></span>';
  
     print $suf;
+    print $span_attr;
         print $output;
     print $pref;
 ?>
