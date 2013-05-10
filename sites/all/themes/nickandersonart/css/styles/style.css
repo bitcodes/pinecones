@@ -1499,7 +1499,7 @@ form tbody {
     position: absolute;
     width: 129px;
 }
-.attribute_name span{
+.attribute_name span {
     background: url("../styles/images/tooltip-chain.png") no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
     height: 36px;
@@ -1510,10 +1510,21 @@ form tbody {
     width: 129px;
     display: none;
 }
-.remove, .attribute_name {
+.prod_size span{
+    background: url("../styles/images/tooltip-chain.png") no-repeat scroll 0 0 transparent;
+    color: #FFFFFF;
+    height: 36px;
+    left: -40px;
+    width: 129px;
+    position: absolute;
+    top: -35px;
+    width: 129px;
+    display: none;    
+}
+.remove, .attribute_name, .prod_size {
     position: relative;
 }
-.remove:hover span, .attribute_name:hover span {
+.remove:hover span, .attribute_name:hover span, .prod_size:hover span {
     display: block;
 }
 .pager li > a, .pager li > span, /*.pager li > a:hover,*/ .pager li > span:hover {
@@ -1524,7 +1535,7 @@ form tbody {
 .recenly li a.active {
     color: #0088CC;
 }
-#admin-menu .dropdown li li.expandable ul {li.pager-next a:hover
+#admin-menu .dropdown li li.expandable ul {
     margin: -22px 0 0 160px !important;
 }
 
