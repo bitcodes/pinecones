@@ -1774,6 +1774,20 @@ div.form-item.form-type-radios.form-item-attributes-1 {margin-top:0; margin-bott
     */
     /*Pager changes by SZ*/
 
+    .top_block_wrapper {
+        display: block;
+        height: auto;
+        margin: 0;
+        width: auto;    
+    }
+    .top_text {
+        display: inline-block;
+    }
+    .top_pager {
+        display: inline-block;
+        padding: 0 25px;   
+    }
+    
     /*--------------------------*/
     /*SZ*/
    #complete #step5_left {

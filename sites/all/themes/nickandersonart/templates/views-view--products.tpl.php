@@ -41,14 +41,19 @@
       <?php print $header; ?>
     </div>
   <?php endif; ?>
- <div class="top-pager">
     <?php if ($pager): ?>
         <?php 
-        global $top_pager;
-        $top_pager = $pager;
-        //print $pager;?>
+        $block = module_invoke('block', 'block_view', 4);
+        print '<div class="top_block_wrapper">';
+            print '<div class="top_text">';
+                print render($block['content']);
+            print '</div>';    
+            print '<div class="top_pager">';    
+                print $pager;
+            print '</div>';
+            print '</div>';    
+        ?>
     <?php endif; ?>
-    </div>
   <?php if ($exposed): ?>
     <div class="view-filters">
       <?php print $exposed; ?>

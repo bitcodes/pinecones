@@ -3,7 +3,6 @@
  * @file
  * Standart zen block
  */
-global $top_pager;
 ?>
 <div id="block-<?php print $block->module.'-'.$block->delta; ?>" class="block clearfix">
   <?php if ($block->subject): ?>
@@ -14,7 +13,4 @@ global $top_pager;
     <div class="text_block_vrapper">  
         <?php print $content; ?>
     </div> 
-    <?php 
-        print $top_pager;
-    ?>
 </div>
