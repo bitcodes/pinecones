@@ -141,7 +141,7 @@
           ),
         ));
 
-        $colorbox_pre = '<a class="colorbox init-colorbox-processed cboxElement" rel="gallery-node-' .$node->nid . ' " title=" ' . $node->title . ' " href="' .$GLOBALS['base_root'] . '/sites/default/files/' . $output['#item']['filename'] .'">';
+        $colorbox_pre = '<a class="colorbox-inline" rel="gallery-node-' .$node->nid . ' " title=" ' . $node->title . ' " href="' .$GLOBALS['base_root'] . '/sites/default/files/' . $output['#item']['filename'] .'?width=450">';
         $colorbox_suf = '</a>';
         $span = $colorbox_pre . '<span class="gaz"></span>' . $colorbox_suf;
         print $group_right_pre;
@@ -164,13 +164,18 @@
     }  
   
   $size_name = $field_id['taxonomy_term']->name;
-  $size_image = '<div class="size_sprite ' . $size_name . '"></div>';
+  $size_name_link_pre = '<a class="prod_size colorbox init-colorbox-processed cboxElement" href="' . $GLOBALS['base_root'] . '/sites/default/files/'. $size_name . '.jpg">';
+  $size_name_link_suf = '</a>';
+  $size_image = '<div class="size_image"><a class="prod_size colorbox init-colorbox-processed cboxElement" href="' . $GLOBALS['base_root'] . '/sites/default/files/'. $size_name . '.jpg"><img src="/sites/default/files/'. $size_name . '.jpg"></a></div>';
   
   print '<div class="group_left">';  
     print render($content['group_left']['group_left_top']['#prefix']);  
         print render($content['group_left']['group_left_top']['body']);
             print '<div class="size_wrapper">';
-                print render($content['group_left']['group_left_top']['field_size']);
+                print $size_name_link_pre;
+                    print render($content['group_left']['group_left_top']['field_size']);
+                print $size_name_link_suf;
+                    
                 print $size_image;
             print '</div>';    
     print render($content['group_left']['group_left_top']['#suffix']);

@@ -203,7 +203,7 @@ p {
     width: 152px !important;
     font-weight: 700 !important;    
 }
-#edit-field-apparel-tid-wrapper label[for=edit-field-apparel-tid], .supplements h6 {
+#edit-field-apparel-tid-wrapper label[for=edit-field-apparel-tid], .supplements h6, label[for=edit-sort-bef-combine] {
     color: #a6bb4f !important;
     font-size: 15px !important;
     text-transform: uppercase;
@@ -211,6 +211,9 @@ p {
     margin: 0 0 5px 0;
     width: 152px !important;
     font-weight: 700 !important;  
+}
+label[for=edit-sort-bef-combine] {
+    margin: 0 0 0 17px;
 }
 #edit-field-apparel-tid-wrapper, .supplements {
     display: block;
@@ -1511,7 +1514,7 @@ form tbody {
     display: none;
 }
 .prod_size span{
-    background: url("../styles/images/tooltip-chain.png") no-repeat scroll 0 0 transparent;
+    background: url("../styles/images/tooltip-size-chart.png") no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
     height: 36px;
     left: -40px;
@@ -2345,4 +2348,19 @@ body .item-list .pager li{display: inline-block}
 .X-Large{background-position: 0 80px;}
 body .view-id-products {
     margin-top: 0;
+}
+
+option[value="status DESC"], option[value="random DESC"]{
+    display: none;
+}
+#edit-sort-bef-combine {
+    margin: 7px;
+    width: 170px;    
+}
+.uc-out-of-stock-instock {
+    display: none;
+}
+.field-name-field-size .field-label {
+    cursor: default;
+    color: #666666;
 }

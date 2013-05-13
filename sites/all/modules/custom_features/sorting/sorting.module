@@ -1,0 +1,14 @@
+<?php
+/**
+ * Implement hook form alter
+ * @param array $form
+ * @param type $form_state
+ * @param type $form_id
+ * 
+ */
+function sorting_form_views_exposed_form_alter(&$form, &$form_state, $form_id){
+   $form['sort_bef_combine']['#options']['title ASC'] = "Name: A-Z";
+   $form['sort_bef_combine']['#options']['title DESC'] = "Name: Z-A";
+   $form['sort_bef_combine']['#options']['status ASC'] = "Most recently added";
+   $form['sort_bef_combine']['#options']['random ASC'] = "Random";
+}
