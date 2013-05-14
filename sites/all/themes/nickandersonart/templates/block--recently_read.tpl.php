@@ -3,6 +3,22 @@
  * @file
  * recently read block
  */
+$node = node_load(arg(1));
+$i = 0;
+foreach ($node->field_style as $und => $id) {
+       $i++;
+       
+       $tid = end($id);
+       if($i > 2) {     
+            $parent = taxonomy_get_parents($tid['tid']);
+            foreach ($parent as $value => $id) {
+               $similar_link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $value;
+            }  
+       } else {
+           $similar_link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $tid['tid'];
+       }     
+}
+
 ?>
 <div id="block-<?php print $block->module.'-'.$block->delta; ?>" class="block">
   <?php if ($block->subject): ?>
@@ -19,7 +35,7 @@
     <div class="sb_list4">
         <ul>
             <li>
-                <a href="<?php custom_similar_pieces(); ?>">
+                <a href="<?php print $similar_link; ?>">
                     see similar pieces
                     
                     <span></span>
