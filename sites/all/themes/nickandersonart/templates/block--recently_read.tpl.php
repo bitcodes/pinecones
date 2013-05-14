@@ -4,12 +4,11 @@
  * recently read block
  */
 $node = node_load(arg(1));
-$i = 0;
+
 foreach ($node->field_style as $und => $id) {
-       $i++;
-       
        $tid = end($id);
-       if($i > 2) {     
+       $count = count($id);
+       if($count > 2) {     
             $parent = taxonomy_get_parents($tid['tid']);
             foreach ($parent as $value => $id) {
                $similar_link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $value;
