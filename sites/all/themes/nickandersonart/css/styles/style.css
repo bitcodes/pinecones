@@ -337,7 +337,7 @@ label[for=edit-sort-bef-combine] {
 }
 .view-id-products {
     margin: 27px 0 0;
-    width: 732px;
+    width: 752px;
 }
 .views-field-uc-product-image a {
     display: block;
@@ -2350,7 +2350,7 @@ body .view-id-products {
     margin-top: 0;
 }
 
-option[value="status DESC"], option[value="random DESC"]{
+option[value="status DESC"], option[value="random_seed DESC"]{
     display: none;
 }
 #edit-sort-bef-combine {

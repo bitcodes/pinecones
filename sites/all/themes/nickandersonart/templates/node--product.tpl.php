@@ -164,9 +164,9 @@
     }  
   
   $size_name = $field_id['taxonomy_term']->name;
-  $size_name_link_pre = '<a class="prod_size colorbox init-colorbox-processed cboxElement" href="' . $GLOBALS['base_root'] . '/sites/default/files/'. $size_name . '.jpg">';
+  $size_name_link_pre = '<a class="prod_size colorbox init-colorbox-processed cboxElement" href="' . $GLOBALS['base_root'] . '/sites/default/files/sizing_img.jpg">';
   $size_name_link_suf = '</a>';
-  $size_image = '<div class="size_image"><a class="prod_size colorbox init-colorbox-processed cboxElement" href="' . $GLOBALS['base_root'] . '/sites/default/files/'. $size_name . '.jpg"><img src="/sites/default/files/'. $size_name . '.jpg"></a></div>';
+  $size_image = '<div class="size_image"><a class="prod_size colorbox init-colorbox-processed cboxElement" href="' . $GLOBALS['base_root'] . '/sites/default/files/sizing_img.jpg"><img src="/sites/default/files/'. $size_name . '.jpg"></a></div>';
   
   print '<div class="group_left">';  
     print render($content['group_left']['group_left_top']['#prefix']);  
