@@ -4,49 +4,65 @@
  **/
 
 (function ($, Drupal, window, document, undefined) {
- 
- $(function collapsedTree() {
      
+/**
+ * Make filter collapsed with some css
+ * @returns {Boolean}
+ */
+ $(function collapsedTree() {
+     $('.views-widget').find('input').each(function(){
+        $(this)[0].checked = false;
+     });
          if ($('ul.bef-tree li').children('ul.bef-tree-child')) {
              $('ul.bef-tree li').children('ul.bef-tree-child').parent().addClass('collapse_filter');
              $('.collapse_filter').find('label').addClass("passive");
-             
-             $('.collapse_filter').children('div').children('input').change(function openTab() {
+             $('.collapse_filter').find('.collapse_filter').addClass('second_depth');
+             $('.collapse_filter').find('li').removeClass('collapse_filter');// remove class for depth-2 categories
             
+         $('.collapse_filter').children('div').children('input').change(function openTab() {
+             
+             //delete ?some_part[]ID from url? when we going from other page
+             var redirect = '/products';
+                history.pushState('', '', redirect);
+             
+             
+
+             
              var $child = $(this).parent('div').parent('.collapse_filter').children('div ul').children('li').find('input');
+                
+                
+                
+                    $(this).parent('div').parent('.collapse_filter').children('div ul').children('li').each(function(){
+                        
+                              if ($(this).find('input').prop('checked') === true) {
+                                  $(this).parents('.collapse_filter').children('div').find('input')[0].checked = false;
+                              }
+                              if($(this).hasClass('second_depth')){
+                                  $(this).children('div ul').children('li').each(function(){
+                                       if ($(this).find('input').prop('checked') === true) {
+                                            $(this).parents('.collapse_filter').children('div').find('input')[0].checked = false;
+                                        }
+                                  });
+                              }
+                         });
                  
-                 
-                 
-                 /*if ($(this).prop('checked') === true && $child.prop('checked') === true) {
-                         alert('dd');
-                         $(this).prop('checked', false);
-                         $child[0].checked = false;
-                         $(this).parent('div').parent('.collapse_filter').children('div ul').children('li').find('input').prop('checked', false);
-                         
-                     }*/
-                 
-                 $(this).prop('checked', $(this)[0].checked);
-                 
-                 
+                 if ($(this).prop('checked') === false) {
+                     $(this).removeAttr('checked');
+                 }
                  
                  $(this).parent('div').parent('.collapse_filter').children('ul.bef-tree-depth-1').slideToggle();
                  $(this).parent('div').parent('.collapse_filter').children('div').children('label').toggleClass("passive");
                  $(this).parent('div').parent('.collapse_filter').children('div').children('label').toggleClass("active");
-             $child.prop('checked', false);
+             $($child).prop('checked', false);
+             
              });
          }
          
          $('ul.bef-tree-depth-1').find('label').removeClass("passive");
-     }); 
-     
-     
-     
-     
-     $(function showChild(){
          
+         /**********/
          $('.collapse_filter').children('ul').children('li').find('input:checkbox').change(function(){
-          
-           var $parent_input = $(this).parent('div').parent('li').parent('ul').parent('.collapse_filter').children('div').find('input:checkbox'); 
+           var $parent_input = $(this).parents('.collapse_filter').children('div').find('input:checkbox'); 
            
            $parent_input[0].checked = false;
            
@@ -68,26 +84,22 @@
                $parent_input.parent('div').parent('.collapse_filter').children('div').children('label').addClass("passive");
           }
           
-          
-                       
-          $parent_input.change(function(){
-              $parent_input[0].checked = false;
-              $parent_input.parent('div').parent('.collapse_filter').children('ul').children('li').find('input').each(function(){
-                 $parent_input.parent('div').parent('.collapse_filter').children('ul').children('li').find('input').checked = false;
-                
-              });
-         
-                //$(this).prop('checked', $(this)[0].checked);
-            });
-         
-                //$(this).prop('checked', $(this)[0].checked);
-                
-                
+          if($(this).parents().hasClass('bef-tree-depth-2')){
+                $(this).addClass('child');
+                $(this).parents('.collapse_filter').children('div').children('input')[0].checked = false;
+                $(this).parent('div').parent('li').parent('ul').parent('.second_depth').children('div').children('input')[0].checked = false;
+                $(this).parent('div').parent('li').parent('ul').parent('.second_depth').children('div').children('input').click(function(){
+                    $(this).parents('.second_depth').children('.bef-tree-depth-2').find('input').each(function(){
+                       $(this)[0].checked = false; 
+                    });
+                });
+           } 
+
+                $(this).prop('checked', $(this)[0].checked);
        });
-       
-     });
-     
-     
+         
+         return;
+     }); 
      
  })(jQuery, Drupal, this, this.document);   
      
