@@ -4,25 +4,42 @@
  * recently read block
  */
 $node = node_load(arg(1));
+if ($node->field_style){
+    foreach ($node->field_style as $und => $id) {
+           $tid = end($id);
+           $count = count($id);
+           $parent = taxonomy_get_parents($tid['tid']);
 
-foreach ($node->field_style as $und => $id) {
-       $tid = end($id);
-       $count = count($id);
-       $parent = taxonomy_get_parents($tid['tid']);
-       
-       if($count > 2 && !empty($parent)) {     
-            foreach ($parent as $value => $id) {
-               $similar_link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $value;
-               $input = 'edit-term-node-tid-depth-' . $value;
-            }
-            
-       } else {
-           $similar_link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $tid['tid'];
-           $input = 'edit-term-node-tid-depth-' . $tid['tid'];
-       }
-       
+           if($count > 2 && !empty($parent)) {     
+                foreach ($parent as $value => $id) {
+                   $similar_link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $value;
+                   $input = 'edit-term-node-tid-depth-' . $value;
+                }
+
+           } else {
+               $similar_link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $tid['tid'];
+               $input = 'edit-term-node-tid-depth-' . $tid['tid'];
+           }
+    }
 }
+if ($node->field_apparel){
+    foreach ($node->field_apparel as $und => $id) {
+           $tid = end($id);
+           $count = count($id);
+           $parent = taxonomy_get_parents($tid['tid']);
 
+           if($count > 2 && !empty($parent)) {     
+                foreach ($parent as $value => $id) {
+                   $similar_link = $GLOBALS['base_root'] . '/products?field_apparel_tid[]=' . $value;
+                   $input = 'edit-term-node-tid-depth-' . $value;
+                }
+
+           } else {
+               $similar_link = $GLOBALS['base_root'] . '/products?field_apparel_tid[]=' . $tid['tid'];
+               $input = 'edit-term-node-tid-depth-' . $tid['tid'];
+           }
+    }
+}
 ?>
 <div id="block-<?php print $block->module.'-'.$block->delta; ?>" class="block">
   <?php if ($block->subject): ?>
