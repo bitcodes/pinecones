@@ -8,14 +8,19 @@ $node = node_load(arg(1));
 foreach ($node->field_style as $und => $id) {
        $tid = end($id);
        $count = count($id);
-       if($count > 2) {     
-            $parent = taxonomy_get_parents($tid['tid']);
+       $parent = taxonomy_get_parents($tid['tid']);
+       
+       if($count > 2 && !empty($parent)) {     
             foreach ($parent as $value => $id) {
                $similar_link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $value;
-            }  
+               $input = 'edit-term-node-tid-depth-' . $value;
+            }
+            
        } else {
            $similar_link = $GLOBALS['base_root'] . '/products?term_node_tid_depth[]=' . $tid['tid'];
-       }     
+           $input = 'edit-term-node-tid-depth-' . $tid['tid'];
+       }
+       
 }
 
 ?>
