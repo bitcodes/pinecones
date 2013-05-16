@@ -85,7 +85,7 @@ stylesheets[all][] = bootstrap/css/bootstrap-responsive.min.css
 ; Optionally add some JavaScripts to your theme.
 
 scripts[] = js/script.js
-scripts[] = js/checkbox.js
+;scripts[] = js/checkbox.js
 scripts[] = js/checkout.js
 scripts[] = js/hightlight.js
 scripts[] = bootstrap/js/bootstrap.min.js
