@@ -37,7 +37,7 @@ function views_ajax() {
         unset($_POST[$key]);
       }
     }
-
+    
     // Load the view.
     $view = views_get_view($name);
     if ($view && $view->access($display_id)) {

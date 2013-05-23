@@ -133,7 +133,7 @@ function custom_uc_cart_review_table($variables) {
                  <a class="attribute_name colorbox-inline" href="' . $GLOBALS['base_root'] . '/attribute/' . $key->cart_item_id . '?width=260&height=220">' . $span_attr . ' (' . $name_id . ')</a>';
             } elseif ($key->data['attributes'] == TRUE) { //if true - show attibute name
                 $description .= '<a target="_blank" href=" ' . $GLOBALS['base_root'] . '/node/' . $key->nid . ' "><b>' . $key->title . '</a></b>
-                        <a class="attribute_name colorbox-inline" href="' . $GLOBALS['base_root'] . '/attribute/' . $key->cart_item_id . '?width=260&height=220">' . $span_attr . ' (' . $attribute_name . ')</a>';
+                        <a class="attribute_name colorbox-inline" rel="nofollow" href="' . $GLOBALS['base_root'] . '/attribute/' . $key->cart_item_id . '?width=260&height=220">' . $span_attr . ' (' . $attribute_name . ')</a>';
             } else {
                 $description .= '<a target="_blank" href=" ' . $GLOBALS['base_root'] . '/node/' . $key->nid . ' "><b>' . $key->title . '</a></b>';
             }
@@ -447,7 +447,7 @@ function custom_form_uc_cart_checkout_form_alter(&$form, &$form_state, $order) {
         $form['panes']['delivery']['#description'] = t('<h4>SHIPPING ADDRESS</h4>');
         $form['panes']['delivery']['next']['#value'] = t('Continue');
         $form['panes']['delivery']['next']['#prefix'] = '<div id="add_btn" class="next-button">';
-        $form['panes']['delivery']['next']['#prefix'] .= '<h6>pinecone home.</h6>';
+        $form['panes']['delivery']['next']['#prefix'] .= '<h6>Treetop to you!</h6>';
         $form['panes']['delivery']['next']['#suffix'] = '</div>';
     }
 
@@ -480,7 +480,7 @@ function custom_form_uc_cart_checkout_form_alter(&$form, &$form_state, $order) {
     
     if($form['panes']['coupon']) {
         $form['panes']['coupon']['#title'] = t('<b>Coupon</b> Discount');
-        $form['panes']['coupon']['#description'] = t('<h4>Enter your Coupon Code</h4>');
+        $form['panes']['coupon']['#description'] = t('<h4>Do you have a Coupon Code?</h4>');
         $form['panes']['coupon']['next']['#value'] = t('Continue');
         $form['panes']['coupon']['next']['#prefix'] = '<div id="add_btn" class="next-button">';
         $form['panes']['coupon']['next']['#prefix'] .= '<h6>One last step.</h6>';

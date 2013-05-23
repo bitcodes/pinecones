@@ -20,12 +20,34 @@ function custom_form_alter(&$form, &$form_state, $form_id) {
  */
 
 function custom_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
+
     if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'catalog') {
             $form['#info']['filter-tid']['label'] = t('');
             $form['tid']['#options']['All'] = t('');
     }
     
-   /* if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'products') {
+    if($form_id == 'views_exposed_form' && $form_state['view']->name == 'Accessories'){
+        
+        $path = $GLOBALS['base_root'] . '/products';
+        $form['link'] = array(
+          '#type' => 'item',
+          '#title' => '',
+          '#markup' => '<span class="products_link"><a href="' . $path . '">Pendants</a></span>', 
+          '#weight' => 0,  
+        );
+    }
+    
+    if($form_id == 'views_exposed_form' && $form_state['view']->name == 'products'){
+        $path = $GLOBALS['base_root'] . '/accessories';
+        $form['link'] = array(
+          '#type' => 'item',
+          '#title' => '',
+          '#markup' => '<span class="products_link"><a href="' . $path . '">Аccessories</a></span>', 
+          '#weight' => 0,  
+        );
+    }
+
+    /*if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'products') {   
         foreach ($form['term_node_tid_depth']['#options'] as $option) {
             foreach ($option->option as $filter_tid => $id) {
                 $nodes = taxonomy_select_nodes($filter_tid);
@@ -376,7 +398,6 @@ function custom_form_search_form_alter(&$form, &$form_state, $form_id){
       hide($form);
   }
 }
-
 
 /*
 function custom_form_uc_form_alter(&$form, &$form_state, $form_id) {

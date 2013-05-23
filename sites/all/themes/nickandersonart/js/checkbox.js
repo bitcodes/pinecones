@@ -4,8 +4,8 @@
  **/
 
 (function ($, Drupal, window, document, undefined) {
-    var redirect = '/products';
-    history.pushState('', '', redirect);
+   //var redirect = '/products';
+    //history.pushState('', '', redirect);
   //alert(window.location.href);
 
 /**

@@ -71,7 +71,7 @@
     <a href="<?php print $url; ?>"><?php print $title; ?></a>
     <br/>
     <?php if(isset($image)):?>
-        <div class="search-image"><?php print render($image[0]);?></div>
+        <div class="search-image"><a href="<?php print $url; ?>"><?php print render($image[0]);?></a></div>
     <?php endif; ?>
   </h3>
   <?php print render($title_suffix); ?>

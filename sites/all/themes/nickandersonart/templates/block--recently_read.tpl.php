@@ -55,13 +55,15 @@ if ($node->field_apparel){
     <div class="recenly"><?php print $content;?></div>
     <div class="sb_list4">
         <ul>
+            <!--
             <li>
-                <a href="<?php print $similar_link; ?>">
+                <a href="<?php //print $similar_link; ?>"
                     see similar pieces
-                    
                     <span></span>
-                </a>
+                </a>                    
+
             </li>
+            -->
             <li>
                 <a href="<?php print $GLOBALS['base_root'] . '/pinecone-information#size_pinecone';?>">
                     questions about sizing?

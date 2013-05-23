@@ -131,8 +131,10 @@
     if($image) {
         
        print $wrap_pre;
-        
+        $i = 0;
         foreach ($image as $key => $value) {
+            
+            
         $output = field_view_value('node', $node, 'uc_product_image', $image[$key], array(
           'type' => 'image',
           'settings' => array(
@@ -141,22 +143,24 @@
           ),
         ));
 
-        $colorbox_pre = '<a class="colorbox-inline" rel="gallery-node-' .$node->nid . ' " title=" ' . $node->title . ' " href="' .$GLOBALS['base_root'] . '/sites/default/files/' . $output['#item']['filename'] .'?width=450">';
+        $colorbox_pre = '<a class="colorbox-inline" rel="gallery-page" href="' .$GLOBALS['base_root'] . '/sites/default/files/' . $output['#item']['filename'] .'?width=450">';
         $colorbox_suf = '</a>';
-        $span = $colorbox_pre . '<span class="gaz"></span>' . $colorbox_suf;
-        print $group_right_pre;
-            print $erlange_pre;
-               print $colorbox_pre;
-                    print render($output);
-               print $colorbox_suf;     
-               print $span;
-            print $erlange_suf;
-        print $group_right_suf;    
+        $colorbox_clean = '<a class="colorbox-inline" rel="gallery-uc_product_image" title=" ' . $node->title . ' " href="' .$GLOBALS['base_root'] . '/sites/default/files/' . $output['#item']['filename'] .'?width=450">';
+        $span = $colorbox_clean . '<span class="gaz"></span>' . $colorbox_suf;
+            print $group_right_pre;
+                print $erlange_pre;
+                   print $colorbox_pre;
+                        print render($output);
+                   print $colorbox_suf;     
+                   print $span;
+                print $erlange_suf;
+            print $group_right_suf;    
         }
         
-         print $wrap_suf;
+        print $wrap_suf;
         
     }
+    
     foreach ($content['group_left']['group_left_top']['field_size']['#object']->field_size as $field_size){
         foreach ($field_size as $field_id) {
             //
@@ -171,13 +175,15 @@
   print '<div class="group_left">';  
     print render($content['group_left']['group_left_top']['#prefix']);  
         print render($content['group_left']['group_left_top']['body']);
+        if($content['group_left']['group_left_top']['field_size'] != NULL){
             print '<div class="size_wrapper">';
                 print $size_name_link_pre;
                     print render($content['group_left']['group_left_top']['field_size']);
                 print $size_name_link_suf;
                     
-                print $size_image;
-            print '</div>';    
+                    print $size_image;
+            print '</div>';
+         }    
     print render($content['group_left']['group_left_top']['#suffix']);
     print render($content['group_left']['group_left_bottom']);
   print '</div>';

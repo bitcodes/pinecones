@@ -311,7 +311,8 @@ class views_plugin_exposed_form extends views_plugin {
       $form_state['rebuild'] = TRUE;
       $this->view->exposed_data = array();
     }
-
+    
+    $form_state['redirect'] = current_path(); //patch from http://drupal.org/node/1807916#comment-6711528
     $form_state['values'] = array();
   }
 }

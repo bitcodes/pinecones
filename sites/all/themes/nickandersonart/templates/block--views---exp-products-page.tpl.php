@@ -11,9 +11,6 @@
     </div>
   <?php endif;?>
   <?php print $content;?>
-    <div class="supplements">
-        <h6>supplements</h6>
-    </div>
     <div class="cart_block">
         <div class="my_cart">
             <a href="<?php $GLOBALS['base_path'];?>/cart/checkout">view my cart</a>

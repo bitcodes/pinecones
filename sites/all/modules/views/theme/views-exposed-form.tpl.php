@@ -47,7 +47,7 @@
           <?php print $widget->widget;
           ?>
            <?php 
-                if ($widget->id == 'edit-field-color-tid'){
+                if ($widget->id == 'edit-field-color-tid' || $widget->id == 'edit-field-apparel-tid'){
                     print custom_view_other_products();
                 }
           ?> 

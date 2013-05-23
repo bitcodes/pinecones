@@ -188,7 +188,7 @@ p {
 */
 #edit-field-style-tid-wrapper, #edit-field-color-tid-wrapper, #edit-field-size-tid-wrapper, #edit-term-node-tid-depth-wrapper {
     display: block;
-    width: 152px;
+    width: 167px;
     margin: 10px 0 0 17px;
     overflow: hidden;
     border-top: 2px solid #d7e1b0;    
@@ -359,7 +359,8 @@ label[for=edit-sort-bef-combine] {
     /*width: 180px;*/
     display: block;
     /*top: 0px;*/
-    word-break: break-all;
+    /*word-break: break-all;*/
+    word-wrap: break-word;
 }
 a {
     color: inherit;
@@ -2363,4 +2364,13 @@ option[value="status DESC"], option[value="random_seed DESC"]{
 .field-name-field-size .field-label {
     cursor: default;
     color: #666666;
+}
+.products_link a{
+    color: #A6BB4F;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 5px;
+    padding: 0 23%;
+    text-transform: uppercase;
+    width: 152px; 
 }
