@@ -38,12 +38,14 @@ function custom_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
     }
     
     if($form_id == 'views_exposed_form' && $form_state['view']->name == 'products'){
+        $form['reset']['#value'] = 'Reset filter';
+        
         $path = $GLOBALS['base_root'] . '/accessories';
         $form['link'] = array(
           '#type' => 'item',
           '#title' => '',
           '#markup' => '<span class="products_link"><a href="' . $path . '">Аccessories</a></span>', 
-          '#weight' => 0,  
+          '#weight' => 2,  
         );
     }
 
@@ -243,7 +245,12 @@ function custom_form_webform_client_form_10_alter(&$form, &$form_state, $form_id
     $form['actions']['submit']['#value'] = 'send message';
     $form['#submit'] = array('webform_client_form_pages', 'custom_form_webform_client_submit');
 }
-
+/**
+ * Implementtation hook_form_ID_alter()
+ * @param type $form
+ * @param type $form_state
+ * @param type $form_id
+ */
 function custom_form_mailchimp_lists_user_subscribe_form_users_mail_list_alter(&$form, &$form_state, $form_id) {
     $form['mailchimp_lists']['mailchimp_users_mail_list']['mergevars']['EMAIL']['#default_value'] = t('Email Signup');
     $form['mailchimp_lists']['mailchimp_users_mail_list']['mergevars']['EMAIL']['#attributes']['onblur'] = "if (this.value == '') {this.value = 'Email Signup';}";

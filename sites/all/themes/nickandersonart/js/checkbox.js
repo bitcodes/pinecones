@@ -25,8 +25,8 @@
          $('.collapse_filter').children('div').children('input').change(function openTab() {
              
              //delete "?some_part[]ID" from url? when we going from other page
-             var redirect = '/products';
-                 history.pushState('', '', redirect);
+             //var redirect = '/products';
+                 //history.pushState('', '', redirect);
                
                 
              var $child = $(this).parent('div').parent('.collapse_filter').children('div ul').children('li').find('input');
