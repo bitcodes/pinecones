@@ -50,12 +50,19 @@
                  if ($(this).prop('checked') === false) {
                      $(this).removeAttr('checked');
                  }
-                 
-                 $(this).parent('div').parent('.collapse_filter').children('ul.bef-tree-depth-1').slideToggle();
-                 $(this).parent('div').parent('.collapse_filter').children('div').children('label').toggleClass("passive");
-                 $(this).parent('div').parent('.collapse_filter').children('div').children('label').toggleClass("active");
-             $($child).prop('checked', false);
-             
+                if ($(this).hasClass("children_check") === true) {
+                    $(this).removeClass("children_check");
+                    $(this).prop('checked', true);
+                    $(this).attr('checked');
+                   $($child).prop('checked', false);
+                }
+                else {
+                    $(this).parent('div').parent('.collapse_filter').children('ul.bef-tree-depth-1').slideToggle();
+                    $(this).parent('div').parent('.collapse_filter').children('div').children('label').toggleClass("passive");
+                    $(this).parent('div').parent('.collapse_filter').children('div').children('label').toggleClass("active");
+                    $($child).prop('checked', false);
+                    $($child).removeAttr('checked');
+                }
              });
          }
          
@@ -64,7 +71,8 @@
          /**********/
          $('.collapse_filter').children('ul').children('li').find('input:checkbox').change(function(){
            var $parent_input = $(this).parents('.collapse_filter').children('div').find('input:checkbox'); 
-           
+           $parent_input.parent('div').parent('.collapse_filter').children('div').children('input').addClass('children_check');
+
            $parent_input[0].checked = false;
            
           $(this).prop('checked', $(this)[0].checked);
@@ -82,6 +90,7 @@
               //when uncheck children checkbox
                $(this).parent('div').parent('li').find('input').prop('checked', false);
                $parent_input.parent('div').parent('.collapse_filter').children('div').children('input').prop('checked', true);
+               $parent_input.parent('div').parent('.collapse_filter').children('div').children('input').removeClass('children_check');
                //$parent_input.parent('div').parent('.collapse_filter').children('ul.bef-tree-depth-1').slideUp();
                //$parent_input.parent('div').parent('.collapse_filter').children('div').children('label').removeClass("active");
                //$parent_input.parent('div').parent('.collapse_filter').children('div').children('label').addClass("passive");

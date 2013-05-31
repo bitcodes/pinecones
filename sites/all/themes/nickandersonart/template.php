@@ -581,3 +581,31 @@ function nickandersonart_select_as_tree($vars) {
   return '<div' . drupal_attributes($element['#attributes']) . ">$description$output</div>";
 }
 
+/**
+ * Alter specific exposed forms to change the textfield into a select item
+ * @param $vars
+ * @param $hook
+ * @see http://drupal.org/node/320992
+ * @seealso http://drupalsn.com/learn-drupal/drupal-questions/question-7534
+ */
+/*
+function nickandersonart_preprocess_views_exposed_form(&$vars, $hook) {
+    //filter behavior for specified forms, by id
+    $allowed_forms = array(
+        'views-exposed-form-products-page',
+    );
+ 
+    // filter
+    if ( in_array($vars['form']['#id'], $allowed_forms) ) {
+        // which form field to override
+        $filter = 'new';
+ 
+        $vars['form'][$filter]['#type'] = 'submit'; //change type
+        //$vars['form'][$filter]['#size'] = '1'; //update size to be a dropdown?
+        $vars['form'][$filter]['#markup'] = '<input '. drupal_attributes(array('type' => 'button', 'value' => t('Reset') )) .'onclick="javascript:$(this.form).clearForm();$(this.form).submit();" class="form-submit" />';
+ 
+        //tricks the Views into rerendering the filter
+        unset($vars['form'][$filter]['#printed']);
+        $vars['widgets']['filter-'.$filter]->widget = drupal_render($vars['form'][$filter]);
+    }
+}*/

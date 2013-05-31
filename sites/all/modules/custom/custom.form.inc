@@ -20,33 +20,53 @@ function custom_form_alter(&$form, &$form_state, $form_id) {
  */
 
 function custom_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
-
     if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'catalog') {
             $form['#info']['filter-tid']['label'] = t('');
             $form['tid']['#options']['All'] = t('');
     }
     
     if($form_id == 'views_exposed_form' && $form_state['view']->name == 'Accessories'){
+        $form['reset']['#value'] = 'Reset filter';
+        $form['reset']['#weight'] = 0;
+        $form['sort_bef_combine']['#weight'] = 1;
+        
+        $path = $GLOBALS['base_root'] . '/accessories';
+        $form['other_prod'] = array(
+          '#type' => 'item',
+          '#title' => '',
+          '#markup' => custom_view_other_products(),
+          '#weight' => 2,
+        );
         
         $path = $GLOBALS['base_root'] . '/products';
         $form['link'] = array(
           '#type' => 'item',
           '#title' => '',
           '#markup' => '<span class="products_link"><a href="' . $path . '">Pendants</a></span>', 
-          '#weight' => 0,  
+          '#weight' => 3,  
         );
     }
     
     if($form_id == 'views_exposed_form' && $form_state['view']->name == 'products'){
         $form['reset']['#value'] = 'Reset filter';
+        $form['reset']['#weight'] = 0;
+        $form['sort_bef_combine']['#weight'] = 1;
         
         $path = $GLOBALS['base_root'] . '/accessories';
+        $form['other_prod'] = array(
+          '#type' => 'item',
+          '#title' => '',
+          '#markup' => custom_view_other_products(),
+          '#weight' => 2,
+        );
+        
         $form['link'] = array(
           '#type' => 'item',
           '#title' => '',
           '#markup' => '<span class="products_link"><a href="' . $path . '">Аccessories</a></span>', 
-          '#weight' => 2,  
+          '#weight' => 3,  
         );
+        
     }
 
     /*if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'products') {   

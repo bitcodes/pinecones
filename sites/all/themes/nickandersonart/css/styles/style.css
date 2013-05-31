@@ -61,7 +61,7 @@ body #social_links ul {list-style-type: none;padding: 0;margin: 0}
 #social_links_pin {background:transparent url('/sites/default/files/pinterest-top-site.png') no-repeat top left;}
 
 #email_signup {position: absolute; bottom: 135px; left: 710px;}
-#email_signup input {border: 2px solid #C3C3C1; border-radius: 3px; height: 25px; background: #FFF url('images/email_ico.png') no-repeat 5px 5px; padding-left: 25px; color: #C3C3C1; font-style: italic; width: 210px;margin-bottom: 0;}
+#email_signup input {border: 2px solid #C3C3C1; border-radius: 3px; height: 25px; background: #FFF url('images/email_ico.png') no-repeat 5px 5px; padding-left: 25px; color: #C3C3C1; font-style: italic; width: 210px;margin-bottom: 0; font-size: 12px;}
 
 .auth_user{float: right}
 .auth_user > div{float: left}
@@ -407,7 +407,7 @@ display: none;
     color: #739C91 !important;
     font-size: 15px !important;
     font-weight: 700 !important;
-    margin: 15px 0 5px;
+    margin: 15px 15px 5px;
     padding: 5px 0 !important;
     text-transform: uppercase;
     width: 152px !important;
