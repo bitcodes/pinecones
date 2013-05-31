@@ -24,7 +24,7 @@
             
          $('.collapse_filter').children('div').children('input').change(function openTab() {
              
-             //delete ?some_part[]ID from url? when we going from other page
+             //delete "?some_part[]ID" from url? when we going from other page
              var redirect = '/products';
                  history.pushState('', '', redirect);
                
@@ -79,10 +79,12 @@
            });
          
           if($i === 0) {
+              //when uncheck children checkbox
                $(this).parent('div').parent('li').find('input').prop('checked', false);
-               $parent_input.parent('div').parent('.collapse_filter').children('ul.bef-tree-depth-1').slideUp();
-               $parent_input.parent('div').parent('.collapse_filter').children('div').children('label').removeClass("active");
-               $parent_input.parent('div').parent('.collapse_filter').children('div').children('label').addClass("passive");
+               $parent_input.parent('div').parent('.collapse_filter').children('div').children('input').prop('checked', true);
+               //$parent_input.parent('div').parent('.collapse_filter').children('ul.bef-tree-depth-1').slideUp();
+               //$parent_input.parent('div').parent('.collapse_filter').children('div').children('label').removeClass("active");
+               //$parent_input.parent('div').parent('.collapse_filter').children('div').children('label').addClass("passive");
           }
           
           if($(this).parents().hasClass('bef-tree-depth-2')){
