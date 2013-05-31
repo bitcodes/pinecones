@@ -11,4 +11,5 @@ function sorting_form_views_exposed_form_alter(&$form, &$form_state, $form_id){
    $form['sort_bef_combine']['#options']['title ASC'] = "Name: A-Z";
    $form['sort_bef_combine']['#options']['title DESC'] = "Name: Z-A";
    $form['sort_bef_combine']['#options']['status ASC'] = "Most recently added";
+   return $form;
 }
