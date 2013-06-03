@@ -30,21 +30,36 @@ function custom_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
         $form['reset']['#weight'] = 0;
         $form['sort_bef_combine']['#weight'] = 1;
         
-        $path = $GLOBALS['base_root'] . '/accessories';
+        $form['reset_button'] = array(
+          '#type' => 'item',
+          '#title' => '',
+          '#markup' => '<span class="reset">Reset filter</span>', 
+          '#weight' => 0,  
+        );
+         
+        $cart_path = $GLOBALS['base_root'] . '/cart/checkout';
+        $form['view_cart'] = array(
+          '#type' => 'item',
+          '#title' => '',
+          '#markup' => '<div class="cart_block"><div class="my_cart"><a href="' . $cart_path . '">view my cart</a></div></div>', 
+          '#weight' => 2,  
+        );
+        
         $form['other_prod'] = array(
           '#type' => 'item',
           '#title' => '',
           '#markup' => custom_view_other_products(),
-          '#weight' => 2,
+          '#weight' => 3,
         );
-        
+       
         $path = $GLOBALS['base_root'] . '/products';
         $form['link'] = array(
           '#type' => 'item',
           '#title' => '',
-          '#markup' => '<span class="products_link"><a href="' . $path . '">Pendants</a></span>', 
-          '#weight' => 3,  
+          '#markup' => '<span class="products_link"><a href="' . $path . '"><span class="prod_background"></span><span class="text_link">Pendants</span></span></a>', 
+          '#weight' => 4,  
         );
+        
     }
     
     if($form_id == 'views_exposed_form' && $form_state['view']->name == 'products'){
@@ -52,34 +67,36 @@ function custom_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
         $form['reset']['#weight'] = 0;
         $form['sort_bef_combine']['#weight'] = 1;
         
+        $form['reset_button'] = array(
+          '#type' => 'item',
+          '#title' => '',
+          '#markup' => '<span class="reset">Reset filter</span>', 
+          '#weight' => 0,  
+        );
+        
+        $cart_path = $GLOBALS['base_root'] . '/cart/checkout';
+        $form['view_cart'] = array(
+          '#type' => 'item',
+          '#title' => '',
+          '#markup' => '<div class="cart_block"><div class="my_cart"><a href="' . $cart_path . '">view my cart</a></div></div>', 
+          '#weight' => 2,  
+        );
+        
         $path = $GLOBALS['base_root'] . '/accessories';
         $form['other_prod'] = array(
           '#type' => 'item',
           '#title' => '',
           '#markup' => custom_view_other_products(),
-          '#weight' => 2,
+          '#weight' => 3,
         );
-        
         $form['link'] = array(
           '#type' => 'item',
           '#title' => '',
-          '#markup' => '<span class="products_link"><a href="' . $path . '">Аccessories</a></span>', 
-          '#weight' => 3,  
+          '#markup' => '<span class="products_link"><a href="' . $path . '"><span class="acc_background"></span><span class="text_link">Аccessories</span></span></a>', 
+          '#weight' => 4,  
         );
         
     }
-
-    /*if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'products') {   
-        foreach ($form['term_node_tid_depth']['#options'] as $option) {
-            foreach ($option->option as $filter_tid => $id) {
-                $nodes = taxonomy_select_nodes($filter_tid);
-                if (empty($nodes)) {
-                    // do something
-                }
-                
-            }
-        }
-    }*/
     
    return $form;
 }

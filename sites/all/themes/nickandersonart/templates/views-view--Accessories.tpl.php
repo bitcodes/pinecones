@@ -27,7 +27,7 @@
  *
  * @ingroup views_templates
  */
-//drupal_add_js('sites/all/themes/nickandersonart/js/checkbox.js');
+drupal_add_js('sites/all/themes/nickandersonart/js/checkbox.js');
 ?>
 
 <div class="<?php print $classes; ?>">
@@ -113,5 +113,4 @@
       <?php print $feed_icon; ?>
     </div>
   <?php endif; ?>
-
 </div>

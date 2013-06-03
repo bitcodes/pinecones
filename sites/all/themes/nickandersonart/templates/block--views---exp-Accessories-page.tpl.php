@@ -10,11 +10,6 @@
       <?php print $block->subject; ?>
     </div>
   <?php endif;?>
-  <?php print $content;?>
-    <div class="cart_block">
-        <div class="my_cart">
-            <a href="<?php $GLOBALS['base_path'];?>/cart/checkout">view my cart</a>
-        </div>
-    </div>    
+  <?php print $content;?>   
 </div>
 <div class="sidebar_collaps_button"><i></i></div>

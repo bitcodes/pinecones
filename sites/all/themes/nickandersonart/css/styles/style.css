@@ -244,7 +244,6 @@ label[for=edit-sort-bef-combine] {
     margin: 10px 0 0 17px;
     overflow: hidden;
     width: 152px;
-    padding: 0 0 25px 0;
 }
 #block-recently_read-product .cart_block {
     border-top: none;
@@ -1346,7 +1345,7 @@ body #email_signup .form-actions{
     box-shadow: 5px 5px 18px 0 rgba(0, 0, 0, 0.05);
     float: left;
     margin: 0 0 20px 10px;
-    min-height: 680px;
+    min-height: 560px;
     overflow: hidden;
     width: 185px;
 }
@@ -2369,8 +2368,49 @@ option[value="status DESC"], option[value="random_seed DESC"]{
     color: #A6BB4F;
     font-size: 15px;
     font-weight: 700;
-    margin: 0 0 5px;
-    padding: 0 23%;
     text-transform: uppercase;
-    width: 152px; 
+}
+.products_link {
+    color: #A6BB4F;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 5px;
+    text-transform: uppercase;
+    width: 152px;     
+}
+.text_link {
+    display: block;
+    margin: 0 30px;
+    text-align: center;
+    width: 125px;  
+}
+.views-exposed-form #edit-reset-button{
+    margin: 10px;
+}
+.reset {
+    background-color: #DBEEB9;
+    border: 1px solid #A7B889;
+    border-radius: 8px 8px 8px 8px;
+    color: #38441E;
+    font-weight: bold;
+    margin: 3px 0 6px 7px !important;
+    padding: 5px 13px;
+    cursor: pointer;
+}
+.reset:hover {
+    box-shadow: 1px 1px 5px #9CB664 inset;    
+}
+.acc_background, .prod_background {
+    background-image: url('/sites/default/files/teaser-accessories.jpg');
+    display: block;
+    height: 143px;
+    margin: 0 30px;
+    width: 125px;    
+}
+.prod_background {
+    background-image: url('/sites/default/files/teaser-pendants.jpg');
+}
+.products_link {
+    display: block;
+    margin: 0 0 20px 0; 
 }

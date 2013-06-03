@@ -109,8 +109,14 @@
 
                 $(this).prop('checked', $(this)[0].checked);
        });
-         
-         return;
+       
+       //add reset button
+            $('.reset').click(function() {
+                $('#sidebar').find('form')[0].reset();
+                window.setTimeout('location.reload()', 0);
+            });
+
+        return;
      }); 
      
  })(jQuery, Drupal, this, this.document);   
