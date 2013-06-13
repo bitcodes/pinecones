@@ -87,23 +87,25 @@ function custom_uc_cart_review_table($variables) {
                 $aid = $attrib->aid;
 
                 if ($key->data['attributes'] == TRUE) {
-                   foreach ($key->data['attributes'] as $oid => $id) {
-                        
-                        //var_dump($id);
-                        if(is_array($id)) {
+                    foreach ($key->data['attributes'] as $oid => $id) {
+                        //krumo($key);
+                        if (is_array($id)) {
                             foreach ($id as $name => $name_id) {
                                 //Nothing here. Just initiate $name_id
-                                //ar_dump($name_id);
+                                //var_dump($name_id);
                             }
-                        }    
+                        }
+
+
+                        $attribute_name = db_select('uc_attribute_options', 'op')
+                                ->fields('op', array('name'))
+                                ->condition('oid', $id)
+                                ->execute()
+                                ->fetchField();
+                        $attribute_names = array();
+                        array_unshift($attribute_names, $attribute_name);
                     }
-                
-                $attribute_name = db_select('uc_attribute_options', 'op')
-                        ->fields('op', array('name'))
-                        ->condition('oid', $oid)
-                        ->execute()
-                        ->fetchField();
-                }
+                }   
             //end find attribute;
             }
             
@@ -133,7 +135,7 @@ function custom_uc_cart_review_table($variables) {
                  <a class="attribute_name colorbox-inline" href="' . $GLOBALS['base_root'] . '/attribute/' . $key->cart_item_id . '?width=260&height=220">' . $span_attr . ' (' . $name_id . ')</a>';
             } elseif ($key->data['attributes'] == TRUE) { //if true - show attibute name
                 $description .= '<a target="_blank" href=" ' . $GLOBALS['base_root'] . '/node/' . $key->nid . ' "><b>' . $key->title . '</a></b>
-                        <a class="attribute_name colorbox-inline" rel="nofollow" href="' . $GLOBALS['base_root'] . '/attribute/' . $key->cart_item_id . '?width=260&height=220">' . $span_attr . ' (' . $attribute_name . ')</a>';
+                        <a class="attribute_name colorbox-inline" rel="nofollow" href="' . $GLOBALS['base_root'] . '/attribute/' . $key->cart_item_id . '?width=350&height=480">' . $span_attr . ' (' . $attribute_name . ')</a>';
             } else {
                 $description .= '<a target="_blank" href=" ' . $GLOBALS['base_root'] . '/node/' . $key->nid . ' "><b>' . $key->title . '</a></b>';
             }

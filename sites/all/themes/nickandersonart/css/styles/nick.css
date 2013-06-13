@@ -125,6 +125,10 @@ div.complete_footer #tell_your_friends {display: none;}
 
 .views-field.views-field-field-size a {text-decoration: underline;}
 
+#edit-reset {padding: 5px 13px;border-radius: 8px;background-color: rgb(219, 238, 185);border: 1px solid rgb(167, 184, 137);font-weight: bold;color: rgb(56, 68, 30); margin: 3px 0 6px 7px !important;}
+#edit-reset:hover {box-shadow: inset 1px 1px 5px rgb(156, 182, 100)}
+
+label[for=edit-sort-bef-combine] {margin: 6px 0 -8px 17px;}
 
 /*End media declaration*/
 }

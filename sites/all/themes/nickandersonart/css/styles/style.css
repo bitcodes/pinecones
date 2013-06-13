@@ -2414,3 +2414,28 @@ option[value="status DESC"], option[value="random_seed DESC"]{
     display: block;
     margin: 0 0 20px 0; 
 }
+.uc-out-stock-processed select {
+    width: 90px;
+}
+.italic {
+    display: block;
+    font-size: 12px;
+    font-style: italic;
+    margin: 5px 0 5px 0;
+}
+.form-item-attributes-1 label.option {
+    float: none !important;
+}
+.gold_span{
+    background-image: url('../styles/images/gold_chain.jpg');
+    display: block;
+    width: 200px;
+}
+.gold_img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+/*
+.attribute-3 {
+    display: none;
+}*/

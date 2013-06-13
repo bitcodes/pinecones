@@ -35,6 +35,7 @@ function theme_uc_attribute_option($variables) {
  * @ingroup themeable
  */
 function theme_uc_attribute_add_to_cart($variables) {
+  
   $form = $variables['form'];
 
   $output = '<div id="' . $form['#id'] . '" class="attributes">';

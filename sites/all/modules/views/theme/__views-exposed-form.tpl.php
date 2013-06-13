@@ -45,6 +45,10 @@
         <?php endif; ?>
         <div class="views-widget">
           <?php print $widget->widget; ?>
+           <?php //if ($widget->id == 'edit-field-color-tid' || $widget->id == 'edit-field-apparel-tid'): ?>
+                    
+                    <?php //print custom_view_other_products();?>
+           <?php //endif;?> 
         </div>
         <?php if (!empty($widget->description)): ?>
           <div class="description">
@@ -53,14 +57,20 @@
         <?php endif; ?>    
       </div>
     <?php endforeach; ?>
+    <?php if (!empty($reset_button)): ?>
+          <div class="views-exposed-widget views-reset-button">
+             <?php print $reset_button; ?>
+          </div>
+    <?php endif; ?>   
     <?php if (!empty($sort_by)): ?>
       <div class="views-exposed-widget views-widget-sort-by">
-          <?php print $sort_by; ?>
+        <?php print $sort_by; ?>
       </div>
       <div class="views-exposed-widget views-widget-sort-order">
         <?php print $sort_order; ?>
       </div>
     <?php endif; ?>
+      
     <?php if (!empty($items_per_page)): ?>
       <div class="views-exposed-widget views-widget-per-page">
         <?php print $items_per_page; ?>
@@ -74,10 +84,5 @@
     <div class="views-exposed-widget views-submit-button">
       <?php print $button; ?>
     </div>
-    <?php if (!empty($reset_button)): ?>
-      <div class="views-exposed-widget views-reset-button">
-        <?php  print $reset_button;?>
-      </div>
-    <?php endif; ?>
   </div>
 </div>

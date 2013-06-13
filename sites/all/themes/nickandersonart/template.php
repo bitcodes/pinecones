@@ -581,6 +581,73 @@ function nickandersonart_select_as_tree($vars) {
   return '<div' . drupal_attributes($element['#attributes']) . ">$description$output</div>";
 }
 
+
+/**
+ * Displays the attribute selection form elements.
+ *
+ * @param $variables
+ *   An associative array containing:
+ *   - form: A render element representing the form.
+ *
+ * @see _uc_attribute_alter_form()
+ * @ingroup themeable
+ */
+function nickandersonart_uc_attribute_add_to_cart($variables) {
+  
+  $form = $variables['form'];
+  
+  foreach ($form[1]['#options'] as $id => $value) {
+     // krumo($id);
+  }
+  
+  $output = '<div id="' . $form['#id'] . '" class="attributes">';
+  $stripes = array('even' => 'odd', 'odd' => 'even');
+  $parity = 'even';
+  foreach (element_children($form) as $aid) {
+      //krumo($form[$aid]);
+    $form[$aid][1]['#attributes'] = array('class' => array('natural'));
+    $form[$aid][2]['#attributes'] = array('class' => array('silver'));
+    $form[$aid][3]['#attributes'] = array('class' => array('gold'));
+    
+    $parity = $stripes[$parity];
+    $classes = array('attribute', 'attribute-' . $aid, $parity);
+    $output .= '<div class="' . implode(' ', $classes) . '">';
+    $output .= drupal_render($form[$aid]);
+    $output .= '</div>';
+  }
+  $output .= '<script type="text/javascript">
+  (function($, Drupal, window, document, undefined) {
+  $(document).ready(function() {
+
+   $(".attribute-1").each(function() {
+   
+        setTimeout(function() {
+        
+            $("<span />").html("Length adjustable - One size fits all").appendTo($(".natural").parent("div"));
+            $("<img />").attr("src" , "../sites/all/themes/nickandersonart/css/styles/images/faux.jpg").addClass("gold_img").appendTo($(".natural").parent("div"));
+            $(".natural").parent("div").children("span").addClass("italic"); 
+
+            $("<img />").attr("src" , "../sites/all/themes/nickandersonart/css/styles/images/silver_chain.jpg").addClass("gold_img").appendTo($(".silver").parent("div"));
+            $(".silver").parent("div").children("span").addClass("siver_span");
+
+            $("<img />").attr("src" , "../sites/all/themes/nickandersonart/css/styles/images/gold_chain.jpg").addClass("gold_img").appendTo($(".gold").parent("div"));
+            $(".gold").parent("div").children("span").addClass("gold_span");
+
+        if ($(".attribute-1").find(".natural").prop("checked") === true){
+            $(".attribute-3").find("select").css("display", "none");
+        } else {
+            $(".attribute-3").find("select").css("display", "block");
+        }
+        }, 25);
+      });  
+
+    });
+  })(jQuery, Drupal, this, this.document);
+</script>';
+  $output .= drupal_render_children($form) . '</div>';
+  return $output;
+}
+
 /**
  * Alter specific exposed forms to change the textfield into a select item
  * @param $vars

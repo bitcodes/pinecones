@@ -82,8 +82,93 @@
  * @see zen_preprocess_node()
  * @see template_process()
  */
+//drupal_add_js('sites/all/themes/nickandersonart/js/subattribute.js');
+ $q = db_select('uc_product_attributes', 'ua')
+            ->fields('ua', array('nid'))
+            ->condition('ua.aid', 1)
+            ->execute()
+            ->fetchAllAssoc('nid');
+    
+    foreach ($q as $value) {
+        $sel = db_select(uc_product_options, 'uo')
+                ->fields('uo', array('nid'))
+                ->condition('uo.oid', array(7,9), 'BETWEEN')
+                ->execute()
+                ->fetchAll();
+        
+         /*db_insert('uc_product_attributes')
+                ->fields(array(
+                    'nid' => $value->nid,
+                    'aid' => 3,
+                    'label' => '<none>',
+                    'ordering' => 1,
+                    'default_option' => 7,
+                    'required' => 0,
+                    'display' => 1,
+                ))
+                ->execute();*/
+        
+       /*db_insert('uc_product_options')
+                ->fields(array(
+                    'nid' => 550,
+                    'oid' => 7,
+                    'cost' => '0.00000',
+                    'price' => '0.00000',
+                    'weight' => -10,
+                    'ordering' => -1,
+                ))
+                ->execute();
+         
+        db_insert('uc_product_options')
+                ->fields(array(
+                    'nid' => 550,
+                    'oid' => 8,
+                    'cost' => '0.00000',
+                    'price' => '0.00000',
+                    'weight' => 0,
+                    'ordering' => 0,
+                ))
+                ->execute(); 
+         
+        db_insert('uc_product_options')
+                ->fields(array(
+                    'nid' => 550,
+                    'oid' => 9,
+                    'cost' => '0.00000',
+                    'price' => '0.00000',
+                    'weight' => 10,
+                    'ordering' => 1,
+                ))
+                ->execute();*/
+        /*
+        db_update('uc_product_options')
+                ->fields(array(
+                  'cost' => '33.00000',
+                  'price' => '33.00000',  
+                ))
+                ->condition('oid', 3)
+                ->execute();
+        
+        db_update('uc_product_options')
+                ->fields(array(
+                  'cost' => '44.00000',
+                  'price' => '44.00000',  
+                ))
+                ->condition('oid', 3)
+                ->execute();*/
+             
+    }
+        
+   /* 
+db_update('uc_product_options')
+                ->fields(array(
+                  'oid' => 9,
+                ))
+                ->condition('oid', 10)
+                ->execute();*/
+    
 ?>
-<article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix prod_page"<?php print $attributes; ?>>
+<article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix prod_page"<?php print $attributes; ?>> 
   <?php if ($title_prefix || $title_suffix || $display_submitted || $unpublished || !$page && $title): ?>
     <header>
       <?php print render($title_prefix); ?>

@@ -1,0 +1,34 @@
+<?php
+function custom_uc_form_alter(&$form, &$form_state, $form_id) {
+    if (strpos($form_id, 'add_to_cart_form') || $form_id == 'uc_order_add_product_form') {
+        $use_ajax = strpos($form_id, 'add_to_cart_form') && variable_get('uc_product_update_node_view', FALSE);
+        $node = & $form['node']['#value'];
+        $id = $form_id . '-' . $node->nid . '-attributes';
+        // If the node has a product list, add attributes to them.
+        if (isset($form['products']) || isset($form['sub_products'])) {
+            if (isset($form['products'])) {
+                $element = &$form['products'];
+            } else {
+                $element = &$form['sub_products'];
+            }
+            foreach (element_children($element) as $key) {
+                $element[$key]['attributes'] = _uc_attribute_alter_form($id . '-' . $key, $node->products[$key], $use_ajax);
+
+                if (is_array($element[$key]['attributes'])) {
+                    $element[$key]['attributes']['#tree'] = TRUE;
+                    $element[$key]['#type'] = 'fieldset';
+                }
+            }
+        }
+        // If not, add attributes to the node.
+        else {
+            $form['attributes'] = _uc_attribute_alter_form($id, $node, $use_ajax);
+            
+            if (is_array($form['attributes'])) {
+                $form['attributes']['#tree'] = TRUE;
+                $form['attributes']['#weight'] = -1;
+            }
+            
+        }
+    }
+}

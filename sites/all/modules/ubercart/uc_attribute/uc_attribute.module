@@ -546,6 +546,7 @@ function uc_attribute_uc_product_alter(&$node) {
  * Implements hook_uc_product_description().
  */
 function uc_attribute_uc_product_description($product) {
+
   $description = array(
     'attributes' => array(
       '#product' => array(
@@ -1268,6 +1269,7 @@ function uc_attribute_option_ajax($form, $form_state) {
  * @see uc_attribute_option_ajax()
  */
 function _uc_attribute_alter_form($id, &$product, $use_ajax) {
+
   // If the product doesn't have attributes, return the form as it is.
   if (empty($product->attributes) || !is_array($product->attributes)) {
     return NULL;
@@ -1424,8 +1426,13 @@ function _uc_attribute_alter_form($id, &$product, $use_ajax) {
 
     $form_attributes[$attribute->aid]['#description'] = filter_xss($attribute->description);
     $form_attributes[$attribute->aid]['#required'] = $attribute->required;
+    /*$form_attributes[$attribute->aid]['#options']['reset_button'] = array(
+          '#type' => 'item',
+          '#title' => '',
+          '#markup' => '<span class="reset">Reset filter</span>', 
+          '#weight' => 0,  
+        );*/
   }
-
   return $form_attributes;
 }
 

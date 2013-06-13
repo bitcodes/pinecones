@@ -12,6 +12,13 @@
 // - http://drupal.org/node/1446420
 // - http://www.adequatelygood.com/2010/3/JavaScript-Module-Pattern-In-Depth
 (function ($, Drupal, window, document, undefined) {
+  /*  
+    function resrt(){
+        $('.resrt').click(function(){
+            //$(this.form).clearForm();$(this.form).submit();
+            alert('ok');
+        });
+    }*/
 // cosial icons, small nice solution. For chnging php see page--cart--checkout--complete.tpl.php
 function socialopen(url){
 var winpar='width=500,height=400,left=' + ((window.innerWidth - 500)/2) + ',top=' + ((window.innerHeight - 400)/2) ;
