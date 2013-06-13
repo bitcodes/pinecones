@@ -270,19 +270,19 @@ function custom_also() {
     $node = node_load(arg(1));
     //var_dump($node->model);
     if ($node->type == 'product') {
-        
+
         $node_real = field_view_field('node', $node, 'field_product_category');
-        
+
         foreach ($node_real as $fields) {
-            if(isset($fields->field_product_category)) {
+            if (isset($fields->field_product_category)) {
                 foreach ($fields->field_product_category as $field) {
                     foreach ($field as $value) {
-                         $product_kategory_key = $value['value'];
+                        $product_kategory_key = $value['value'];
                     }
                 }
             }
         }
-        
+
         $another_product_id = db_select('field_data_field_product_category', 'f')
                 ->fields('f', array('entity_id'))
                 ->condition('f.field_product_category_value', $product_kategory_key, '!=')
@@ -292,27 +292,48 @@ function custom_also() {
                 ->fetchField();
 
         if ($another_product_id == FALSE) {
-            
-            $another_product_id = db_select('field_data_field_product_category', 'f')
-                ->fields('f', array('entity_id'))
-                //->condition('f.field_product_category_value', $product_kategory_key, '!=')
-                ->range(0, 1)
-                ->orderRandom()
-                ->execute()
-                ->fetchField();
-        }
-            $item = $another_product_id;
-            $node_random = node_load($item);
 
-            $image_a = field_view_field('node', $node_random, 'uc_product_image', array('label' => 'hidden'));
-            $image = drupal_render($image_a);
-        
-            $title = "";
-            $title .= '<b>' . l($node_random->title, $GLOBALS['base_root'] . '/node/' . $node_random->nid) . '</b>';
-            print '<a href="' . $GLOBALS['base_root'] . '/node/' . $node_random->nid . '">' . $image . '</a>';
-            print $title;
-        
+            $another_product_id = db_select('field_data_field_product_category', 'f')
+                    ->fields('f', array('entity_id'))
+                    //->condition('f.field_product_category_value', $product_kategory_key, '!=')
+                    ->range(0, 1)
+                    ->orderRandom()
+                    ->execute()
+                    ->fetchField();
+        }
+        $item = $another_product_id;
+        $node_random = node_load($item);
+
+        $image_a = field_view_field('node', $node_random, 'uc_product_image', array('label' => 'hidden'));
+
+        $node = node_load($image_a['#object']->nid);
+        $image_w = field_get_items('node', $node, 'uc_product_image');
+        foreach ($image_w as $key => $value) {
+            switch ($key) {
+                case 0:
+                    $output = field_view_value('node', $node, 'uc_product_image', $image_w[$key], array(
+                        'type' => 'image',
+                        'settings' => array(
+                            'image_style' => 'w125', //place your image style here (see available image styles at /admin/config/media/image-styles)
+                        //'image_link' => 'content',
+                        ),
+                    ));
+                    break;
+            }
+        }
+
+
+
+
+        $image = drupal_render($output);
+
+        $title = "";
+        $title .= '<b>' . l($node_random->title, $GLOBALS['base_root'] . '/node/' . $node_random->nid) . '</b>';
+        print '<a href="' . $GLOBALS['base_root'] . '/node/' . $node_random->nid . '">' . $image . '</a>';
+        print '<span class="see_al">' . $title . '</span>';
     }
+
+    //die();
     return;
 }
 

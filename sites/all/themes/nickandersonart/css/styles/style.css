@@ -346,7 +346,7 @@ label[for=edit-sort-bef-combine] {
     display: block;
     margin: 0 auto;
 }
-.views-field-title .field-content a {
+.views-field-title .field-content a, .see_al a {
     /*bottom: 0;*/
     color: #6F6F6F;
     font: 11px/11px 'PT Sans',sans-serif;
@@ -2189,7 +2189,7 @@ ul.pager{float: none!important;}
     padding-bottom: 50px;
     width: 22%;
 }
-.page-products ul.pager {
+.page-products ul.pager, .page-accessories ul.pager {
     display: block;
     margin-bottom: 0;
     margin-left: auto;
@@ -2434,6 +2434,13 @@ option[value="status DESC"], option[value="random_seed DESC"]{
 .gold_img {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+.see_al a {
+    line-height: 16px;
+}
+.see_also img {
+    display: block;
+    margin: 0 auto;
 }
 /*
 .attribute-3 {
