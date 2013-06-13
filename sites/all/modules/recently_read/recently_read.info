@@ -3,15 +3,18 @@ description = Tracks the history of recently read content by each user.
 core = 7.x
 package = Other
 configure = admin/config/system/recently-read
+dependencies[] = entity
+dependencies[] = session_api
 
 files[] = recently_read.install
 files[] = recently_read.module
 files[] = includes/recently_read.views.inc
-files[] = includes/views_handler_filter_rr_user.inc
-files[] = includes/views_plugin_argument_rr.inc
-; Information added by drupal.org packaging script on 2013-02-05
-version = "7.x-2.0-alpha3"
+files[] = includes/recently_read_handler_filter_current.inc
+files[] = includes/recently_read_handler_filter_entity_type.inc
+
+; Information added by drupal.org packaging script on 2013-04-13
+version = "7.x-3.0-alpha1"
 core = "7.x"
 project = "recently_read"
-datestamp = "1360051246"
+datestamp = "1365839429"
 
