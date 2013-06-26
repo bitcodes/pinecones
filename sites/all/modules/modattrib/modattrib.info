@@ -1,0 +1,10 @@
+name = Modal Attributes
+description = Modal attributes in a cart checkout pane
+;files[] =
+package = Custom
+dependencies[] = uc_attribute
+;dependencies[] = custom
+dependencies[] = ctools
+dependencies[] = views
+version = 0.1
+core = 7.x

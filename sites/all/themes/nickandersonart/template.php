@@ -618,29 +618,33 @@ function nickandersonart_uc_attribute_add_to_cart($variables) {
   $output .= '<script type="text/javascript">
   (function($, Drupal, window, document, undefined) {
   $(document).ready(function() {
+       $(".attribute-1").each(function() {
+             setTimeout(function() {
 
-   $(".attribute-1").each(function() {
-   
-        setTimeout(function() {
-        
-            $("<span />").html("Length adjustable - One size fits all").appendTo($(".natural").parent("div"));
-            $("<img />").attr("src" , "../sites/all/themes/nickandersonart/css/styles/images/faux.jpg").addClass("gold_img").appendTo($(".natural").parent("div"));
-            $(".natural").parent("div").children("span").addClass("italic"); 
+                 $("<span />").html("Length adjustable - One size fits all").appendTo($(".natural").parent("div"));
+                 $("<img />").attr("src" , "../sites/all/themes/nickandersonart/images/chain-1-thumb.jpg").addClass("natural_img gold_img").appendTo($(".natural").parent("div"));
+                 $(".natural").parent("div").children("span").addClass("italic");
+                 $(".natural_img").wrap("<a/>");
+                 $(".natural_img").parent("a").addClass("colorbox init-colorbox-processed cboxElement natural_link").attr("href" , "../sites/all/themes/nickandersonart/images/chain-1-full.jpg").attr("rel", "gold_link");
 
-            $("<img />").attr("src" , "../sites/all/themes/nickandersonart/css/styles/images/silver_chain.jpg").addClass("gold_img").appendTo($(".silver").parent("div"));
-            $(".silver").parent("div").children("span").addClass("siver_span");
+                 $("<img />").attr("src" , "../sites/all/themes/nickandersonart/images/chain-2-thumb.jpg").addClass("silver_img gold_img").appendTo($(".silver").parent("div"));
+                 $(".silver").parent("div").children("span").addClass("siver_span");
+                 $(".silver_img").wrap("<a/>");
+                 $(".silver_img").parent("a").addClass("colorbox init-colorbox-processed cboxElement silver_link").attr("href" , "../sites/all/themes/nickandersonart/images/chain-2-full.jpg").attr("rel", "gold_link");
 
-            $("<img />").attr("src" , "../sites/all/themes/nickandersonart/css/styles/images/gold_chain.jpg").addClass("gold_img").appendTo($(".gold").parent("div"));
-            $(".gold").parent("div").children("span").addClass("gold_span");
+                 $("<img />").attr("src" , "../sites/all/themes/nickandersonart/images/chain-3-thumb.jpg").addClass("gold_img gold_imgage").appendTo($(".gold").parent("div"));
+                 $(".gold").parent("div").children("span").addClass("gold_span");
+                 $(".gold_imgage").wrap("<a/>");
+                 $(".gold_imgage").parent("a").addClass("colorbox init-colorbox-processed cboxElement gold_link").attr("href" , "../sites/all/themes/nickandersonart/images/chain-3-full.jpg").attr("rel", "gold_link");
 
-        if ($(".attribute-1").find(".natural").prop("checked") === true){
-            $(".attribute-3").find("select").css("display", "none");
-        } else {
-            $(".attribute-3").find("select").css("display", "block");
-        }
-        }, 25);
-      });  
-
+             if ($(".attribute-1").find(".natural").prop("checked") === true){
+                 $(".attribute-3").find("select").css("display", "none");
+             } else {
+                 $(".attribute-3").find("select").css("display", "block");
+                 $(".attribute-3").prepend("<span>Select Chain Length</span>");
+             }
+           }, 25);
+           });  
     });
   })(jQuery, Drupal, this, this.document);
 </script>';

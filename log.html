@@ -1,0 +1,818 @@
+<!-- Using Krumo Skin: skins/orange/skin.css -->
+<style type="text/css">
+<!--/**/
+/**
+* Krumo "Orange" Skin
+*
+* @author Kaloyan K. Tsvetkov <mrasnika@users.sourceforge.net>
+*/
+
+/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+
+ul.krumo-node {
+	margin: 0px;
+	padding: 0px;
+	}
+ul.krumo-node ul {
+	margin-left: 20px;
+	}
+* html ul.krumo-node ul {
+	margin-left: 24px;
+	}
+div.krumo-root {
+	border: solid 1px black;
+	margin: 1em 0em;
+	}
+ul.krumo-first {
+	font: normal 12px arial;
+	border: solid 2px white;
+	border-top-width:1px;
+	background: url(http://nickanderson.loc/sites/all/modules/devel/krumo/skins/orange/bg.gif);
+	}
+
+/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+
+li.krumo-child {
+	display:block;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	overflow:hidden;
+	}
+div.krumo-element {
+	cursor:default;
+
+	line-height: 24px;
+	display:block;
+	
+	clear:both;
+	white-space:nowrap;
+	
+	border-top: solid 1px white;
+	background: #FCEBA9;
+	padding-left: 10px;
+	}
+* html div.krumo-element {
+	padding-bottom: 3px;
+	}
+a.krumo-name {
+	color:#404000;
+	font: bold 13px Arial;
+	}
+a.krumo-name big {
+	font: bold 20pt Georgia;
+	line-height: 14px;
+	position:relative;
+	top:2px;
+	left:-2px;
+	}
+* html a.krumo-name big {
+	font: bold 19pt Georgia;
+	top: 5px;
+	left: 0px;
+	line-height: 9px;
+	height: 12px;
+	padding: 0px;
+	margin: 0px;
+	}
+div.krumo-expand {
+	background: #FADB61;
+	cursor:pointer;
+	}
+div.krumo-hover {
+	background: #FF8A4B;
+	}
+
+/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+
+div.krumo-preview {
+	font: normal 13px courier new;
+	padding: 5px 5px 14px 5px;
+	background: white;
+	border-top: 0px;
+	overflow:auto;
+	white-space: pre;
+	}
+* html div.krumo-preview {
+	padding-top: 2px;
+	}
+
+/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+
+li.krumo-footnote {
+	background:white;
+	padding: 2px 5px;
+	list-style:none;
+	border-top: solid 1px #bebebe;
+	margin-top:2px;
+	cursor:default;
+	}
+* html li.krumo-footnote {
+	line-height: 13px;
+	}
+div.krumo-version {
+	float:right;
+	}
+li.krumo-footnote h6 {
+	font: bold 11px verdana;
+	margin: 0px;
+	padding: 0px;
+	color:#E87400;
+	display:inline;
+	}
+* html li.krumo-footnote h6 {
+	margin-right: 3px;
+	}
+li.krumo-footnote a {
+	font: bold 10px arial;
+	color: #434343;
+	text-decoration:none;
+	}
+li.krumo-footnote a:hover {
+	color:black;
+	}
+
+li.krumo-footnote span.krumo-call {
+	font:normal 11px verdana;
+	position: relative;
+	top: 1px;
+	}
+li.krumo-footnote span.krumo-call code {
+	font-weight:bold;
+	}
+
+/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+
+div.krumo-title {
+	font: normal 11px verdana ;
+	position:relative;
+	top:9px;
+	cursor:default;
+	line-height:2px;
+	}
+
+/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+
+strong.krumo-array-length,
+strong.krumo-string-length {
+	font-weight: normal;
+	}
+
+/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+
+/**/-->
+</style>
+<script type="text/javascript">
+<!--//
+/**
+* JavaScript routines for Krumo
+*
+* @link http://sourceforge.net/projects/krumo
+*/
+
+/////////////////////////////////////////////////////////////////////////////
+
+/**
+* Krumo JS Class
+*/
+function krumo() {
+	}
+
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+
+/**
+* Add a CSS class to an HTML element
+*
+* @param HtmlElement el 
+* @param string className 
+* @return void
+*/
+krumo.reclass = function(el, className) {
+	if (el.className.indexOf(className) < 0) {
+		el.className += (' ' + className);
+		}
+	}
+
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+
+/**
+* Remove a CSS class to an HTML element
+*
+* @param HtmlElement el 
+* @param string className 
+* @return void
+*/
+krumo.unclass = function(el, className) {
+	if (el.className.indexOf(className) > -1) {
+		el.className = el.className.replace(className, '');
+		}
+	}
+
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+
+/**
+* Toggle the nodes connected to an HTML element
+*
+* @param HtmlElement el 
+* @return void
+*/
+krumo.toggle = function(el) {
+	var ul = el.parentNode.getElementsByTagName('ul');
+	for (var i=0; i<ul.length; i++) {
+		if (ul[i].parentNode.parentNode == el.parentNode) {
+			ul[i].parentNode.style.display = (ul[i].parentNode.style.display == 'none')
+				? 'block'
+				: 'none';
+			}
+		}
+
+	// toggle class
+	//
+	if (ul[0].parentNode.style.display == 'block') {
+		krumo.reclass(el, 'krumo-opened');
+		} else {
+		krumo.unclass(el, 'krumo-opened');
+		}
+	}
+
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+
+/**
+* Hover over an HTML element
+*
+* @param HtmlElement el 
+* @return void
+*/
+krumo.over = function(el) {
+	krumo.reclass(el, 'krumo-hover');
+	}
+
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+
+/**
+* Hover out an HTML element
+*
+* @param HtmlElement el 
+* @return void
+*/
+
+krumo.out = function(el) {
+	krumo.unclass(el, 'krumo-hover');
+	}
+	
+/////////////////////////////////////////////////////////////////////////////
+//-->
+</script>
+<div class="krumo-root" dir="ltr">
+  <ul class="krumo-node krumo-first">
+    <li class="krumo-child">
+
+  <div class="krumo-element krumo-expand"
+     onClick="krumo.toggle(this);"    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">...</a>
+      (<em class="krumo-type">Array, <strong class="krumo-array-length">2 elements</strong></em>)
+
+
+      
+  </div>
+
+  <div class="krumo-nest" style="display:none;">
+  <ul class="krumo-node">
+  <li class="krumo-child">
+
+  <div class="krumo-element krumo-expand"
+     onClick="krumo.toggle(this);"    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">attributes</a>
+      (<em class="krumo-type">Array, <strong class="krumo-array-length">6 elements</strong></em>)
+
+
+      
+  </div>
+
+  <div class="krumo-nest" style="display:none;">
+  <ul class="krumo-node">
+  <li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#theme</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">24 characters</strong> </em>)
+      <strong class="krumo-string">uc_attribute_add_to_cart</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#id</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">4 characters</strong> </em>)
+      <strong class="krumo-string">ajax</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element krumo-expand"
+     onClick="krumo.toggle(this);"    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">1</a>
+      (<em class="krumo-type">Array, <strong class="krumo-array-length">7 elements</strong></em>)
+
+
+      
+  </div>
+
+  <div class="krumo-nest" style="display:none;">
+  <ul class="krumo-node">
+  <li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#type</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">6 characters</strong> </em>)
+      <strong class="krumo-string">radios</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#default_value</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">1 characters</strong> </em>)
+      <strong class="krumo-string">1</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element krumo-expand"
+     onClick="krumo.toggle(this);"    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#options</a>
+      (<em class="krumo-type">Array, <strong class="krumo-array-length">3 elements</strong></em>)
+
+
+      
+  </div>
+
+  <div class="krumo-nest" style="display:none;">
+  <ul class="krumo-node">
+  <li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">1</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">20 characters</strong> </em>)
+      <strong class="krumo-string">Natural Faux Leather</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">2</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">30 characters</strong> </em>)
+      <strong class="krumo-string">Sterling Silver Chain, +$33.00</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">3</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">23 characters</strong> </em>)
+      <strong class="krumo-string">24k Gold Chain, +$44.00</strong>
+
+      
+  </div>
+
+  </li>
+  </ul>
+</div>
+</li>
+<li class="krumo-child">
+
+  <div class="krumo-element krumo-expand"
+     onClick="krumo.toggle(this);"    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#ajax</a>
+      (<em class="krumo-type">Array, <strong class="krumo-array-length">2 elements</strong></em>)
+
+
+      
+  </div>
+
+  <div class="krumo-nest" style="display:none;">
+  <ul class="krumo-node">
+  <li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">callback</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">24 characters</strong> </em>)
+      <strong class="krumo-string">uc_attribute_option_ajax</strong>
+
+              <span class="krumo-callback"> |
+          (<em class="krumo-type">Callback</em>)
+          <strong class="krumo-string">uc_attribute_option_ajax();</strong></span>
+        
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">wrapper</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">4 characters</strong> </em>)
+      <strong class="krumo-string">ajax</strong>
+
+      
+  </div>
+
+  </li>
+  </ul>
+</div>
+</li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#title</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">19 characters</strong> </em>)
+      <strong class="krumo-string">Choose Cord / Chain</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#description</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">0 characters</strong> </em>)
+      <strong class="krumo-string"></strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#required</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">1 characters</strong> </em>)
+      <strong class="krumo-string">0</strong>
+
+      
+  </div>
+
+  </li>
+  </ul>
+</div>
+</li>
+<li class="krumo-child">
+
+  <div class="krumo-element krumo-expand"
+     onClick="krumo.toggle(this);"    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">3</a>
+      (<em class="krumo-type">Array, <strong class="krumo-array-length">6 elements</strong></em>)
+
+
+      
+  </div>
+
+  <div class="krumo-nest" style="display:none;">
+  <ul class="krumo-node">
+  <li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#type</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">6 characters</strong> </em>)
+      <strong class="krumo-string">select</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#default_value</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">1 characters</strong> </em>)
+      <strong class="krumo-string">7</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element krumo-expand"
+     onClick="krumo.toggle(this);"    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#options</a>
+      (<em class="krumo-type">Array, <strong class="krumo-array-length">3 elements</strong></em>)
+
+
+      
+  </div>
+
+  <div class="krumo-nest" style="display:none;">
+  <ul class="krumo-node">
+  <li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">7</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">7 characters</strong> </em>)
+      <strong class="krumo-string">18 inch</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">8</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">7 characters</strong> </em>)
+      <strong class="krumo-string">20 inch</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">9</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">7 characters</strong> </em>)
+      <strong class="krumo-string">22 inch</strong>
+
+      
+  </div>
+
+  </li>
+  </ul>
+</div>
+</li>
+<li class="krumo-child">
+
+  <div class="krumo-element krumo-expand"
+     onClick="krumo.toggle(this);"    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#ajax</a>
+      (<em class="krumo-type">Array, <strong class="krumo-array-length">2 elements</strong></em>)
+
+
+      
+  </div>
+
+  <div class="krumo-nest" style="display:none;">
+  <ul class="krumo-node">
+  <li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">callback</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">24 characters</strong> </em>)
+      <strong class="krumo-string">uc_attribute_option_ajax</strong>
+
+              <span class="krumo-callback"> |
+          (<em class="krumo-type">Callback</em>)
+          <strong class="krumo-string">uc_attribute_option_ajax();</strong></span>
+        
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">wrapper</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">4 characters</strong> </em>)
+      <strong class="krumo-string">ajax</strong>
+
+      
+  </div>
+
+  </li>
+  </ul>
+</div>
+</li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#description</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">0 characters</strong> </em>)
+      <strong class="krumo-string"></strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#required</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">1 characters</strong> </em>)
+      <strong class="krumo-string">0</strong>
+
+      
+  </div>
+
+  </li>
+  </ul>
+</div>
+</li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#tree</a>
+      (<em class="krumo-type">Boolean</em>)
+      <strong class="krumo-boolean">TRUE</strong>
+  </div>
+
+</li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#weight</a>
+      (<em class="krumo-type">Integer</em>)
+      <strong class="krumo-integer">-1</strong>
+  </div>
+
+</li>
+  </ul>
+</div>
+</li>
+<li class="krumo-child">
+
+  <div class="krumo-element krumo-expand"
+     onClick="krumo.toggle(this);"    onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">submit</a>
+      (<em class="krumo-type">Array, <strong class="krumo-array-length">2 elements</strong></em>)
+
+
+      
+  </div>
+
+  <div class="krumo-nest" style="display:none;">
+  <ul class="krumo-node">
+  <li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#type</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">6 characters</strong> </em>)
+      <strong class="krumo-string">submit</strong>
+
+      
+  </div>
+
+  </li>
+<li class="krumo-child">
+
+  <div class="krumo-element"
+        onMouseOver="krumo.over(this);"
+    onMouseOut="krumo.out(this);">
+
+            <a class="krumo-name">#value</a>
+      (<em class="krumo-type">String,
+        <strong class="krumo-string-length">6 characters</strong> </em>)
+      <strong class="krumo-string">Submit</strong>
+
+      
+  </div>
+
+  </li>
+  </ul>
+</div>
+</li>
+  </ul>
+</div>
+</li>
+    <li class="krumo-footnote">
+      <div class="krumo-version" style="white-space:nowrap;">
+        <h6>Krumo version 0.2.1a</h6> | <a
+          href="http://krumo.sourceforge.net"
+          target="_blank">http://krumo.sourceforge.net</a>
+      </div>
+
+        <span class="krumo-call" style="white-space:nowrap;">
+      Called from <code>/home/orgeshkovskiy/www/nickanderson.loc/sites/all/modules/attribute/attribute.module</code>,
+        line <code>129</code></span>
+        &nbsp;
+    </li>
+  </ul>
+</div>

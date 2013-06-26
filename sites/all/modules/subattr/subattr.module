@@ -1,5 +1,26 @@
 <?php
-function custom_uc_form_alter(&$form, &$form_state, $form_id) {
+
+function subattr_form_uc_product_settings_form_alter(&$form, &$form_state) {
+  $form['attributes'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Attribute settings',
+    '#group' => 'product-settings',
+    '#weight' => -3,
+  );
+  $form['attributes']['uc_attribute_option_price_format'] = array(
+    '#type' => 'select',
+    '#title' => t('Option price format'),
+    '#default_value' => variable_get('uc_attribute_option_price_format', 'adjustment'),
+    '#options' => array('none' => t('Do not display'),
+      'adjustment' => t('Display price adjustment'),
+      'total' => t('Display total price'),
+      'clean' => t('Just show attribute price'), 
+    ),
+    '#description' => t('Determines how price variations are displayed to the customer. Prices may be displayed directly next to each attribute option in the attribute selection form either as a total price for the product with that option or as an adjustment (+ or -) showing how that option affects the product base price. Note that the price will always be displayed as an adjustment for attributes that can have multiple options (using checkboxes).'),
+  );
+}
+
+function subattr_uc_form_alter(&$form, &$form_state, $form_id) {
     if (strpos($form_id, 'add_to_cart_form') || $form_id == 'uc_order_add_product_form') {
         $use_ajax = strpos($form_id, 'add_to_cart_form') && variable_get('uc_product_update_node_view', FALSE);
         $node = & $form['node']['#value'];
@@ -12,7 +33,7 @@ function custom_uc_form_alter(&$form, &$form_state, $form_id) {
                 $element = &$form['sub_products'];
             }
             foreach (element_children($element) as $key) {
-                $element[$key]['attributes'] = _uc_attribute_alter_form($id . '-' . $key, $node->products[$key], $use_ajax);
+                $element[$key]['attributes'] = _subattr_uc_attribute_alter_form($id . '-' . $key, $node->products[$key], $use_ajax);
 
                 if (is_array($element[$key]['attributes'])) {
                     $element[$key]['attributes']['#tree'] = TRUE;
@@ -22,8 +43,7 @@ function custom_uc_form_alter(&$form, &$form_state, $form_id) {
         }
         // If not, add attributes to the node.
         else {
-            $form['attributes'] = _uc_attribute_alter_form($id, $node, $use_ajax);
-            
+            $form['attributes'] = _subattr_uc_attribute_alter_form($id, $node, $use_ajax);
             if (is_array($form['attributes'])) {
                 $form['attributes']['#tree'] = TRUE;
                 $form['attributes']['#weight'] = -1;
@@ -32,3 +52,180 @@ function custom_uc_form_alter(&$form, &$form_state, $form_id) {
         }
     }
 }
+
+function _subattr_uc_attribute_alter_form($id, &$product, $use_ajax) {
+  // If the product doesn't have attributes, return the form as it is.
+  if (empty($product->attributes) || !is_array($product->attributes)) {
+    return NULL;
+  }
+
+  $nid = $product->nid;
+  $attributes = $product->attributes;
+  $priced_attributes = uc_attribute_priced_attributes($nid);
+
+  // If the form is being built for the first time, populate attributes with their default values.
+  if (!isset($product->data['attributes'])) {
+    $values = array();
+    foreach ($priced_attributes as $aid) {
+      if (!$attributes[$aid]->required && ($attributes[$aid]->display == 1 || $attributes[$aid]->display == 2)) {
+        $values[$aid] = $attributes[$aid]->default_option;
+      }
+    }
+    if (!empty($values)) {
+      $data = $product->data;
+      $data['attributes'] = $values;
+      if (isset($product->qty)) {
+        // Preserve the quantity (for product-kit sub-products).
+        $qty = $product->qty;
+      }
+      $product = uc_product_load_variant($product->nid, $data);
+      if (isset($qty)) {
+        $product->qty = $qty;
+      }
+    }
+  }
+
+  if (empty($product->data) || !is_array($product->data)) {
+    $product->data = array();
+  }
+
+  // Initialize the form element.
+  $form_attributes = array(
+    '#theme' => 'uc_attribute_add_to_cart',
+    '#id' => $id,
+  );
+
+  $price_format = variable_get('uc_attribute_option_price_format', 'adjustment');
+
+  // Loop through each product attribute and generate its form element.
+  foreach ($attributes as $attribute) {
+    // Build the attribute's options array.
+    $options = array();
+    foreach ($attribute->options as $option) {
+      $display_price = '';
+      if (in_array($attribute->aid, $priced_attributes)) {
+        $data = array('display_only' => TRUE) + $product->data;
+        if (empty($data['attributes'])) {
+          $data['attributes'] = array();
+        }
+        switch ($price_format) {
+            
+          case 'total':
+            // Only display total price for non-checkbox options.
+            // !TODO Fix attribute option total price display for product kits.
+            if ($attribute->display != 3 && !isset($product->data['kit_id'])) {
+              $use_ajax = $use_ajax || (count($priced_attributes) > 1);
+              $data['attributes'] = array($attribute->aid => $option->oid) + $data['attributes'];
+              $variant = node_view(uc_product_load_variant($product->nid, $data), 'teaser');
+              $display_price = uc_currency_format($variant['display_price']['#value']);
+              break;
+            }
+          case 'adjustment':
+            if ($attribute->display == 3 || !$use_ajax) {
+              // For checkboxes, or if the node totals are not being updated,
+              // we compare this attribute against base price.
+              if (empty($base)) { // only build the base once.
+                unset($data['attributes']);
+                $base = node_view(uc_product_load_variant($product->nid, $data), 'teaser');
+              }
+              $data['attributes'] = array($attribute->aid => $option->oid);
+              $variant = node_view(uc_product_load_variant($product->nid, $data), 'teaser');
+              $adjustment = $variant['display_price']['#value'] - $base['display_price']['#value'];
+            }
+            else {
+              // Otherwise we compare against current total price.
+              if (empty($selected)) {
+                $selected = node_view(uc_product_load_variant($product->nid, $data), 'teaser');
+              }
+              $data['attributes'] = array($attribute->aid => $option->oid) + $data['attributes'];
+              $variant = node_view(uc_product_load_variant($product->nid, $data), 'teaser');
+              $adjustment = $variant['display_price']['#value'] - $selected['display_price']['#value'];
+            }
+            if ($adjustment != 0) {
+              $display_price = $adjustment > 0 ? '+' : '-';
+              $display_price .= uc_currency_format(abs($adjustment));
+            }
+            break;
+        }
+      }
+
+      // Select options are check_plain()ed, but radio button labels are not.
+      $options[$option->oid] = theme('uc_attribute_option', array(
+        'option' => $attribute->display == 2 ? check_plain($option->name) : $option->name,
+        'price' => $display_price,
+      ));
+    }
+
+    if (count($attribute->options) && $attribute->display > 0) {
+      if ($attribute->required) {
+        if ($attribute->display == 1) {
+          $options = array('' => t('Please select')) + $options;
+        }
+        $attribute->default_option = '';
+      }
+      $attr_type = '';
+      switch ($attribute->display) {
+        case 1:
+          $attr_type = 'select';
+          break;
+        case 2:
+          $attr_type = 'radios';
+          break;
+        case 3:
+          $attr_type = 'checkboxes';
+          $attribute->default_option = array();
+          break;
+      }
+      $form_attributes[$attribute->aid] = array(
+        '#type' => $attr_type,
+        '#default_value' => $attribute->default_option,
+        '#options' => $options,
+      );
+      if ($use_ajax) {
+        $form_attributes[$attribute->aid]['#ajax'] = array(
+          'callback' => 'uc_attribute_option_ajax',
+          'wrapper' => $id,
+        );
+      }
+    }
+    elseif ($attribute->display > 0) {
+      $form_attributes[$attribute->aid] = array(
+        '#type' => 'textfield',
+        '#default_value' => '',
+      );
+      if (!$attribute->required && isset($attribute->options[$attribute->default_option])) {
+        $form_attributes[$attribute->aid]['#default_value'] = $attribute->options[$attribute->default_option]->name;
+      }
+    }
+    else {
+      $form_attributes[$attribute->aid] = array(
+        '#type' => 'textfield',
+        '#default_value' => '',
+      );
+    }
+
+    $name = _uc_attribute_get_name($attribute, FALSE);
+    if (!is_null($name)) {
+      $form_attributes[$attribute->aid]['#title'] = check_plain($name);
+    }
+
+    $form_attributes[$attribute->aid]['#description'] = filter_xss($attribute->description);
+    $form_attributes[$attribute->aid]['#required'] = $attribute->required;
+  }
+
+  return $form_attributes;
+}
+
+
+/*
+
+function subattr_form_alter(&$form, $form_state, $form_id) {
+  
+if(substr($form_id, 0, 28) == 'uc_product_add_to_cart_form_')  {
+          
+            
+
+        }
+}
+ * */
+ 

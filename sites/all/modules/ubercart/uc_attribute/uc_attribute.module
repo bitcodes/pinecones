@@ -1332,7 +1332,12 @@ function _uc_attribute_alter_form($id, &$product, $use_ajax) {
               $use_ajax = $use_ajax || (count($priced_attributes) > 1);
               $data['attributes'] = array($attribute->aid => $option->oid) + $data['attributes'];
               $variant = node_view(uc_product_load_variant($product->nid, $data), 'teaser');
-              $display_price = uc_currency_format($variant['display_price']['#value']);
+              $display_price = uc_currency_format($variant['cost']['#value']); //sorry dirty hack sz $variant['display_price']['#value'] to $variant['cost']['#value']
+              //sz
+             if ($variant['cost']['#value'] == 0) {
+                 $display_price = FALSE;
+             }
+             //end sz
               break;
             }
           case 'adjustment':

@@ -30,9 +30,6 @@
                
                 
              var $child = $(this).parent('div').parent('.collapse_filter').children('div ul').children('li').find('input');
-                
-                
-                
                     $(this).parent('div').parent('.collapse_filter').children('div ul').children('li').each(function(){
                         
                               if ($(this).find('input').prop('checked') === true) {

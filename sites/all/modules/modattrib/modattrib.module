@@ -1,0 +1,127 @@
+<?php 
+/**
+ *  Implementation of hook_menu()
+ */
+function modattrib_menu() {
+  $items = array();
+ 
+  $items['modattrib/%ctools_js/contact'] = array(
+    'title' => 'Contact',
+    'page callback' => 'modattrib_contact_page_callback',
+    'page arguments' => array(1),
+    'access arguments' => array('access site-wide contact form'),
+    'delivery callback' => 'ajax_deliver',
+    'theme callback' => 'ajax_base_page_theme',
+  );
+ 
+  return $items;
+}
+
+/**
+ * @param null $js
+ * @return array
+ */
+function modattrib_contact_page_callback($js = NULL) {
+ 
+  // Если у пользователя выключен JavaScript в браузере, то отправляют его на обычную форму обратной связи.
+  if (!$js) {
+    //drupal_goto('contact');
+  }
+ 
+  // Подключаем библиотеку для работы с модальным окном с помощью ajax команд.
+  ctools_include('modal');
+ 
+  $form_state = array(
+    'title' => t('Change Cord/Chain'), // Используется для заголовка модального окна.
+    'ajax' => TRUE,
+    'build_info' => array(
+      'args' => array(),
+    ),
+  );
+ 
+  // Подключаем файл, в котором описана функция формирующая форму.
+  form_load_include($form_state, 'module', 'attribute', 'attribute'); 
+ 
+  $commands = array();
+ 
+  // Формируем форму в модальном окне.
+  $commands = ctools_modal_form_wrapper('attribute_form', $form_state);
+ 
+  // Если форма была успешно отправлена, то выводим сообщение об этом и закрываем модальное окно.
+  if (!empty($form_state['executed'])) {
+    $commands = array();
+ 
+    // Выводим сообщение об успешной отправке формы.
+    $commands[] = ajax_command_html('#messages-wrapper', theme('status_messages'));
+ 
+    // Закрываем модальное окно.
+    $commands[] = ctools_modal_command_dismiss();
+  }
+ 
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function modattrib_block_info() {
+  $blocks['modattrib_contact'] = array(
+    'info' => t('Contact modal link'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+ 
+  return $blocks;
+}
+ 
+/**
+ * Implements hook_block_view().
+ */
+function modattrib_block_view($delta = '') {
+  $block = array();
+ 
+  if ($delta == 'modattrib_contact') {
+ 
+    // В этой функции подключаются необходимые библиотеки, js и css файлы (если нужны), а так же устанавливаются 
+    // настройки для модального окна. Эту функцию мы опишем позже
+    _modattrib_include_modal();
+ 
+    $block['content'] = ctools_modal_text_button(t('Contact'), 'modattrib/nojs/contact', t('Contact'), 'ctools-modal-modattrib-contact-style');
+  }
+ 
+  return $block;
+}
+
+function _modattrib_include_modal() {
+ 
+  static $added = FALSE;
+  if ($added == FALSE) {
+    $added = TRUE;
+ 
+    // Include the CTools tools that we need.
+    ctools_include('modal');
+    ctools_include('ajax');
+    ctools_modal_add_js();
+ 
+    // Создаем массив с настройками для модального окна.
+    $modattrib_style = array(
+      'modattrib-contact-style' => array(
+        'modalSize' => array(
+          'type' => 'fixed', // Тип модального окна. фиксированный или резиновый.
+          'width' => 280, // Ширина модального окна.
+          'height' => 'auto', // Высота модального окна.
+        ),
+        'modalOptions' => array(
+          'opacity' => (float) 0.7, // Прозрачность фона.
+          'background-color' => '#CECECE', // Цвет фона.
+        ),
+        'closeText' => '', // Текст для закрытия модального окна.
+        'loadingText' => '', // Текст, отображаемый в момент загрузки модального окна.
+        'animation' => 'fadeIn', // Эффект появления модального окна.
+        'animationSpeed' => 'fast', // Скорость анимации.
+      ),
+    );
+ 
+    // Подключаем настройки для модального окна.
+    drupal_add_js($modattrib_style, 'setting');
+  }
+}

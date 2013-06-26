@@ -442,6 +442,7 @@ function custom_form_search_form_alter(&$form, &$form_state, $form_id){
       hide($form);
   }
 }
+ 
 
 /*
 function custom_form_uc_form_alter(&$form, &$form_state, $form_id) {
@@ -477,6 +478,6 @@ function custom_form_uc_form_alter(&$form, &$form_state, $form_id) {
     }
   }
 }
-*/
 
+*/
 

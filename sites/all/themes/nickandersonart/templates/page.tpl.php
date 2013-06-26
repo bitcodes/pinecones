@@ -70,6 +70,71 @@
  */
 
 ?>
+<?php
+/*
+$q = db_select('uc_product_attributes', 'ua')
+        ->fields('ua', array('nid'))
+        ->condition('ua.aid', 1)
+        ->execute()
+        ->fetchAllAssoc('nid');
+$i = 6;
+while ($i++ < 9) {
+
+    foreach ($q as $value) {
+
+
+        $sel = db_select(uc_product_options, 'uo')
+                ->fields('uo', array('nid'))
+                ->condition('uo.oid', array($i))
+                ->execute()
+                ->fetchCol();
+        if (!(in_array($value->nid, $sel))) {
+            if ($i == 7) {
+                db_insert('uc_product_options')
+                        ->fields(array(
+                            'nid' => $value->nid,
+                            'oid' => $i,
+                            'cost' => '0.00000',
+                            'price' => '0.00000',
+                            'weight' => 0,
+                            'ordering' => -1,
+                        ))
+                        ->execute();
+            }
+            if ($i == 8) {
+                db_insert('uc_product_options')
+                        ->fields(array(
+                            'nid' => $value->nid,
+                            'oid' => $i,
+                            'cost' => '0.00000',
+                            'price' => '0.00000',
+                            'weight' => 0,
+                            'ordering' => 0,
+                        ))
+                        ->execute();
+            }
+            if ($i == 9) {
+                db_insert('uc_product_options')
+                        ->fields(array(
+                            'nid' => $value->nid,
+                            'oid' => $i,
+                            'cost' => '0.00000',
+                            'price' => '0.00000',
+                            'weight' => 0,
+                            'ordering' => 1,
+                        ))
+                        ->execute();
+            }
+        } else {
+            echo 'done <br />';
+        }
+    }
+}
+
+
+die();
+ */
+?>
     <div id="wrapper">
         <div id="header_row">
             <div id="header">

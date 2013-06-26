@@ -3,6 +3,6 @@ description = Sub attributes for Ubercart store
 ;files[] = 
 package = Custom
 dependencies[] = uc_attribute
-dependencies[] = custom
+;dependencies[] = custom
 version = 7.x-1.1
 core = 7.x

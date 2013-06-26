@@ -30,6 +30,10 @@ function custom_view_other_products() {
     return $output;
 }
 
+function empt($el) {
+   return !empty($el);
+}
+
 /**
  * Implement hook_form()
  * The checkout form built up from the enabled checkout panes.
@@ -45,13 +49,13 @@ function custom_view_other_products() {
  * @ingroup forms
  */
 function custom_uc_cart_review_table($variables) {
-
     $span_remove = '<span class="remove_tooltip"></span>';
     $span_attr = '<span class="attr_tooltip"></span>';
     $data = uc_cart_get_contents();
     $items = $variables['items'];
-    $show_subtotal = $variables['show_subtotal'];
     
+    
+    $show_subtotal = $variables['show_subtotal'];
     $continue_shopping = $form['actions']['continue_shopping'] = array(
         '#markup' => '<span class="cont_shop">' . l(t('Continue shopping'), $GLOBALS['base_root'] . '/products') . '</span>',
     );
@@ -75,8 +79,9 @@ function custom_uc_cart_review_table($variables) {
     // Set up table rows.
     $display_items = entity_view('uc_order_product', $items, 'cart');
     if (!empty($display_items['uc_order_product'])) {
+
         foreach ($data as $key) {
-           // krumo($key);
+             
             // Find Attribute name by id
             if(isset($key->attributes) == TRUE){
                 foreach ($key->attributes as $attrib) {
@@ -96,17 +101,17 @@ function custom_uc_cart_review_table($variables) {
                             }
                         }
 
-
                         $attribute_name = db_select('uc_attribute_options', 'op')
                                 ->fields('op', array('name'))
                                 ->condition('oid', $id)
                                 ->execute()
                                 ->fetchField();
+                        
                         $attribute_names = array();
                         array_unshift($attribute_names, $attribute_name);
                     }
                 }   
-            //end find attribute;
+               
             }
             
             $rm = $key->cart_item_id;
@@ -127,25 +132,65 @@ function custom_uc_cart_review_table($variables) {
 
             $total = $key->price;
             $subtotal += $total * ($key->qty);
-
+    
             $description = '<div class="prod_info">';
             
-            if (isset($name_id)) {
-                $description .= '<a target="_blank" href=" ' . $GLOBALS['base_root'] . '/node/' . $key->nid . ' "><b>' . $key->title . '</a></b>
-                 <a class="attribute_name colorbox-inline" href="' . $GLOBALS['base_root'] . '/attribute/' . $key->cart_item_id . '?width=260&height=220">' . $span_attr . ' (' . $name_id . ')</a>';
-            } elseif ($key->data['attributes'] == TRUE) { //if true - show attibute name
-                $description .= '<a target="_blank" href=" ' . $GLOBALS['base_root'] . '/node/' . $key->nid . ' "><b>' . $key->title . '</a></b>
-                        <a class="attribute_name colorbox-inline" rel="nofollow" href="' . $GLOBALS['base_root'] . '/attribute/' . $key->cart_item_id . '?width=350&height=480">' . $span_attr . ' (' . $attribute_name . ')</a>';
-            } else {
+            if(empty($key->field_apparel)){
+            $atrib_name = db_select('uc_cart_products', 'ucp')
+                        ->fields('ucp', array('data'))
+                        ->condition('cart_item_id', $key->cart_item_id)
+                        ->execute()
+                        ->fetchAll();
+                    
+                $current_attrib = unserialize($atrib_name[0]->data);
+              
                 $description .= '<a target="_blank" href=" ' . $GLOBALS['base_root'] . '/node/' . $key->nid . ' "><b>' . $key->title . '</a></b>';
+                _attribute_include_modal();
+                
+                
+                foreach ($current_attrib['attributes'] as $aid => $oid) {
+
+                $current_atrib_name_1[] = db_select('uc_attribute_options', 'ua')
+                        ->fields('ua', array('name'))
+                        ->condition('aid', 1)
+                        ->condition('oid', $oid)
+                        ->execute()
+                        ->fetchField();
+                $current_atrib_name_3[] = db_select('uc_attribute_options', 'ua')
+                        ->fields('ua', array('name'))
+                        ->condition('aid', 3)
+                        ->condition('oid', $oid)
+                        ->execute()
+                        ->fetchField();
+
+
+                $ar1 = array_filter( $current_atrib_name_1, "empt");
+                $ar3 = array_filter( $current_atrib_name_3, "empt");
+                
+
+                $merge = array_combine($ar1, $ar3);
             }
-            $description .= '<small>';
-            $description .= '<div class="sku"> Item #' . $sku . ' -  </div>';
+            
+            foreach ($merge as $keyq => $valueq) {
+                
+            }
+              if ($keyq == 'Natural Faux Leather' && $valueq == '18 inch') {
+                  $valueq = 'Оne size fits all';
+                    $description .= ctools_modal_text_button($span_attr . $keyq . ' - ' . $valueq, $GLOBALS['base_root'] . '/attribute/nojs/' . $key->cart_item_id, t(''), 'attribute_name ctools-modal-attribute-change-style');
+                } else {
+                    $description .= ctools_modal_text_button($span_attr . $keyq . ' - ' . $valueq, $GLOBALS['base_root'] . '/attribute/nojs/' . $key->cart_item_id, t(''), 'attribute_name ctools-modal-attribute-change-style');
+                }
+            }
 
-            $description .= '</small>';
-            $description .= '<a href=" ' . $GLOBALS['base_root'] . '/shippingreturns "><small>Shipping & Returns</small></a>' . '</div>';
+            //$description .= ctools_modal_text_button($attribute_name, $GLOBALS['base_root'] . '/attribute/nojs/' . $key->cart_item_id, t('Change cord/Chain'), 'ctools-modal-attribute-change-style');
 
-            $suffix = !empty($display_item['#suffixes']) ? implode(' ', $display_item['#suffixes']) : '';
+                        $description .= '<small>';
+                        $description .= '<div class="sku"> Item #' . $sku . ' -  </div>';
+
+                        $description .= '</small>';
+                        $description .= '<a href=" ' . $GLOBALS['base_root'] . '/shippingreturns "><small>Shipping & Returns</small></a>' . '</div>';
+                        //
+                        $suffix = !empty($display_item['#suffixes']) ? implode(' ', $display_item['#suffixes']) : '';
             
             if ($key->nid != 0) {
                 $rows[] = array(
@@ -157,6 +202,7 @@ function custom_uc_cart_review_table($variables) {
                 );
             }
         }
+        
     }
 
     //add delimeter
@@ -215,7 +261,7 @@ function custom_uc_cart_review_table($variables) {
             '#markup' => $next_button,
         ),
     );
-
+    
     return theme('table', array('rows' => $rows, 'attributes' => array('class' => array('cart-review'))));
 }
 

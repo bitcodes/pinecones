@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * This module allow change attribute in a new page
@@ -10,15 +11,6 @@
 function attribute_menu() {
     $items[] = array();
 
-    $items['attribute/%'] = array(
-        'title' => 'Atributes page',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('attribute_options_form'),
-        'description' => 'Way to change attributes',
-        'access callback' => 'user_access',
-        'access arguments' => array('access content'),
-        'type' => MENU_CALLBACK
-    );
     $items['attribute/confirm'] = array(
         'title' => 'Confirnation page',
         'page callback' => 'attribute',
@@ -27,7 +19,90 @@ function attribute_menu() {
         'access arguments' => array('access content'),
         'type' => MENU_CALLBACK
     );
+
+    $items['attribute/%ctools_js/%'] = array(
+        'title' => 'Ajax atribute',
+        'page callback' => 'attribute_change_page_callback',
+        'page arguments' => array('attribute_options_form'),
+        'access arguments' => array('access content'),
+        'delivery callback' => 'ajax_deliver',
+        'theme callback' => 'ajax_base_page_theme',
+    );
     return $items;
+}
+
+/**
+ * @param null $js
+ * @return array
+ */
+function attribute_change_page_callback($js = NULL) {
+
+    if (!$js) {
+        //drupal_goto('contact');
+    }
+
+    ctools_include('modal');
+    ctools_include('ajax');
+    ctools_add_js('ajax-responder','ajax-responder');
+    
+    $form_state = array(
+        'title' => t('Change Crod / Chain'),
+        'ajax' => TRUE,
+        'build_info' => array(
+            'args' => array(),
+        ),
+    );
+
+    form_load_include($form_state, 'module', 'attribute', 'attribute');
+
+    $commands = array();
+
+    $commands = ctools_modal_form_wrapper('attribute_form', $form_state);
+
+    if (!empty($form_state['executed'])) {
+        $commands = array();
+
+        $commands[] = ajax_command_html('#messages-wrapper', theme('status_messages'));
+
+        $commands[] = ctools_modal_command_dismiss();
+        
+        $commands[] = ctools_ajax_command_reload();
+    }
+
+    return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+function _attribute_include_modal() {
+
+    static $added = FALSE;
+    if ($added == FALSE) {
+        $added = TRUE;
+
+        // Include the CTools tools that we need.
+        ctools_include('modal');
+        ctools_include('ajax');
+        ctools_modal_add_js();
+
+        $attribute_style = array(
+            'attribute-change-style' => array(
+                'modalSize' => array(
+                    'type' => 'fixed',
+                    'width' => 280, 
+                    'height' => 'auto', 
+                ),
+                'modalOptions' => array(
+                    'opacity' => (float) 0.8, 
+                    'background-color' => '#000000',
+                ),
+                'closeText' => '', 
+                'loadingText' => '', 
+                'animation' => 'fadeIn',
+                'animationSpeed' => 'fast', 
+            ),
+        );
+
+        drupal_add_js($attribute_style, 'setting');
+    }
 }
 
 function attribute_options_form() {
@@ -40,7 +115,7 @@ function attribute_form($form, &$form_state) {
     $items = uc_cart_get_contents();
     foreach ($items as $item) {
 
-        $form['attributes'] = _uc_attribute_alter_form($item_id, $item, $use_ajax = FALSE);
+        $form['attributes'] = _uc_attribute_alter_form($item_id, $item, $use_ajax = TRUE);
         if (is_array($form['attributes'])) {
             $form['attributes']['#tree'] = TRUE;
             $form['attributes']['#weight'] = -1;
@@ -50,6 +125,7 @@ function attribute_form($form, &$form_state) {
         '#type' => 'submit',
         '#value' => t('Submit'),
     );
+
     return $form;
 }
 
@@ -58,59 +134,84 @@ function attibute_form_validate($form, &$form_state) {
 }
 
 function attribute_form_submit($form, &$form_state) {
-    $item_id = arg(1);
+    $item_id = arg(2);
     $items = uc_cart_get_contents();
     $order = uc_order_load($_SESSION['cart_order']);
 
-    foreach ($order->products as $products) {
-        $order_pid = $products->order_product_id;
-    }
-
-    foreach ($items as $item) {
+    foreach ($items as $key => $item) {
         if ($item->cart_item_id == $item_id) {
-            foreach ($item->attributes as $attrib) {
-                foreach ($attrib->options as $list_options) {
-                    //Nothing here
-                    //var_dump($list_options); die();
-                }
-            }
-            $aid = $attrib->aid;
             
-            foreach ($form_state['input']['attributes'] as $option_id) {
-                $oid = $option_id;
-            }
+            
+            
+            foreach ($form_state['values']['attributes'] as $key => $value) {
 
-            $label = db_select('uc_attributes', 'uc')
-                    ->fields('uc', array('label'))
-                    ->condition('aid', $aid)
-                    ->execute()
-                    ->fetchField();
+                //$aid == $key
+                //$oid == $value
 
-            $oid_name = db_select('uc_attribute_options', 'ucop')
-                    ->fields('ucop', array('name'))
-                    ->condition('oid', $oid)
-                    ->execute()
-                    ->fetchField();
-            $attr = array(
-                'attributes' => array(
-                    $aid => $oid,
-                ),
-                'shippable' => 0,
-                'type' => 'type',
-                'module' => 'uc_product'
-            );
+                $oid = $value;
+                $aid = $key;
 
-            $order_attr = array(
-                'attributes' => array(
-                    $label => array(
-                        $oid => $oid_name,
+
+                $oid_name = db_select('uc_attribute_options', 'ucop')
+                        ->fields('ucop', array('name'))
+                        ->condition('oid', $oid)
+                        ->execute()
+                        ->fetchField();
+
+                $label = db_select('uc_attributes', 'uc')
+                        ->fields('uc', array('label'))
+                        ->condition('aid', $aid)
+                        ->execute()
+                        ->fetchField();
+
+                foreach ($order->products as $products) {
+                    $attr_lab[] = array(
+                        $label => array(
+                            $oid => $oid_name,
+                        ),
+                    );
+                    foreach ($attr_lab as $id => $value) {
+                        foreach ($value as $key => $name) {
+                            $aval[$key] = $name;
+                        }
+                    }
+                    $order_attr = array(
+                        'attributes' => $aval,
+                        'shippable' => $item->data['shippable'],
+                        'type' => $item->type,
+                        'module' => 'uc_product'
+                    );
+                    //END generating attributes for uc_order_products table    
+                    $order_pid = $products->order_product_id;
+                }
+                
+                $attr_int[] = array(
+                    'attributes' => array(
+                        $aid => $oid,
                     )
-                ),
-                'shippable' => 0,
-                'type' => 'type',
-                'module' => 'uc_product'
-            );
-
+                );
+                
+                foreach ($attr_int as $id => $value) {
+                        foreach ($value['attributes'] as $key => $name) {
+                            $aval_int[$key] = $name;
+                        }
+                    }
+                $attr = array(
+                    'attributes' => $aval_int,
+                    'shippable' => $item->data['shippable'],
+                    'type' => $item->type,
+                    'module' => 'uc_product'
+                );
+                
+                
+            }
+            db_update('uc_order_products')
+                    ->fields(array(
+                        'qty' => $item->qty,
+                        'data' => serialize($order_attr),
+                    ))
+                    ->condition('order_product_id ', $order_pid)
+                    ->execute();
             db_update('uc_cart_products')
                     ->fields(array(
                         'qty' => $item->qty,
@@ -119,38 +220,8 @@ function attribute_form_submit($form, &$form_state) {
                     ))
                     ->condition('cart_item_id', $item->cart_item_id)
                     ->execute();
-
-            db_update('uc_order_products')
-                    ->fields(array(
-                        'qty' => $item->qty,
-                        'data' => serialize($order_attr),
-                    ))
-                    ->condition('order_product_id ', $order_pid)
-                    ->execute();
-
-            uc_cart_get_contents(NULL, 'rebuild');
-            
-            //if (!strpos(request_uri(), 'cart', -4)) {
-                drupal_set_message(t('Your item(s) have been updated.'));
-            //}
-        }
+        } //endif
     }
+    uc_cart_get_contents(NULL, 'rebuild');
 
-    $data = db_select('uc_cart_products', 'uc')
-            ->fields('uc', array(
-                'data'
-            ))
-            ->condition('cart_item_id', $item->cart_item_id)
-            ->execute()
-            ->fetchField();
-
-    $data = db_select('uc_order_products', 'uc')
-            ->fields('uc', array(
-                'data'
-            ))
-            ->condition('order_id', $order->order_id)
-            ->execute()
-            ->fetchField();
-
-    drupal_goto('cart/checkout');
 }
