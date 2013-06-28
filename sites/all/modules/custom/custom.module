@@ -517,7 +517,7 @@ function custom_form_uc_cart_checkout_form_alter(&$form, &$form_state, $order) {
         $form['panes']['delivery']['next']['#value'] = t('Continue');
         $form['panes']['delivery']['next']['#prefix'] = '<div id="add_btn" class="next-button">';
         $form['panes']['delivery']['next']['#prefix'] .= '<h6>Treetop to you!</h6>';
-        $form['panes']['delivery']['next']['#suffix'] = '</div>';
+        $form['panes']['delivery']['next']['#suffix'] = '</div>';        
     }
 
     if (isset($form['panes']['quotes'])) {
@@ -571,6 +571,7 @@ function custom_form_uc_cart_checkout_form_alter(&$form, &$form_state, $order) {
         $form['panes']['payment']['submit']['#prefix'] = '<div id="add_btn" class="next-button">';
         $form['panes']['payment']['submit']['#suffix'] = '</div>';
     }
-   
+    
+    
     return $form;
 }
